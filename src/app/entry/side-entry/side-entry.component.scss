@@ -1,0 +1,65 @@
+// -------------------------------
+//           Sidebar
+// -------------------------------
+.scrolling-content {
+    
+    height: 100%;
+    width: 350px;
+    
+}
+
+#sidenav {
+
+    height: 100%;
+
+}
+
+.control-button{
+
+    font-size: 15px;
+    margin-top: 10px;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(33, 33, 33);
+    font-weight: 300;
+    position: relative; 
+    width: 100%;
+
+}
+
+.entry {
+
+    font-size: 15px;
+    margin-top: 10px;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(33, 33, 33);
+    font-weight: 300;
+    position: relative; 
+    width: 89%;
+    
+}
+
+.delete-button {
+    
+    font-size: 15px;
+    margin-top: 10px;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(33, 33, 33);
+    font-weight: 300;
+    position: relative; 
+    width: 10%;
+    
+}
+
+.full-width {
+    
+    width: 100%;
+
+}
+
+.add-button-container {
+    
+    margin: auto;
+    width: 54px;
+    padding: 10px;
+
+}

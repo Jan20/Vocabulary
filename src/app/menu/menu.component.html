@@ -1,0 +1,22 @@
+<md-toolbar color='primary'>
+  
+  <span flex md-truncate>{{title}}</span>
+
+  <span class='spacer'></span>
+
+  <button md-icon-button [mdMenuTriggerFor]="appMenu">
+    <md-icon>more_vert</md-icon>
+  </button>
+
+  <md-menu #appMenu="mdMenu">
+    <div *ngFor="let menuEntry of menuEntries">
+      <button md-menu-item (click)="onSelect(menuEntry)">
+      <span>
+        <md-icon>{{menuEntry.icon}}</md-icon>{{menuEntry.name}}
+      </span>
+      </button>
+    </div>
+  </md-menu>
+
+</md-toolbar>
+

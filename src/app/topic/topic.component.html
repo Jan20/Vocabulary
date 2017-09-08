@@ -1,0 +1,35 @@
+<md-tab-group>
+  <md-tab *ngFor="let stage of stages">
+    <ng-template md-tab-label>
+      <div (click)='setStage(stage)'>
+        {{stage}}
+      </div>
+    </ng-template>
+        
+    <div class='space'></div>
+    <div *ngFor='let topic of topics'>
+      <md-card (click)='selectTopic(topic.topic)'>
+        <md-card-content>
+          <p>
+            <md-grid-list cols="12">
+                <md-grid-tile colspan='1'></md-grid-tile>
+                <md-grid-tile colspan='10'>{{topic.topic}}</md-grid-tile>
+                <md-grid-tile colspan='1'>          
+                <button md-icon-button (click)="deleteTopic(topic.topic)">
+                  <md-icon color='primary'>more_vert</md-icon>
+                </button>
+              </md-grid-tile>
+            </md-grid-list>
+          </p>
+        </md-card-content>
+      </md-card>
+    </div>
+            
+    <app-add-topic></app-add-topic>
+  </md-tab>
+
+  <md-tab label='Add Stage'>
+    <app-add-stage></app-add-stage>
+  </md-tab>
+</md-tab-group>
+

@@ -1,0 +1,90 @@
+<md-sidenav-container>
+    
+  <app-side-entry></app-side-entry>
+  <div class='space'></div>
+
+  <md-card>
+    <md-card-content>
+    
+      <md-grid-list cols="12">
+        <md-grid-tile colspan='1'></md-grid-tile>                              
+        <md-grid-tile colspan='10'>
+          <p>{{entry.native}}</p>
+        </md-grid-tile>
+        <md-grid-tile colspan='1'>          
+          <button md-icon-button color="primary">
+            <md-icon>more_vert</md-icon>
+          </button>
+        </md-grid-tile>
+      </md-grid-list>
+      
+    </md-card-content>
+  </md-card>
+
+  <div class='whitespace'></div>
+
+  <md-card>
+    <md-card-content>
+      <md-grid-list cols="12">
+        <md-grid-tile colspan='1'></md-grid-tile>                              
+        <md-grid-tile colspan='10'>
+          <input class='answer-input' [(ngModel)]='answer'>
+        </md-grid-tile>
+        <md-grid-tile>          
+          <div class='fab-button-container'>
+            <button md-fab (click)='check()'>
+              <md-icon>done</md-icon>
+            </button>
+          </div>
+        </md-grid-tile>
+      </md-grid-list>      
+    </md-card-content>
+  </md-card>  
+
+  <md-grid-list cols="12">
+    <md-grid-tile colspan='1'></md-grid-tile>                              
+    <md-grid-tile colspan='10' *ngIf='entry.score == 0'>
+        <md-icon class='empty-star'>star_border</md-icon>
+        <md-icon class='empty-star'>star_border</md-icon>
+        <md-icon class='empty-star'>star_border</md-icon>
+        <md-icon class='empty-star'>star_border</md-icon>
+        <md-icon class='empty-star'>star_border</md-icon>
+      </md-grid-tile>
+    <md-grid-tile colspan='10' *ngIf='entry.score == 1'>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon class='empty-star'>star_border</md-icon>
+      <md-icon class='empty-star'>star_border</md-icon>
+      <md-icon class='empty-star'>star_border</md-icon>
+      <md-icon class='empty-star'>star_border</md-icon>
+    </md-grid-tile>
+    <md-grid-tile colspan='10' *ngIf='entry.score == 2'>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon class='empty-star'>star_border</md-icon>
+      <md-icon class='empty-star'>star_border</md-icon>
+      <md-icon class='empty-star'>star_border</md-icon>
+    </md-grid-tile>
+    <md-grid-tile colspan='10' *ngIf='entry.score == 3'>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon class='empty-star'>star_border</md-icon>
+      <md-icon class='empty-star'>star_border</md-icon>
+    </md-grid-tile>
+    <md-grid-tile colspan='10' *ngIf='entry.score == 4'>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon class='empty-star'>star_border</md-icon>
+    </md-grid-tile>
+    <md-grid-tile colspan='10' *ngIf='entry.score == 5'>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon color='primary'>star</md-icon>
+      <md-icon color='primary'>star</md-icon>
+    </md-grid-tile>
+  </md-grid-list>  
+      
+</md-sidenav-container>

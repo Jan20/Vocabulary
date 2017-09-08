@@ -1,0 +1,26 @@
+<!-- Fab Button -->
+<div class='add-button-container' *ngIf="flag == false">
+  <button md-fab class='add-button' (click)="toggleFlag()">
+    <md-icon>add</md-icon>
+  </button>
+</div>
+
+<!-- Topic Form -->
+<md-card *ngIf="flag == true">
+  <md-card-content>
+
+    <md-input-container class="full-width">
+      <input mdInput placeholder="New Topic" [(ngModel)]="topic">
+    </md-input-container>
+    
+    <md-grid-list cols="12" rowHeight="80px">
+      <md-grid-tile colspan='10'></md-grid-tile>
+      <md-grid-tile colspan='2'>
+        <button md-fab (click)="save()">
+          <md-icon>done</md-icon>
+        </button>
+      </md-grid-tile>
+    </md-grid-list>
+
+  </md-card-content>
+</md-card>

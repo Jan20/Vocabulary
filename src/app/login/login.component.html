@@ -1,0 +1,17 @@
+<div class='space'></div>
+<md-card class="blog-card">
+
+  <md-card-content>
+    <md-input-container class="full-width">
+      <input mdInput placeholder="email" [(ngModel)]="email" name="email">
+    </md-input-container>
+    <md-input-container  class="full-width">
+      <input mdInput placeholder="password" [(ngModel)]="password" name="password">
+    </md-input-container>
+    <button md-raised-button class="button" (click)="signUp()">Sign Up</button>
+    <button md-raised-button class="button" (click)="logIn()">Log In</button>      
+    <button md-raised-button class="button" (click)="logOut()">Log Out</button>      
+  </md-card-content>
+
+</md-card> 
+

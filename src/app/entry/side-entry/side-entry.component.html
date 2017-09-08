@@ -1,0 +1,31 @@
+<md-sidenav #sidenav mode="side" opened="false">
+  <div class="scrolling-content">  
+    <button md-button class="control-button" (click)="sidenav.toggle()"> 
+      <md-icon>dehaze</md-icon>
+    </button>
+    
+    <!-- List of Topics -->
+    <div *ngFor='let entry of entries'>
+      <button md-button class='control-button' (click)='setEntry(entry)'>{{entry.native}}</button>
+    </div>
+    
+    <!-- Button to open the newTopic form -->
+    <button md-button class="control-button" (click)='toggleFlag()' *ngIf='!flag'> 
+      <md-icon>expand_more</md-icon>
+    </button>
+  
+    <!-- New Topic form -->
+    <div *ngIf='flag'>
+      <button md-button class="control-button" (click)='toggleFlag()'> 
+        <md-icon>expand_less</md-icon>
+      </button>
+      <app-add-entry></app-add-entry>
+   
+    </div>        
+  </div>
+</md-sidenav>
+
+<button md-button (click)="sidenav.toggle()"> 
+  <md-icon>dehaze</md-icon>
+</button>
+  
