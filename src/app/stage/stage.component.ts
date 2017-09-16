@@ -35,8 +35,7 @@ export class StageComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.languageService.getLanguage().getName());
-    
+
     this.stageService.fetchStages(
 
       this.languageService.getLanguage().getName()
