@@ -4,15 +4,20 @@ import { Injectable, EventEmitter } from '@angular/core';
 // Firebase
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
+// Model
+import { Topic } from './topic.model';
+
+// Services
+import { LanguageService } from './../language/language.service';
+import { StageService } from './../stage/stage.service';
+
 @Injectable()
 export class TopicService {
 
   ///////////////
   // Variables //
   ///////////////
-  private stage: string;
-  private topic: string;
-  public stageHasChanged: EventEmitter<any> = new EventEmitter();
+  private topic: Topic;
   public topicHasChanged: EventEmitter<any> = new EventEmitter();
 
   /////////////////
@@ -21,8 +26,32 @@ export class TopicService {
   constructor(
 
     private db: AngularFireDatabase,
+    public languageService: LanguageService,
+    public stageService: StageService
 
   ) {
+
+    this.fetchTopics(
+
+      this.languageService.getLanguage().getName(),
+      this.stageService.getStage().getName()
+
+    ).subscribe( res => {
+
+      const t: Topic[] = [];
+
+      res.forEach( e => {
+
+        t.push(new Topic(
+
+          this.languageService.getLanguage().getName(),
+          this.stageService.getStage().getName(),
+          e.topic));
+
+      });
+      this.topic = t[0];
+
+    });
 
   }
 
@@ -30,38 +59,28 @@ export class TopicService {
   // Functions //
   ///////////////
 
+  /////////////////////////
+  // Database Connection //
+  /////////////////////////
+
   /////////
   // GET //
   /////////
-  public getStages(): FirebaseListObservable<any> {
+  public fetchTopics(language: string, stage: string): FirebaseListObservable<any> {
 
-    return this.db.list('Vocabulary');
-
-  }
-
-  public getTopics(stage: string): FirebaseListObservable<any> {
-
-    return this.db.list('Vocabulary' + '/' + stage);
+    return this.db.list('Vocabulary' + '/' + language + '/' + stage);
 
   }
 
   //////////
   // POST //
   //////////
-  public createStage(): void {
+  public createTopic(language: string, stage: string, name: string): void {
 
-    const io = this.db.object('Vocabulary' + '/' + this.stage);
-    io.set({
-      stage: this.stage
-    });
+    this.db.object('Vocabulary' + '/' + language + '/' + stage + '/' + name).set({
 
-  }
+      topic: name
 
-  public createTopic(): void {
-
-    const io = this.db.object('Vocabulary' + '/' + this.stage + '/' + this.topic);
-    io.set({
-      topic: this.topic,
     });
 
   }
@@ -73,50 +92,42 @@ export class TopicService {
   ////////////
   // Delete //
   ////////////
-  public deleteStage(): void {
+  public deleteTopic(language: string, stage: string, topic: string): void {
 
-    this.db.object('Vocabulary' + '/' + this.stage).remove();
-
-  }
-
-  public deleteTopic(): void {
-
-    this.db.object('Vocabulary' + '/' + this.stage + '/' + this.topic).remove();
+    this.db.object('Vocabulary' + '/' + language + '/' + stage + '/' + topic).remove();
 
   }
 
   /////////////
   // Getters //
   /////////////
-  public getStage(): string {
+  public getTopic(): Topic {
 
-    return this.stage;
+    if (this.topic) {
 
-  }
+      return this.topic;
 
-  public getTopic(): string {
+    } else {
 
-    return this.topic;
+      return new Topic(
 
+        this.languageService.getLanguage().getName(),
+        this.stageService.getStage().getName(),
+        sessionStorage.getItem('topic')
+
+      );
+    }
   }
 
   /////////////
   // Setters //
   /////////////
-  public setStage(stage: string): void {
-
-    this.stage = stage;
-    this.stageHasChanged.emit(this.stage);
-    sessionStorage.setItem('stage', stage);
-
-  }
-
-  public setTopic(topic: string): void {
+  public setTopic(topic: Topic): void {
 
     this.topic = topic;
+    const name = this.topic.getName();
+    sessionStorage.setItem('topic', name);
     this.topicHasChanged.emit(this.topic);
-    sessionStorage.setItem('topic', topic);
 
   }
-
 }

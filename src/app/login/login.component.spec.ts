@@ -23,12 +23,6 @@ import { AuthService } from './../login/auth.service';
 
 // Custom Components
 import { LoginComponent } from './../login/login.component';
-import { TopicComponent } from './../topic/topic.component';
-import { AddStageComponent } from './../topic/add-stage/add-stage.component';
-import { AddTopicComponent } from './../topic/add-topic/add-topic.component';
-import { EntryComponent } from './../entry/entry.component';
-import { AddEntryComponent } from './../entry/add-entry/add-entry.component';
-import { SideEntryComponent } from './../entry/side-entry/side-entry.component';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -38,12 +32,6 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         LoginComponent,
-        TopicComponent,
-        AddStageComponent,
-        AddTopicComponent,
-        EntryComponent,
-        AddEntryComponent,
-        SideEntryComponent
        ],
       imports: [
         FormsModule,

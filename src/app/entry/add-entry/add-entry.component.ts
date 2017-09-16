@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-// Model
-import { Task } from './../../model/task';
-
 // Services
+import { LanguageService } from './../../language/language.service';
+import { StageService } from './../../stage/stage.service';
 import { TopicService } from './../../topic/topic.service';
 import { EntryService } from '../entry.service';
 
@@ -17,64 +16,42 @@ export class AddEntryComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private stage: string;
-  private topic: string;
   private native: string;
   private foreign: string;
-  private score: number;
-  private text: string;
 
   //////////////////
   // Constructors //
   //////////////////
   public constructor(
 
-    private topicService: TopicService,
-    private entryService: EntryService
+    public languageService: LanguageService,
+    public stageService: StageService,
+    public topicService: TopicService,
+    public entryService: EntryService
 
-  ) {
-
-    this.score = 0;
-    this.stage = this.topicService.getStage();
-    this.topic = this.topicService.getTopic();
-
-  }
+  ) { }
 
   ///////////////
   // Functions //
   ///////////////
   public save(): void {
 
-    this.entryService.setNative(this.native);
-    this.entryService.setForeign(this.foreign);
-    this.entryService.setScore(this.score);
-    this.entryService.createEntry();
+    this.entryService.createEntry(
+
+      this.languageService.getLanguage().getName(),
+      this.stageService.getStage().getName(),
+      this.topicService.getTopic().getName(),
+      this.native,
+      this.foreign,
+      0
+
+    );
+
     this.native = '';
     this.foreign = '';
 
   }
 
-  ngOnInit() {
-
-    this.topicService.stageHasChanged.subscribe(
-
-      (res) => {
-
-        this.topic = this.topicService.getStage();
-
-      }
-
-    );
-
-    this.topicService.topicHasChanged.subscribe(
-
-      (res) => {
-
-        this.topic = this.topicService.getTopic();
-
-      }
-
-    );
-  }
+  ngOnInit() { }
 
 }

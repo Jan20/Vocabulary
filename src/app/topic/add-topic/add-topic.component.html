@@ -1,16 +1,16 @@
 <!-- Fab Button -->
-<div class='add-button-container' *ngIf="flag == false">
-  <button md-fab class='add-button' (click)="toggleFlag()">
+<div class='add-button-container' *ngIf='onAddMode === false'>
+  <button md-fab class='add-button' (click)='toggleOnAddMode()'>
     <md-icon>add</md-icon>
   </button>
 </div>
 
 <!-- Topic Form -->
-<md-card *ngIf="flag == true">
+<md-card *ngIf='onAddMode === true'>
   <md-card-content>
 
     <md-input-container class="full-width">
-      <input mdInput placeholder="New Topic" [(ngModel)]="topic">
+      <input mdInput placeholder='New Topic' [(ngModel)]='name'>
     </md-input-container>
     
     <md-grid-list cols="12" rowHeight="80px">

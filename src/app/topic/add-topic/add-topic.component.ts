@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 // Model
-import { Task } from './../../model/task';
+import { Topic } from '../topic.model';
 
 // Services
+import { LanguageService } from './../../language/language.service';
+import { StageService } from './../../stage/stage.service';
 import { TopicService } from './../../topic/topic.service';
 
 @Component({
@@ -16,54 +18,70 @@ export class AddTopicComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private flag: boolean;
-  private stage: string;
-  private topic: string;
+  private name: string;
+  private onAddMode: boolean;
 
-  //////////////////
-  // Constructors //
-  //////////////////
+  /////////////////
+  // Constructor //
+  /////////////////
   public constructor(
 
-    private topicService: TopicService,
+    private languageService: LanguageService,
+    private stageService: StageService,
+    private topicService: TopicService
 
   ) {
 
-    this.flag = false;
-    this.stage = this.topicService.getStage();
+    this.onAddMode = false;
+
+  }
+
+  ngOnInit() {
+
+    // this.languageService.languageHasChanged.subscribe( res => {
+
+    //   this.language = this.languageService.getLanguage().getName();
+
+    // });
+
+    // this.topicService.stageHasChanged.subscribe( res => {
+
+    //     this.stage = this.topicService.getStage();
+
+    // });
 
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public toggleFlag(): void {
+  public toggleOnAddMode(): void {
 
-    this.flag = true;
+    if (this.onAddMode === false) {
+
+      this.onAddMode = true;
+
+    } else {
+
+      this.onAddMode = false;
+
+    }
 
   }
 
   public save(): void {
+    console.log(this.stageService.getStage().getName());
+    this.topicService.createTopic(
 
-    this.topicService.setStage(this.stage);
-    this.topicService.setTopic(this.topic);
-    this.topicService.createTopic();
-    this.flag = false;
-    this.topic = '';
-
-  }
-
-  ngOnInit() {
-
-    this.topicService.stageHasChanged.subscribe(
-
-      (res) => {
-
-        this.stage = this.topicService.getStage();
-
-      }
+      this.languageService.getLanguage().getName(),
+      this.stageService.getStage().getName(),
+      this.name
 
     );
+
+    this.toggleOnAddMode();
+
   }
+
 
 }

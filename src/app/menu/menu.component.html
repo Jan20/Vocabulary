@@ -9,10 +9,10 @@
   </button>
 
   <md-menu #appMenu="mdMenu">
-    <div *ngFor="let menuEntry of menuEntries">
-      <button md-menu-item (click)="onSelect(menuEntry)">
+    <div *ngFor="let menuItem of menuItems">
+      <button md-menu-item (click)="onSelect(menuItem)">
       <span>
-        <md-icon>{{menuEntry.icon}}</md-icon>{{menuEntry.name}}
+        <md-icon>{{menuItem.icon}}</md-icon>{{menuItem.name}}
       </span>
       </button>
     </div>

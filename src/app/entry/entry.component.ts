@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { BlogEntry } from './../model/blog-entry';
 
 // Services
+import { LanguageService } from './../language/language.service';
+import { StageService } from './../stage/stage.service';
 import { TopicService } from './../topic/topic.service';
 import { EntryService } from './entry.service';
 
-// Models
-import { Entry } from './../model/entry';
+// Model
+import { Entry } from './entry.model';
+
 
 @Component({
   selector: 'app-entry',
@@ -15,46 +17,75 @@ import { Entry } from './../model/entry';
 })
 export class EntryComponent implements OnInit {
 
-  private stage: string;
-  private topic: string;
   private entry: Entry;
-  private entries: Entry[] = [];
+  private entries: Entry[];
   private answer: string;
   private pointer: number;
+  private onUpdateMode: boolean;
+  private answerIsCorrect: boolean;
 
   constructor(
 
-    private topicService: TopicService,
-    private entryService: EntryService
+    public languageService: LanguageService,
+    public stageService: StageService,
+    public topicService: TopicService,
+    public entryService: EntryService
 
   ) {
 
-    this.stage = this.entryService.getStage();
-    this.topic = this.entryService.getTopic();
-    this.entry = this.entryService.getEntry();
-    this.entryService.getEntries().subscribe( data => {
+    this.entry = new Entry('', '', '', '', '', 0);
 
+    this.answerIsCorrect = true;
+    this.pointer = 0;
+
+    this.entryService.fetchEntries(
+
+      this.languageService.getLanguage().getName(),
+      this.stageService.getStage().getName(),
+      this.topicService.getTopic().getName()
+
+    ).subscribe( res => {
+      
       this.entries = [];
 
-      data.forEach( e => {
+      res.forEach( e => {
+        console.log('Between');
+        console.log(e);
+        if (e.native) {
 
-        if (e.topic) {
+          const t = new Entry(
 
-          const entry = new Entry();
-          entry.setStage(this.stage);
-          entry.setTopic(this.topic);
-          entry.setNative(e.native);
-          entry.setForeign(e.foreign);
-          entry.setScore(e.score);
-          this.entries.push(entry);
+            this.languageService.getLanguage().getName(),
+            this.stageService.getStage().getName(),
+            this.topicService.getTopic().getName(),
+            e.native,
+            e.foreign,
+            e.score
+
+          );
+
+          this.entries.push(t);
 
         }
-        });
+
+      });
+      console.log('result');
+      console.log(this.entries);
+      this.entry = this.entries[0];
+      
     });
 
   }
 
   ngOnInit() {
+
+    this.onUpdateMode = this.entryService.getOnUpdateMode();
+
+    this.entryService.onUpdateModeHasChanged.subscribe (res => {
+
+      this.onUpdateMode = this.entryService.getOnUpdateMode();
+
+    });
 
     this.entryService.entryHasChanged.subscribe( data => {
 
@@ -81,36 +112,71 @@ export class EntryComponent implements OnInit {
 
     if (this.answer === this.entry.getForeign()) {
 
-
-
+      this.answerIsCorrect = true;
       this.answer = '';
 
-      if ( this.entry.getScore() < 6) {
+      if ( this.entry.getScore() < 5) {
 
-        this.entryService.setNative(this.entry.getNative());
-        this.entryService.setForeign(this.entry.getForeign());
-        this.entryService.setScore(this.entry.getScore() + 1);
-        this.entryService.createEntry();
+        this.entryService.createEntry(
+          this.entry.getLanguage(),
+          this.entry.getStage(),
+          this.entry.getTopic(),
+          this.entry.getNative(),
+          this.entry.getForeign(),
+          this.entry.getScore() + 1
+        );
 
       }
 
-      this.pointer++;
+      if ( this.pointer < this.entries.length - 1) {
+
+        this.pointer = this.pointer + 1;
+
+      } else {
+
+        this.pointer = 0;
+
+      }
 
       if (this.entries[this.pointer]) {
 
-        this.entry = this.entries[this.pointer];
+        this.entryService.setEntry(this.entries[this.pointer]);
 
       }
+
+    } else {
+
+      this.answerIsCorrect = false;
+      this.entryService.createEntry(
+        this.entry.getLanguage(),
+        this.entry.getStage(),
+        this.entry.getTopic(),
+        this.entry.getNative(),
+        this.entry.getForeign(),
+        -1
+      );
 
     }
 
   }
 
+  public updateEntry(): void {
 
-  public deleteEntry(native: string): void {
+    this.entryService.toggleOnUpdateMode();
 
-    this.entryService.setNative(native);
-    this.entryService.deleteEntry();
+  }
+
+
+  public deleteEntry(): void {
+
+    this.entryService.deleteEntry(
+
+      this.entry.getLanguage(),
+      this.entry.getStage(),
+      this.entry.getTopic(),
+      this.entry.getNative()
+
+    );
 
   }
 
@@ -129,6 +195,18 @@ export class EntryComponent implements OnInit {
 
   }
 
+  public getOnUpdateMode(): boolean {
+
+    return this.onUpdateMode;
+
+  }
+
+  public getAnswerIsCorrect(): boolean {
+
+    return this.answerIsCorrect;
+
+  }
+
   /////////////
   // Setters //
   /////////////
@@ -141,6 +219,18 @@ export class EntryComponent implements OnInit {
   public setEntries(entries: Entry[]): void {
 
     this.entries = entries;
+
+  }
+
+  public setOnUpdateMode(onUpdateMode: boolean): void {
+
+    this.onUpdateMode = onUpdateMode;
+
+  }
+
+  public setAnswerIsCorrect(answerIsCorrect: boolean): void {
+
+    this.answerIsCorrect = answerIsCorrect;
 
   }
 

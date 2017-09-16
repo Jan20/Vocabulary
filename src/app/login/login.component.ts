@@ -14,9 +14,9 @@ export class LoginComponent {
   ///////////////
   // Variables //
   ///////////////
-  private flag: boolean;
   private email: string;
   private password: string;
+  private loggedIn: boolean;
 
   //////////////////
   // Constructors //
@@ -27,10 +27,9 @@ export class LoginComponent {
 
   ) {
 
-    this.flag = true;
     this.email = '';
     this.password = '';
-
+    this.loggedIn = true;
   }
 
   ///////////////
@@ -39,18 +38,28 @@ export class LoginComponent {
   public signUp(): void {
 
     this.authService.signUp(this.email, this.password);
+    if (this.authService.getUser()) {
 
+      this.loggedIn = true;
+
+    }
   }
 
   public logIn(): void {
 
     this.authService.logIn(this.email, this.password);
+    if (this.authService.getUser()) {
+
+      this.loggedIn = true;
+
+    }
 
   }
 
   public logOut(): void {
 
     this.authService.logOut();
+    this.loggedIn = false;
 
   }
 
@@ -66,6 +75,12 @@ export class LoginComponent {
   public getPassword(): string {
 
     return this.password;
+
+  }
+
+  public getLoggedIn(): boolean {
+
+    return this.loggedIn;
 
   }
 

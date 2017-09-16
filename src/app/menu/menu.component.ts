@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Custom Components
-import { MenuEntry } from './../model/menu-entry';
+import { MenuItem } from './menu-item.model';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { MenuEntry } from './../model/menu-entry';
 export class MenuComponent implements OnInit {
 
   public title: String = 'Vocabulary';
-  public menuEntries: MenuEntry[] = [];
+  public menuItems: MenuItem[];
 
   constructor(
 
@@ -21,18 +21,21 @@ export class MenuComponent implements OnInit {
 
   ) {
 
-    this.menuEntries.push(
+    this.menuItems = [];
 
-      new MenuEntry('Overview', 'panorama_fish_eye', '/'),
-      new MenuEntry('Login', 'lock_open', '/login')
+    this.menuItems.push(
+
+      new MenuItem('Overview', 'panorama_fish_eye', '/'),
+      new MenuItem('Language', 'language', '/language'),
+      new MenuItem('Login', 'lock_open', '/login')
 
     );
 
   }
 
-  public onSelect(menuEntry: MenuEntry) {
+  public onSelect(menuItem: MenuItem) {
 
-    this.router.navigate([menuEntry.getLink()]);
+    this.router.navigate([menuItem.getLink()]);
 
   }
 

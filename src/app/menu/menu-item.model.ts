@@ -1,4 +1,4 @@
-export class MenuEntry {
+export class MenuItem {
 
     ////////////////
     // Attributes //

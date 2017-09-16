@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 // Model
-import { Task } from './../../model/task';
+import { Stage } from '../stage.model';
 
 // Services
-import { TopicService } from './../../topic/topic.service';
+import { LanguageService } from './../../language/language.service';
+import { StageService } from '../stage.service';
 
 @Component({
   selector: 'app-add-stage',
@@ -16,41 +17,35 @@ export class AddStageComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private flag: boolean;
-  private stage: string;
+  private name: string;
 
   //////////////////
   // Constructors //
   //////////////////
   public constructor(
 
-    private topicService: TopicService
+    public languageService: LanguageService,
+    public stageService: StageService
 
-  ) {
+  ) { }
 
-    this.flag = false;
+  ngOnInit() {
 
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public onSelect(): void {
-
-    this.flag = true;
-
-  }
-
   public save(): void {
 
-    this.topicService.setStage(this.stage);
-    this.topicService.createStage();
-    this.flag = false;
-    this.stage = '';
+    this.stageService.createStage(
 
-  }
+      this.languageService.getLanguage().getName(),
+      this.name
 
-  ngOnInit() {
+    );
+
+    this.name = '';
 
   }
 

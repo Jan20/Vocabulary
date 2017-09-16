@@ -1,0 +1,27 @@
+<!-- Fab Button -->
+<div class='add-button-container' *ngIf="onAddMode == false">
+  <button md-fab class='add-button' (click)="toggleMode()">
+    <md-icon>add</md-icon>
+  </button>
+</div>
+
+<div class='whitespace'  *ngIf="onAddMode == true"></div>
+
+<md-card *ngIf="onAddMode == true">
+
+  <md-input-container class="full-width">
+    <input mdInput placeholder="Language" [(ngModel)]='name'>
+  </md-input-container>
+  
+  <md-grid-list cols="12">
+    <md-grid-tile colspan='11'></md-grid-tile>
+    <md-grid-tile >
+      <div class='fab-button-container'>
+        <button md-fab (click)="save()">
+          <md-icon>done</md-icon>
+        </button>
+      </div>
+    </md-grid-tile>
+  </md-grid-list>
+
+</md-card>

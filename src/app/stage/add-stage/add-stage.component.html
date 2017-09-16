@@ -1,0 +1,16 @@
+<md-card>
+
+  <md-input-container class="full-width">
+    <input mdInput placeholder="New Stage" [(ngModel)]="name">
+  </md-input-container>
+  
+  <md-grid-list cols="12" rowHeight="80px">
+    <md-grid-tile colspan='10'></md-grid-tile>
+    <md-grid-tile colspan='2'>
+      <button md-fab (click)="save()">
+        <md-icon>done</md-icon>
+      </button>
+    </md-grid-tile>
+  </md-grid-list>
+
+</md-card>

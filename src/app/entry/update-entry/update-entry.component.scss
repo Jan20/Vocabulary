@@ -6,17 +6,24 @@ button {
 
 }
 
-md-card {
+.full-width {
 
-    margin-top: 20px;
-    width: 80%;
+    width: 100%;
 
 }
 
-// Buttons
+.button-container {
+    
+    margin: auto;
+    margin-top: 20px;
+    width: 54px;
+    padding: 10px;
+
+}
+
 .fab-button-container{
     
-        margin-top: 16px;
+        margin-top: 45px;
         margin-left: -28px;
         position: fixed;
     

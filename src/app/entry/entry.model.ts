@@ -1,10 +1,9 @@
-import { BlogElement } from './../model/blog-element';
-
 export class Entry {
 
     ///////////////
     // Variables //
     ///////////////
+    private language: string;
     private stage: string;
     private topic: string;
     private native: string;
@@ -14,14 +13,26 @@ export class Entry {
     /////////////////
     // Constructor //
     /////////////////
-    public constructor() {
+    public constructor(language: string, stage: string, topic: string, native: string, foreign: string, score: number) {
 
+        this.language = language;
+        this.stage = stage;
+        this.topic = topic;
+        this.native = native;
+        this.foreign = foreign;
+        this.score = score;
 
     }
 
     /////////////
     // Getters //
     /////////////
+    public getLanguage(): string {
+
+        return this.language;
+
+    }
+
     public getStage(): string {
 
         return this.stage;
@@ -55,6 +66,12 @@ export class Entry {
     /////////////
     // Setters //
     /////////////
+    public setLanguage(language: string): void {
+
+        this.language = language;
+
+    }
+
     public setStage(stage: string): void {
 
         this.stage = stage;

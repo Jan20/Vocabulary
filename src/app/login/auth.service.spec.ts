@@ -1,42 +1,51 @@
-import { TestBed, inject } from '@angular/core/testing';
-
 // Angular Components
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
-import { BrowserModule } from '@angular/platform-browser';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
-
-// Routes
-import { ROUTES } from './../config/routing.config';
-import { RouterModule, Routes } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule, JsonpModule  } from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
 
 // Angular Material
 import { MaterialModule } from '@angular/material';
-import { MdGridListModule } from '@angular/material';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import 'hammerjs';
+
+// Routing Modules
+import { RouterModule, Routes } from '@angular/router';
+import { ROUTES } from './../config/routing.config';
 
 // Firebase
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireModule } from 'angularfire2';
 import { FirebaseConfig } from './../config/firebase.config';
 
+// NG Chart
+import {GoogleChart} from './../directives/angular2-google-chart.directive';
+
 // Services
-import { TopicService } from './../topic/topic.service';
-import { EntryService } from './../entry/entry.service';
+import { FilterService } from './../services/filter.service';
+import { MarketService } from './../market/market.service';
+import { ConfigService } from './../config/config.service';
+import { PortfolioService } from './../portfolio/portfolio.service';
 import { AuthService } from './../login/auth.service';
+import { VantageService } from './../services/vantage.service';
+import { SeedService } from './../services/seed.service';
+import { StockService } from './../stock/stock.service';
+import { MathService } from './../services/math.service';
 
 // Custom Components
 import { AppComponent } from './../app.component';
 import { MenuComponent } from './../menu/menu.component';
+import { MarketComponent} from './../market/market.component';
+import { StockComponent } from './../stock/stock.component';
+import { PortfolioComponent } from './../portfolio/portfolio.component';
 import { LoginComponent } from './../login/login.component';
-import { TopicComponent } from './../topic/topic.component';
-import { AddStageComponent } from './../topic/add-stage/add-stage.component';
-import { AddTopicComponent } from './../topic/add-topic/add-topic.component';
-import { EntryComponent } from './../entry/entry.component';
-import { AddEntryComponent } from './../entry/add-entry/add-entry.component';
-import { SideEntryComponent } from './../entry/side-entry/side-entry.component';
+import { PositionComponent } from './../portfolio/position/position.component';
+import { StrategyComponent } from './../strategy/strategy.component';
+import { inject } from '@angular/core/testing';
 
 describe('AuthService', () => {
   beforeEach(() => {
@@ -44,37 +53,44 @@ describe('AuthService', () => {
       declarations: [
         AppComponent,
         MenuComponent,
+        MarketComponent,
+        GoogleChart,
+        PortfolioComponent,
+        StockComponent,
         LoginComponent,
-        TopicComponent,
-        AddStageComponent,
-        AddTopicComponent,
-        EntryComponent,
-        AddEntryComponent,
-        SideEntryComponent
+        PositionComponent,
+        StrategyComponent,
       ],
       imports: [
         BrowserModule,
+        HttpClientModule,
         FormsModule,
+        ReactiveFormsModule,
+        HttpModule,
+        JsonpModule,
+        MaterialModule,
+        BrowserAnimationsModule,
         RouterModule.forRoot(
           ROUTES,
           { enableTracing: true }
         ),
         AngularFireModule.initializeApp(FirebaseConfig),
-        AngularFireDatabaseModule,
-        HttpModule,
-        BrowserAnimationsModule,
-        MaterialModule,
-        MdGridListModule,
       ],
       providers: [
-        TopicService,
-        EntryService,
-        AuthService,
+        FilterService,
+        MarketService,
+        ConfigService,
+        PortfolioService,
         AngularFireAuth,
-        {provide: APP_BASE_HREF, useValue : '/' }
+        AuthService,
+        VantageService,
+        AngularFireDatabase,
+        SeedService,
+        StockService,
+        MathService
       ]
     });
-  });
+});
 
   it('should be created', inject([AuthService], (service: AuthService) => {
     expect(service).toBeTruthy();

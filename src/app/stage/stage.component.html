@@ -1,0 +1,22 @@
+<md-tab-group>
+
+  <div *ngFor='let stage of stages'>
+    <div>
+    <md-tab>
+      <ng-template md-tab-label>
+        <div (click)='selectStage(stage)'>
+          {{stage.name}}
+        </div>
+      </ng-template>
+      <app-topic></app-topic>
+      <app-add-topic></app-add-topic>
+    </md-tab>
+  </div>
+  </div>
+
+  <md-tab label='Add Stage'>
+    <app-add-stage></app-add-stage>
+  </md-tab>
+
+</md-tab-group>
+

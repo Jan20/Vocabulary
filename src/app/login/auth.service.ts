@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 // Firebase
-import { AngularFireDatabase, FirebaseListObservable,  } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 // Router
@@ -27,26 +27,34 @@ export class AuthService {
 
     this.angularFireAuth.auth.createUserWithEmailAndPassword(email, password).catch((error) => {
 
-
     });
 
     this.angularFireAuth.auth.onAuthStateChanged((user) => {
 
       if (user) {
+
         this.user = user.displayName;
         this.router.navigate(['/entry']);
 
       }
+
     });
 
   }
 
   public logIn(email: string, password: string): void {
 
-    this.angularFireAuth.auth.signInWithEmailAndPassword(email, password).catch( (error) => {
+    this.angularFireAuth.auth.signInWithEmailAndPassword(email, password).then( (result) => {
 
+      this.router.navigate(['/portfolio']);
+
+
+    }).catch( (error) => {
+
+      alert(error.message);
 
     });
+
   }
 
   public logOut(): void {
