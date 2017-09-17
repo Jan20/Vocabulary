@@ -121,6 +121,22 @@ export class EntryService {
   ////////////
   // UPDATE //
   ////////////
+  public updateEntry(language: string, stage: string, topic: string, native: string, foreign: string, score: number): void {
+
+    this.db.object('Vocabulary' + '/' + language + '/' + stage + '/' + topic + '/' + native).update({
+
+      language: language,
+      stage: stage,
+      topic: topic,
+      native: native,
+      foreign: foreign,
+      score: score
+
+    });
+
+    this.setEntry(new Entry(language, stage, topic, native, foreign, score));
+
+  }
 
   ////////////
   // Delete //
@@ -142,7 +158,24 @@ export class EntryService {
 
   public getEntry(): Entry {
 
-    return this.entry;
+    if (this.entry) {
+
+      return this.entry;
+
+    } else {
+
+      return new Entry(
+
+        this.languageService.getLanguage().getName(),
+        this.stageService.getStage().getName(),
+        this.topicService.getTopic().getName(),
+        sessionStorage.getItem('native'),
+        sessionStorage.getItem('foreign'),
+        +sessionStorage.getItem('score')
+
+      );
+
+    }
 
   }
 
@@ -152,6 +185,13 @@ export class EntryService {
   public setEntry(entry: Entry): void {
 
     this.entry = entry;
+    const a = this.entry.getNative();
+    const b = this.entry.getForeign();
+    const c = '' + this.entry.getScore();
+    sessionStorage.setItem('native', a);
+    sessionStorage.setItem('foreign', b);
+    sessionStorage.setItem('score', c);
+    this.entryHasChanged.emit(this.entry);
 
   }
 

@@ -46,7 +46,9 @@ export class TopicService {
 
           this.languageService.getLanguage().getName(),
           this.stageService.getStage().getName(),
-          e.topic));
+          e.topic)
+
+        );
 
       });
       this.topic = t[0];

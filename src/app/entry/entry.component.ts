@@ -34,6 +34,9 @@ export class EntryComponent implements OnInit {
   ) {
 
     this.entry = new Entry('', '', '', '', '', 0);
+    this.entries = [];
+    this.entries.push(this.entry);
+    console.log(this.entries);
 
     this.answerIsCorrect = true;
     this.pointer = 0;
@@ -45,12 +48,11 @@ export class EntryComponent implements OnInit {
       this.topicService.getTopic().getName()
 
     ).subscribe( res => {
-      
+
       this.entries = [];
 
       res.forEach( e => {
-        console.log('Between');
-        console.log(e);
+
         if (e.native) {
 
           const t = new Entry(
@@ -69,10 +71,13 @@ export class EntryComponent implements OnInit {
         }
 
       });
-      console.log('result');
-      console.log(this.entries);
-      this.entry = this.entries[0];
-      
+
+      if (this.entries[0]) {
+
+        this.entry = this.entries[0];
+
+      }
+
     });
 
   }
@@ -90,10 +95,11 @@ export class EntryComponent implements OnInit {
     this.entryService.entryHasChanged.subscribe( data => {
 
       this.entry = this.entryService.getEntry();
-
+      console.log('Tolllll');
+      console.log(this.entry);
       for (let i = 0; i < this.entries.length; i++) {
 
-        if (this.entries[i].getNative() === this.entry.getNative()) {
+        if (this.entry.getNative() === this.entries[i].getNative()) {
 
           this.pointer = i;
 
@@ -117,13 +123,15 @@ export class EntryComponent implements OnInit {
 
       if ( this.entry.getScore() < 5) {
 
-        this.entryService.createEntry(
+        this.entryService.updateEntry(
+
           this.entry.getLanguage(),
           this.entry.getStage(),
           this.entry.getTopic(),
           this.entry.getNative(),
           this.entry.getForeign(),
           this.entry.getScore() + 1
+
         );
 
       }
@@ -140,32 +148,35 @@ export class EntryComponent implements OnInit {
 
       if (this.entries[this.pointer]) {
 
-        this.entryService.setEntry(this.entries[this.pointer]);
+        this.entry = this.entries[this.pointer];
 
       }
 
     } else {
 
       this.answerIsCorrect = false;
-      this.entryService.createEntry(
+      this.answer = '';
+
+      this.entryService.updateEntry(
+
         this.entry.getLanguage(),
         this.entry.getStage(),
         this.entry.getTopic(),
         this.entry.getNative(),
         this.entry.getForeign(),
-        -1
+        0
+
       );
 
     }
 
   }
 
-  public updateEntry(): void {
+  public toggleUpdateMode(): void {
 
     this.entryService.toggleOnUpdateMode();
 
   }
-
 
   public deleteEntry(): void {
 

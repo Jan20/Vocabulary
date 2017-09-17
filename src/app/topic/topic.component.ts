@@ -109,8 +109,7 @@ export class TopicComponent implements OnInit {
   }
 
   public selectTopic(topic: Topic): void {
-    console.log('topic');
-    console.log(topic);
+
     this.topicService.setTopic(topic);
     this.router.navigate(['/entry']);
 

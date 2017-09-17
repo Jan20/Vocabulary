@@ -29,7 +29,7 @@ export class LoginComponent {
 
     this.email = '';
     this.password = '';
-    this.loggedIn = true;
+    this.loggedIn = false;
   }
 
   ///////////////

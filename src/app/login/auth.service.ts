@@ -46,7 +46,7 @@ export class AuthService {
 
     this.angularFireAuth.auth.signInWithEmailAndPassword(email, password).then( (result) => {
 
-      this.router.navigate(['/portfolio']);
+      this.router.navigate(['/language']);
 
 
     }).catch( (error) => {

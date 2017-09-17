@@ -38,8 +38,17 @@ export class SideEntryComponent implements OnInit {
   ) {
 
     this.flag = false;
-    this.entry = this.entryService.getEntry();
 
+    if (this.entryService.getEntry()) {
+
+      this.entry = this.entryService.getEntry();
+
+    }
+
+    this.entry = new Entry('', '', '', '', '', 0);
+    this.entries = [];
+    this.entries.push(this.entry);
+    console.log(this.entries);
     this.entryService.fetchEntries(
 
       this.languageService.getLanguage().getName(),
@@ -47,12 +56,11 @@ export class SideEntryComponent implements OnInit {
       this.topicService.getTopic().getName()
 
     ).subscribe( res => {
-      console.log(res);
-      
+
       this.entries = [];
 
       res.forEach( e => {
-        console.log(e);
+
         if (e.native) {
 
           const t = new Entry(
@@ -65,6 +73,7 @@ export class SideEntryComponent implements OnInit {
             e.score
 
           );
+          console.log(t);
 
           this.entries.push(t);
 
@@ -77,6 +86,13 @@ export class SideEntryComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
+  public selectEntry(entry: Entry): void {
+
+    this.entryService.setEntry(entry);
+    console.log(entry);
+
+  }
+
   public toggleFlag(): void {
 
     this.flag = !this.flag;
@@ -85,7 +101,7 @@ export class SideEntryComponent implements OnInit {
 
   ngOnInit() {
 
-    this.entryService.entryHasChanged.subscribe( res => {
+    this.entryService.entriesHaveChanged.subscribe( res => {
 
       this.entryService.fetchEntries(
 
@@ -98,10 +114,21 @@ export class SideEntryComponent implements OnInit {
         this.entries = [];
 
         data.forEach( e => {
-
+          console.log('Start');
+          console.log(e);
           if (e.native) {
 
-            const t = new Entry(e.language, e.stage, e.stage, e.native, e.foreign, e.score);
+            const t = new Entry(
+
+              this.languageService.getLanguage().getName(),
+              this.stageService.getStage().getName(),
+              this.topicService.getTopic().getName(),
+              e.native,
+              e.foreign,
+              e.score
+
+            );
+
             this.entries.push(t);
 
           }

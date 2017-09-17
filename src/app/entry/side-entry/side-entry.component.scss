@@ -1,10 +1,13 @@
+@import '~@angular/material/theming';
+@import '../../../theme.scss';
+
 // -------------------------------
 //           Sidebar
 // -------------------------------
 .scrolling-content {
     
     height: 100%;
-    width: 350px;
+    width: 325px;
     
 }
 
@@ -21,39 +24,9 @@
     font-family: 'Roboto', sans-serif;
     color: rgb(33, 33, 33);
     font-weight: 300;
-    position: relative; 
     width: 100%;
-
-}
-
-.entry {
-
-    font-size: 15px;
-    margin-top: 10px;
-    font-family: 'Roboto', sans-serif;
-    color: rgb(33, 33, 33);
-    font-weight: 300;
-    position: relative; 
-    width: 89%;
-    
-}
-
-.delete-button {
-    
-    font-size: 15px;
-    margin-top: 10px;
-    font-family: 'Roboto', sans-serif;
-    color: rgb(33, 33, 33);
-    font-weight: 300;
-    position: relative; 
-    width: 10%;
-    
-}
-
-.full-width {
-    
-    width: 100%;
-
+    // background-color: mat-palette($mat-red, A200);
+    border-radius: 0px;
 }
 
 .add-button-container {
@@ -63,3 +36,42 @@
     padding: 10px;
 
 }
+
+.zero-stars {
+
+    border-right: 1px solid #F44336;
+
+}
+
+.one-stars {
+
+    border-right: 1px solid #FF5722
+
+
+}
+
+.two-stars {
+
+    border-right: 1px solid #FF9800;
+
+}
+
+.three-stars {
+
+    border-right: 1px solid #FFEB3B;
+
+}
+
+.four-stars {
+
+    border-right: 1px solid #8BC34A;
+
+}
+
+.five-stars {
+
+    border-right: 1px solid #4CAF50;
+
+}
+                    
+                                        

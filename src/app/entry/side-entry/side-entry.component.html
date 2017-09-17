@@ -6,8 +6,13 @@
     
     <!-- List of Topics -->
     <div *ngFor='let entry of entries'>
-      <button md-button class='control-button' (click)='setEntry(entry)'>{{entry.native}}</button>
-    </div>
+        <button *ngIf='entry.score < 1' md-button class='control-button zero-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
+        <button *ngIf='entry.score === 1'  md-button class='control-button one-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
+        <button *ngIf='entry.score === 2'  md-button class='control-button two-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
+        <button *ngIf='entry.score === 3'  md-button class='control-button three-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
+        <button *ngIf='entry.score === 4'  md-button class='control-button four-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
+        <button *ngIf='entry.score === 5'  md-button class='control-button five-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
+      </div>
     
     <!-- Button to open the newTopic form -->
     <button md-button class="control-button" (click)='toggleFlag()' *ngIf='!flag'> 
