@@ -77,6 +77,8 @@ export class StageService {
 
     });
 
+    this.setStage(new Stage(language, name));
+
   }
 
   ////////////

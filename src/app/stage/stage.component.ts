@@ -30,12 +30,6 @@ export class StageComponent implements OnInit {
 
   ) {
 
-
-
-  }
-
-  ngOnInit() {
-
     this.stageService.fetchStages(
 
       this.languageService.getLanguage().getName()
@@ -56,6 +50,36 @@ export class StageComponent implements OnInit {
       this.stage = this.stages[0];
 
     });
+
+  }
+
+  ngOnInit() {
+
+    this.languageService.languageHasChanged.subscribe( r => {
+
+      this.stageService.fetchStages(
+
+        this.languageService.getLanguage().getName()
+
+      ).subscribe( res => {
+
+        this.stages = [];
+        res.forEach( e => {
+
+          if (e.stage) {
+
+            this.stages.push(new Stage(this.languageService.getLanguage().getName(), e.stage));
+
+          }
+
+        });
+
+        this.stage = this.stages[0];
+
+      });
+    });
+
+
   }
 
   ///////////////

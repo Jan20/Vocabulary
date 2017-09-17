@@ -59,7 +59,7 @@ export class TopicComponent implements OnInit {
       });
 
       this.topic = this.topics[0];
-  
+
     });
 
   }
@@ -67,6 +67,7 @@ export class TopicComponent implements OnInit {
   ngOnInit() {
 
     this.stageService.stageHasChanged.subscribe( data => {
+
       this.topicService.fetchTopics(
 
         this.languageService.getLanguage().getName(),

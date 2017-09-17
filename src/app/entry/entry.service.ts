@@ -152,7 +152,7 @@ export class EntryService {
   /////////////
   public getOnUpdateMode(): boolean {
 
-      return this.onUpdateMode;
+    return this.onUpdateMode;
 
   }
 

@@ -29,24 +29,6 @@ export class LanguageService {
 
     this.onUpdateMode = false;
 
-    this.fetchLanguages().subscribe( res => {
-
-      const t: Language[] = [];
-
-      res.forEach( e => {
-
-        if (e.language) {
-
-          t.push(new Language(e.language));
-
-        }
-
-      });
-
-      this.language = t[0];
-
-    });
-
   }
 
   ///////////////

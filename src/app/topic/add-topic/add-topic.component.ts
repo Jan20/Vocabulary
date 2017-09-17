@@ -70,7 +70,12 @@ export class AddTopicComponent implements OnInit {
   }
 
   public save(): void {
+
+    if (this.name === '') { return; };
+    console.log('create stage');
+    console.log(this.languageService.getLanguage().getName());
     console.log(this.stageService.getStage().getName());
+    console.log(this.name);
     this.topicService.createTopic(
 
       this.languageService.getLanguage().getName(),
