@@ -55,7 +55,7 @@ export class SideEntryComponent implements OnInit {
       this.stageService.getStage().getName(),
       this.topicService.getTopic().getName()
 
-    ).subscribe( res => {
+    ).valueChanges().subscribe( res => {
 
       this.entries = [];
 
@@ -109,13 +109,12 @@ export class SideEntryComponent implements OnInit {
         this.stageService.getStage().getName(),
         this.topicService.getTopic().getName()
 
-      ).subscribe( data => {
+      ).valueChanges().subscribe( data => {
 
         this.entries = [];
 
         data.forEach( e => {
-          console.log('Start');
-          console.log(e);
+
           if (e.native) {
 
             const t = new Entry(

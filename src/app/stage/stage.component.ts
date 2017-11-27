@@ -34,11 +34,11 @@ export class StageComponent implements OnInit {
 
       this.languageService.getLanguage().getName()
 
-    ).subscribe( res => {
+    ).valueChanges().subscribe( res => {
 
       this.stages = [];
       res.forEach( e => {
-
+        console.log(e);
         if (e.stage) {
 
           this.stages.push(new Stage(this.languageService.getLanguage().getName(), e.stage));
@@ -61,7 +61,7 @@ export class StageComponent implements OnInit {
 
         this.languageService.getLanguage().getName()
 
-      ).subscribe( res => {
+      ).valueChanges().subscribe( res => {
 
         this.stages = [];
         res.forEach( e => {
@@ -94,7 +94,7 @@ export class StageComponent implements OnInit {
   public selectStage(stage: Stage): void {
 
     this.stage = stage;
-    console.log(stage);
+
     this.stageService.setStage(stage);
 
   }

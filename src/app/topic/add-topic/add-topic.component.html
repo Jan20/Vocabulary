@@ -1,26 +1,26 @@
 <!-- Fab Button -->
 <div class='add-button-container' *ngIf='onAddMode === false'>
-  <button md-fab class='add-button' (click)='toggleOnAddMode()'>
-    <md-icon>add</md-icon>
+  <button mat-fab class='add-button' (click)='toggleOnAddMode()'>
+    <mat-icon>add</mat-icon>
   </button>
 </div>
 
 <!-- Topic Form -->
-<md-card *ngIf='onAddMode === true'>
-  <md-card-content>
+<mat-card *ngIf='onAddMode === true'>
+  <mat-card-content>
 
-    <md-input-container class="full-width">
-      <input mdInput placeholder='New Topic' [(ngModel)]='name'>
-    </md-input-container>
+    <mat-input-container class="full-width">
+      <input matInput placeholder='New Topic' [(ngModel)]='name'>
+    </mat-input-container>
     
-    <md-grid-list cols="12" rowHeight="80px">
-      <md-grid-tile colspan='10'></md-grid-tile>
-      <md-grid-tile colspan='2'>
-        <button md-fab (click)="save()">
-          <md-icon>done</md-icon>
+    <mat-grid-list cols="12" rowHeight="80px">
+      <mat-grid-tile colspan='10'></mat-grid-tile>
+      <mat-grid-tile colspan='2'>
+        <button mat-fab (click)="save()">
+          <mat-icon>done</mat-icon>
         </button>
-      </md-grid-tile>
-    </md-grid-list>
+      </mat-grid-tile>
+    </mat-grid-list>
 
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

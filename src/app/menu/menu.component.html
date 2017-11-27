@@ -1,22 +1,22 @@
-<md-toolbar color='primary'>
+<mat-toolbar color='primary'>
   
-  <span flex md-truncate>{{title}}</span>
+  <span flex mat-truncate>{{title}}</span>
 
   <span class='spacer'></span>
 
-  <button md-icon-button [mdMenuTriggerFor]="appMenu">
-    <md-icon>more_vert</md-icon>
+  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>more_vert</mat-icon>
   </button>
 
-  <md-menu #appMenu="mdMenu">
+  <mat-menu #appMenu="matMenu">
     <div *ngFor="let menuItem of menuItems">
-      <button md-menu-item (click)="onSelect(menuItem)">
+      <button mat-menu-item (click)="onSelect(menuItem)">
       <span>
-        <md-icon>{{menuItem.icon}}</md-icon>{{menuItem.name}}
+        <mat-icon>{{menuItem.icon}}</mat-icon>{{menuItem.name}}
       </span>
       </button>
     </div>
-  </md-menu>
+  </mat-menu>
 
-</md-toolbar>
+</mat-toolbar>
 

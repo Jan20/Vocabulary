@@ -2,7 +2,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
 // Firebase
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 
 // Model
 import { Language } from './language.model';
@@ -57,7 +57,7 @@ export class LanguageService {
   /////////
   // GET //
   /////////
-  public fetchLanguages(): FirebaseListObservable<any> {
+  public fetchLanguages(): AngularFireList<any> {
 
     return this.db.list('Vocabulary');
 
@@ -130,7 +130,6 @@ export class LanguageService {
     const t = this.language.getName();
     sessionStorage.setItem('language', t);
     this.languageHasChanged.emit(this.language);
-
 
   }
 

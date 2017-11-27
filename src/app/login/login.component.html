@@ -1,18 +1,16 @@
 <div class='whitespace'></div>
 
-<md-card>
+<mat-card>
 
-  <md-card-content>
-    <md-input-container class="full-width">
-      <input mdInput placeholder="email" [(ngModel)]="email" name="email">
-    </md-input-container>
-    <md-input-container class="full-width">
-      <input mdInput placeholder="password" [(ngModel)]="password" name="password">
-    </md-input-container>
-    <button md-raised-button color='primary' (click)="signUp()">Sign Up</button>
-    <button md-raised-button color='primary' (click)="logIn()" *ngIf='!loggedIn'>Log In</button>      
-    <button md-raised-button color='primary' (click)="logOut()" *ngIf='loggedIn'>Log Out</button>      
-  </md-card-content>
+    <mat-input-container class="full-width">
+      <input matInput placeholder="email" [(ngModel)]="email" name="email">
+    </mat-input-container>
+    <mat-input-container class="full-width">
+      <input matInput placeholder="password" [(ngModel)]="password" name="password">
+    </mat-input-container>
+    <button mat-raised-button color='primary' (click)="signUp()">Sign Up</button>
+    <button mat-raised-button color='primary' (click)="logIn()" *ngIf='!loggedIn'>Log In</button>      
+    <button mat-raised-button color='primary' (click)="logOut()" *ngIf='loggedIn'>Log Out</button>      
 
-</md-card> 
+</mat-card> 
 

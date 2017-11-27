@@ -1,18 +1,18 @@
 <div class='whitespace'></div>
 
 <div *ngFor='let topic of topics'>
-  <md-card (click)='selectTopic(topic)'>
-        <md-grid-list cols="12">
-            <md-grid-tile colspan='1'></md-grid-tile>
-            <md-grid-tile colspan='10'>
+  <mat-card (click)='selectTopic(topic)'>
+        <mat-grid-list cols="12">
+            <mat-grid-tile colspan='1'></mat-grid-tile>
+            <mat-grid-tile colspan='10'>
               <p>{{topic.name}}</p>
-            </md-grid-tile>
-            <md-grid-tile colspan='1'>          
-            <button md-icon-button (click)="deleteTopic(topic)">
-              <md-icon color='accent'>close</md-icon>
+            </mat-grid-tile>
+            <mat-grid-tile colspan='1'>          
+            <button mat-icon-button (click)="deleteTopic(topic)">
+              <mat-icon color='accent'>close</mat-icon>
             </button>
-          </md-grid-tile>
-        </md-grid-list>
-  </md-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+  </mat-card>
   <div class='whitespace-tiny'></div>  
 </div>

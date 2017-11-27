@@ -2,17 +2,17 @@
 
 <div *ngIf='onUpdateMode === false'>
   <div *ngFor='let language of languages'>
-    <md-card>
-        <md-grid-list cols="12">
-            <md-grid-tile colspan='1'></md-grid-tile>
-            <md-grid-tile colspan='10' (click)='selectLanguage(language)'><p>{{language.name}}</p></md-grid-tile>
-            <md-grid-tile colspan='1'>          
-              <button md-icon-button color='accent' [mdMenuTriggerFor]='appMenu'>
-                <md-icon>more_vert</md-icon>
-              </button>
-            </md-grid-tile>
-        </md-grid-list>
-    </md-card>
+    <mat-card>
+      <mat-grid-list cols="12">
+          <mat-grid-tile colspan='1'></mat-grid-tile>
+          <mat-grid-tile colspan='10' (click)='selectLanguage(language)'><p>{{language.name}}</p></mat-grid-tile>
+          <mat-grid-tile colspan='1'>          
+            <button mat-icon-button color='accent' [matMenuTriggerFor]='appMenu'>
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card>
     <div class='whitespace-tiny'></div>
   </div>
 </div>
@@ -26,19 +26,19 @@
 </div>
 
 <!-- Options Menu -->
-<md-menu #appMenu='mdMenu'>
+<mat-menu #appMenu='matMenu'>
   <div>
-    <button md-menu-item (click)='updateLanguage(language)'>
+    <button mat-menu-item (click)='updateLanguage(language)'>
       <span>
-        <md-icon>mode_edit</md-icon>Update
+        <mat-icon>mode_edit</mat-icon>Update
       </span>
     </button>
   </div>
   <div>
-    <button md-menu-item (click)='deleteLanguage(language)'>
+    <button mat-menu-item (click)='deleteLanguage(language)'>
       <span>
-        <md-icon>delete</md-icon>Delete
+        <mat-icon>delete</mat-icon>Delete
       </span>
     </button>
   </div>
-</md-menu>
+</mat-menu>

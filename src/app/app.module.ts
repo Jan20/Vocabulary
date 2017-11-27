@@ -9,15 +9,17 @@ import { APP_BASE_HREF } from '@angular/common';
 import { ROUTES } from './config/routing.config';
 import { RouterModule, Routes } from '@angular/router';
 
+
 // Angular Material
-import { MaterialModule } from '@angular/material';
-import { MdGridListModule } from '@angular/material';
+import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Firebase
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs/Observable';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { EngishConfig } from './config/firebase.config';
 import { SpanishConfig } from './config/firebase.config';
 
@@ -69,11 +71,11 @@ import { SideEntryComponent } from './entry/side-entry/side-entry.component';
       { enableTracing: true }
     ),
     AngularFireModule.initializeApp(EngishConfig),
+    AngularFirestoreModule,
     AngularFireDatabaseModule,
     HttpModule,
     BrowserAnimationsModule,
     MaterialModule,
-    MdGridListModule,
   ],
   providers: [
     LanguageService,

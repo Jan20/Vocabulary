@@ -2,13 +2,14 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
 // Firebase
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 
 // Model
 import { Stage } from './stage.model';
 
 // Services
 import { LanguageService } from './../language/language.service';
+import { Observable } from '../../../../Flow/node_modules/rxjs/Observable';
 
 @Injectable()
 export class StageService {
@@ -29,7 +30,7 @@ export class StageService {
 
   ) {
 
-    this.fetchStages(this.languageService.getLanguage().getName()).subscribe( res => {
+    this.fetchStages(this.languageService.getLanguage().getName()).valueChanges().subscribe( res => {
 
       const t: Stage[] = [];
 
@@ -60,7 +61,7 @@ export class StageService {
   /////////
   // GET //
   /////////
-  public fetchStages(language: string): FirebaseListObservable<any> {
+  public fetchStages(language: string): AngularFireList<any> {
 
     return this.db.list('Vocabulary' + '/' + language);
 

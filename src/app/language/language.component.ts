@@ -28,7 +28,7 @@ export class LanguageComponent implements OnInit {
 
   ) {
 
-    this.languageService.fetchLanguages().subscribe( data => {
+    this.languageService.fetchLanguages().valueChanges().subscribe( data => {
 
       this.languages = [];
 
@@ -49,7 +49,7 @@ export class LanguageComponent implements OnInit {
 
   ngOnInit() {
 
-      this.languageService.fetchLanguages().subscribe( data => {
+      this.languageService.fetchLanguages().valueChanges().subscribe( data => {
 
       this.languages = [];
 

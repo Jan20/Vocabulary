@@ -1,120 +1,120 @@
-<md-sidenav-container>
+<mat-sidenav-container>
     
   <app-side-entry></app-side-entry>
 
   <div class='space'></div>
   <div *ngIf='onUpdateMode === false'>
-    <md-card>
-      <md-grid-list cols="12">
-        <md-grid-tile colspan='1'></md-grid-tile>                              
-        <md-grid-tile colspan='10' *ngIf='answerIsCorrect'>
+    <mat-card>
+      <mat-grid-list cols="12">
+        <mat-grid-tile colspan='1'></mat-grid-tile>                              
+        <mat-grid-tile colspan='10' *ngIf='answerIsCorrect'>
           <p>{{entry.native}}</p>
-        </md-grid-tile>
-        <md-grid-tile colspan='10' *ngIf='!answerIsCorrect'>
+        </mat-grid-tile>
+        <mat-grid-tile colspan='10' *ngIf='!answerIsCorrect'>
           <p>{{entry.native}} - {{entry.foreign}}</p>
-        </md-grid-tile> 
-        <md-grid-tile colspan='1'>          
-          <button md-icon-button color='accent' [mdMenuTriggerFor]="appMenu">
-            <md-icon>more_vert</md-icon>
+        </mat-grid-tile> 
+        <mat-grid-tile colspan='1'>          
+          <button mat-icon-button color='accent' [matMenuTriggerFor]="appMenu">
+            <mat-icon>more_vert</mat-icon>
           </button>
         
-          <md-menu #appMenu="mdMenu">
+          <mat-menu #appMenu="matMenu">
             <div>
-              <button md-menu-item (click)="toggleUpdateMode()">
+              <button mat-menu-item (click)="toggleUpdateMode()">
                 <span>
-                  <md-icon>mode_edit</md-icon>Update
+                  <mat-icon>mode_edit</mat-icon>Update
                 </span>
               </button>
             </div>
             <div>
-              <button md-menu-item (click)="deleteEntry()">
+              <button mat-menu-item (click)="deleteEntry()">
                 <span>
-                  <md-icon>delete</md-icon>Delete
+                  <mat-icon>delete</mat-icon>Delete
                 </span>
               </button>
             </div>
-          </md-menu>
-        </md-grid-tile> 
-      </md-grid-list>
+          </mat-menu>
+        </mat-grid-tile> 
+      </mat-grid-list>
       
-    </md-card> 
+    </mat-card> 
 
     <div class='whitespace-tiny'></div>  
     
-    <md-card>
-      <md-card-content>
-        <md-grid-list cols="12">
-          <md-grid-tile colspan='1'></md-grid-tile>                              
-          <md-grid-tile colspan='10'>
+    <mat-card>
+      <mat-card-content>
+        <mat-grid-list cols="12">
+          <mat-grid-tile colspan='1'></mat-grid-tile>                              
+          <mat-grid-tile colspan='10'>
             <input class='answer-input' [(ngModel)]='answer'>
-          </md-grid-tile>
-          <md-grid-tile>          
+          </mat-grid-tile>
+          <mat-grid-tile>          
             <div class='fab-button-container'>
-              <button md-fab (click)='check()'>
-                <md-icon>done</md-icon>
+              <button mat-fab (click)='check()'>
+                <mat-icon>done</mat-icon>
               </button>
             </div>
-          </md-grid-tile>
-        </md-grid-list>      
-      </md-card-content>
-    </md-card>  
+          </mat-grid-tile>
+        </mat-grid-list>      
+      </mat-card-content>
+    </mat-card>  
 
-    <md-grid-list cols="12">
-      <md-grid-tile colspan='1'></md-grid-tile>                              
-      <md-grid-tile colspan='10' *ngIf='entry.score == -1'>
-        <md-icon class='empty-star'>star_border</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-      </md-grid-tile>
-      <md-grid-tile colspan='10' *ngIf='entry.score == 0'>
-          <md-icon class='empty-star'>star_border</md-icon>
-          <md-icon class='empty-star'>star_border</md-icon>
-          <md-icon class='empty-star'>star_border</md-icon>
-          <md-icon class='empty-star'>star_border</md-icon>
-          <md-icon class='empty-star'>star_border</md-icon>
-        </md-grid-tile>
-      <md-grid-tile colspan='10' *ngIf='entry.score == 1'>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-      </md-grid-tile>
-      <md-grid-tile colspan='10' *ngIf='entry.score == 2'>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-      </md-grid-tile>
-      <md-grid-tile colspan='10' *ngIf='entry.score == 3'>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-      </md-grid-tile>
-      <md-grid-tile colspan='10' *ngIf='entry.score == 4'>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon class='empty-star'>star_border</md-icon>
-      </md-grid-tile>
-      <md-grid-tile colspan='10' *ngIf='entry.score == 5'>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon color='primary'>star</md-icon>
-        <md-icon color='primary'>star</md-icon>
-      </md-grid-tile>
-    </md-grid-list>  
+    <mat-grid-list cols="12">
+      <mat-grid-tile colspan='1'></mat-grid-tile>                              
+      <mat-grid-tile colspan='10' *ngIf='entry.score == -1'>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+      </mat-grid-tile>
+      <mat-grid-tile colspan='10' *ngIf='entry.score == 0'>
+          <mat-icon class='empty-star'>star_border</mat-icon>
+          <mat-icon class='empty-star'>star_border</mat-icon>
+          <mat-icon class='empty-star'>star_border</mat-icon>
+          <mat-icon class='empty-star'>star_border</mat-icon>
+          <mat-icon class='empty-star'>star_border</mat-icon>
+        </mat-grid-tile>
+      <mat-grid-tile colspan='10' *ngIf='entry.score == 1'>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+      </mat-grid-tile>
+      <mat-grid-tile colspan='10' *ngIf='entry.score == 2'>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+      </mat-grid-tile>
+      <mat-grid-tile colspan='10' *ngIf='entry.score == 3'>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+      </mat-grid-tile>
+      <mat-grid-tile colspan='10' *ngIf='entry.score == 4'>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon class='empty-star'>star_border</mat-icon>
+      </mat-grid-tile>
+      <mat-grid-tile colspan='10' *ngIf='entry.score == 5'>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon color='primary'>star</mat-icon>
+      </mat-grid-tile>
+    </mat-grid-list>  
   </div>
   <div *ngIf='onUpdateMode === true'>
   
     <app-update-entry></app-update-entry> 
 
   </div>      
-</md-sidenav-container>
+</mat-sidenav-container>

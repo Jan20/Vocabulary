@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 // Firebase
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 // Router
@@ -51,7 +51,7 @@ export class AuthService {
 
     }).catch( (error) => {
 
-      alert(error.message);
+      console.log(error.message);
 
     });
 

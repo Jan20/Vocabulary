@@ -40,7 +40,7 @@ export class TopicComponent implements OnInit {
       this.languageService.getLanguage().getName(),
       this.stageService.getStage().getName()
 
-    ).subscribe( res => {
+    ).valueChanges().subscribe( res => {
 
       this.topics = [];
 
@@ -73,7 +73,7 @@ export class TopicComponent implements OnInit {
         this.languageService.getLanguage().getName(),
         this.stageService.getStage().getName()
 
-      ).subscribe( res => {
+      ).valueChanges().subscribe( res => {
 
         this.topics = [];
 

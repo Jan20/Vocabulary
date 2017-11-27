@@ -36,7 +36,6 @@ export class EntryComponent implements OnInit {
     this.entry = new Entry('', '', '', '', '', 0);
     this.entries = [];
     this.entries.push(this.entry);
-    console.log(this.entries);
 
     this.answerIsCorrect = true;
     this.pointer = 0;
@@ -47,7 +46,7 @@ export class EntryComponent implements OnInit {
       this.stageService.getStage().getName(),
       this.topicService.getTopic().getName()
 
-    ).subscribe( res => {
+    ).valueChanges().subscribe( res => {
 
       this.entries = [];
 
@@ -95,8 +94,7 @@ export class EntryComponent implements OnInit {
     this.entryService.entryHasChanged.subscribe( data => {
 
       this.entry = this.entryService.getEntry();
-      console.log('Tolllll');
-      console.log(this.entry);
+
       for (let i = 0; i < this.entries.length; i++) {
 
         if (this.entry.getNative() === this.entries[i].getNative()) {

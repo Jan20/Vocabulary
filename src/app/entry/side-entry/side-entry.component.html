@@ -1,36 +1,36 @@
-<md-sidenav #sidenav mode="side" opened="false">
+<mat-sidenav #sidenav mode="side" opened="false">
   <div class="scrolling-content">  
-    <button md-button class="control-button" (click)="sidenav.toggle()"> 
-      <md-icon>dehaze</md-icon>
+    <button mat-button class="control-button" (click)="sidenav.toggle()"> 
+      <mat-icon>dehaze</mat-icon>
     </button>
     
     <!-- List of Topics -->
     <div *ngFor='let entry of entries'>
-        <button *ngIf='entry.score < 1' md-button class='control-button zero-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
-        <button *ngIf='entry.score === 1'  md-button class='control-button one-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
-        <button *ngIf='entry.score === 2'  md-button class='control-button two-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
-        <button *ngIf='entry.score === 3'  md-button class='control-button three-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
-        <button *ngIf='entry.score === 4'  md-button class='control-button four-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
-        <button *ngIf='entry.score === 5'  md-button class='control-button five-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
+        <button *ngIf='entry.score < 1' mat-button class='control-button zero-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
+        <button *ngIf='entry.score === 1'  mat-button class='control-button one-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
+        <button *ngIf='entry.score === 2'  mat-button class='control-button two-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
+        <button *ngIf='entry.score === 3'  mat-button class='control-button three-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
+        <button *ngIf='entry.score === 4'  mat-button class='control-button four-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
+        <button *ngIf='entry.score === 5'  mat-button class='control-button five-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
       </div>
     
     <!-- Button to open the newTopic form -->
-    <button md-button class="control-button" (click)='toggleFlag()' *ngIf='!flag'> 
-      <md-icon>expand_more</md-icon>
+    <button mat-button class="control-button" (click)='toggleFlag()' *ngIf='!flag'> 
+      <mat-icon>expand_more</mat-icon>
     </button>
   
     <!-- New Topic form -->
     <div *ngIf='flag'>
-      <button md-button class="control-button" (click)='toggleFlag()'> 
-        <md-icon>expand_less</md-icon>
+      <button mat-button class="control-button" (click)='toggleFlag()'> 
+        <mat-icon>expand_less</mat-icon>
       </button>
       <app-add-entry></app-add-entry>
    
     </div>        
   </div>
-</md-sidenav>
+</mat-sidenav>
 
-<button md-button (click)="sidenav.toggle()"> 
-  <md-icon>dehaze</md-icon>
+<button mat-button (click)="sidenav.toggle()"> 
+  <mat-icon>dehaze</mat-icon>
 </button>
   
