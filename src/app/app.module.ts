@@ -1,14 +1,13 @@
 // Angular Components
-import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_BASE_HREF } from '@angular/common';
+import { APP_BASE_HREF } from '@angular/common'
 
 // Routes
 import { ROUTES } from './config/routing.config';
 import { RouterModule, Routes } from '@angular/router';
-
 
 // Angular Material
 import { MaterialModule } from './material.module';
@@ -66,6 +65,7 @@ import { SideEntryComponent } from './entry/side-entry/side-entry.component';
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(
       ROUTES,
       { enableTracing: true }

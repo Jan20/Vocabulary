@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
+import { MaterialModule } from './../material.module';
+
 // Services
 import { AuthService } from './auth.service';
+import { FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -14,22 +17,21 @@ export class LoginComponent {
   ///////////////
   // Variables //
   ///////////////
+  private loggedIn: boolean;
   private email: string;
   private password: string;
-  private loggedIn: boolean;
-
+  
   //////////////////
   // Constructors //
   //////////////////
   public constructor(
 
     public authService: AuthService
-
+    
   ) {
-
-    this.email = '';
-    this.password = '';
+ 
     this.loggedIn = false;
+
   }
 
   ///////////////
@@ -81,6 +83,27 @@ export class LoginComponent {
   public getLoggedIn(): boolean {
 
     return this.loggedIn;
+
+  }
+
+  /////////////
+  // Setters //
+  /////////////
+  public setEmail(email: string): void {
+
+    this.email = email;
+
+  }
+
+  public setPassword(password: string): void {
+
+    this.password = password;
+
+  }
+
+  public setLoggedIn(loggedIn: boolean): void {
+
+    this.loggedIn = loggedIn;
 
   }
 
