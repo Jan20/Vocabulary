@@ -1,16 +1,31 @@
 <div class='whitespace'></div>
 
-<mat-card>
+<div class='card-button-container'>
+  <mat-card>
+      <mat-grid-list cols="12" class='large-grid-list'>
+      
+        <mat-grid-tile colspan='12' class='large-tile'>
+          <mat-input-container class="full-width">
+              <input matInput placeholder="email" name="email" (ng-model)='email'>
+            </mat-input-container>      
+        </mat-grid-tile>
+        
+        <mat-grid-tile colspan='12' class='large-tile'></mat-grid-tile>            
+        
+        <mat-grid-tile colspan='12' class='large-tile'>
+          <mat-input-container class="full-width">
+              <input matInput placeholder="password" name="password" (ng-model)='password'>
+            </mat-input-container>       
+        </mat-grid-tile>
 
-    <mat-form-field class="full-width">
-      <input matInput placeholder="email" name="email" (ng-model)='email'>
-    </mat-form-field>
-    <mat-form-field class="full-width">
-      <input matInput placeholder="password" name="password" (ng-model)='password'>
-    </mat-form-field>
-
-    <button mat-raised-button color='primary' (click)="signUp()">Sign Up</button>
-    <button mat-raised-button color='primary' (click)="logIn()" *ngIf='!loggedIn'>Log In</button>      
-    <button mat-raised-button color='primary' (click)="logOut()" *ngIf='loggedIn'>Log Out</button>      
-
-</mat-card>
+        <mat-grid-tile colspan='12' class='large-tile'></mat-grid-tile>            
+        
+        <mat-grid-tile colspan='12' class='large-tile'>
+          <button mat-raised-button color='accent' (click)="signUp()">Sign Up</button>
+          <button mat-raised-button color='accent' (click)="logIn()" *ngIf='!loggedIn'>Log In</button>      
+          <button mat-raised-button color='accent' (click)="logOut()" *ngIf='loggedIn'>Log Out</button>      
+        </mat-grid-tile>
+    
+      </mat-grid-list>      
+  </mat-card>
+</div>

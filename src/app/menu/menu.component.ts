@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 // Custom Components
 import { MenuItem } from './menu-item.model';
 
+import { LanguageService } from '../language/language.service';
+
 
 @Component({
   selector: 'app-menu',
@@ -17,11 +19,27 @@ export class MenuComponent implements OnInit {
 
   constructor(
 
-    private router: Router
+    private router: Router,
+    public languageService: LanguageService
 
   ) {
 
     this.menuItems = [];
+
+    this.languageService.fetchLanguages().valueChanges().subscribe( res => {
+            
+        res.forEach( e => {
+  
+          if (e.language) {
+  
+            // this.menuItems.push(new MenuItem(e.name, 'format_list_bulleted', '/language/' + e.name));
+  
+          }
+  
+        });
+  
+  
+      });
 
     this.menuItems.push(
 

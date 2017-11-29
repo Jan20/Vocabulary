@@ -38,7 +38,7 @@ export class StageComponent implements OnInit {
 
       this.stages = [];
       res.forEach( e => {
-        console.log(e);
+
         if (e.stage) {
 
           this.stages.push(new Stage(this.languageService.getLanguage().getName(), e.stage));

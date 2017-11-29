@@ -1,9 +1,40 @@
-// -------------------------------
-//             Card
-// -------------------------------
+@media (max-width: 680px) {
+    mat-card {
+        
+        width: 80%;
+        
+    }
+}
 
-md-card {
+@media (min-width: 680px) {
+    mat-card {
+        
+        width: 500px;
+        
+    }
+}
 
-    width: 600px;
+@media (max-width: 680px) {
+    .card-button-container {
+        
+        width: 80%;
+        margin: auto;
+        
+    }
+}
+
+@media (min-width: 680px) {
+    .card-button-container  {
+        
+        width: 550px;
+        margin: auto;
+        
+    }
 
 }
+
+.mat-raised-button {
+    padding: 0;
+    margin: 0;
+}
+

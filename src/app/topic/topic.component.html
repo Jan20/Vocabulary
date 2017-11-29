@@ -1,18 +1,26 @@
 <div class='whitespace'></div>
 
-<div *ngFor='let topic of topics'>
-  <mat-card (click)='selectTopic(topic)'>
-        <mat-grid-list cols="12">
+<div class="scrolling-content">
+  <div *ngFor='let topic of topics'>
+    <div class='card-button-container'>
+      <button mat-raised-button>
+        <mat-card (click)='selectTopic(topic)'>
+          <mat-grid-list cols="12">
             <mat-grid-tile colspan='1'></mat-grid-tile>
             <mat-grid-tile colspan='10'>
               <p>{{topic.name}}</p>
             </mat-grid-tile>
             <mat-grid-tile colspan='1'>          
-            <button mat-icon-button (click)="deleteTopic(topic)">
-              <mat-icon color='accent'>close</mat-icon>
-            </button>
-          </mat-grid-tile>
-        </mat-grid-list>
-  </mat-card>
-  <div class='whitespace-tiny'></div>  
+              <button mat-icon-button (click)="deleteTopic(topic)">
+                <mat-icon color='accent'>close</mat-icon>
+              </button>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card>
+      </button>
+    </div>
+  <div class='whitespace-tiny'></div> 
+  </div> 
+  <app-add-topic></app-add-topic>
 </div>
+

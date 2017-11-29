@@ -20,57 +20,61 @@
 .control-button{
 
     font-size: 15px;
-    margin-top: 10px;
+    margin-top: 1px;
     font-family: 'Roboto', sans-serif;
     color: rgb(33, 33, 33);
     font-weight: 300;
     width: 100%;
-    border-radius: 0px;
+    border-radius: 3px;
+    background-color: #546E7A;    
 }
 
 .add-button-container {
     
     margin: auto;
     width: 54px;
-    padding: 10px;
-
+    padding: 1px;
+    
 }
 
 .zero-stars {
 
-    border-right: 1px solid #F44336;
+    background-color: #F44336;
 
 }
 
 .one-stars {
 
-    border-right: 1px solid #FF5722
+    background-color: #FF5722
 
 
 }
 
 .two-stars {
 
-    border-right: 1px solid #FF9800;
+    background-color: #FF9800;
 
 }
 
 .three-stars {
 
-    border-right: 1px solid #FFEB3B;
+    background-color: #FFEB3B;
 
 }
 
 .four-stars {
 
-    border-right: 1px solid #8BC34A;
+    background-color:#8BC34A;
 
 }
 
 .five-stars {
 
-    border-right: 1px solid #4CAF50;
+    background-color: #4CAF50;
 
 }
-                    
-                                        
+        
+.scrolling-content {
+    background-color: #546E7A;    
+    padding: 3px;
+}

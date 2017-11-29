@@ -50,7 +50,6 @@ p {
     mat-card {
         
         width: 80%;
-        margin: auto;
         
     }
 }
@@ -59,16 +58,43 @@ p {
     mat-card {
         
         width: 500px;
+        
+    }
+}
+
+@media (max-width: 680px) {
+    .card-button-container {
+        
+        width: 80%;
         margin: auto;
         
     }
 }
+
+@media (min-width: 680px) {
+    .card-button-container  {
+        
+        width: 550px;
+        margin: auto;
+        
+    }
+
+}
+
+.mat-raised-button {
+    padding: 0;
+}
+
+
+
+
 
 .full-width {
     
     width: 100%;
     
 }
+
     
 // -------------------------------
 //          Spaces

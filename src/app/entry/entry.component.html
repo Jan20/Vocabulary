@@ -2,63 +2,48 @@
     
   <app-side-entry></app-side-entry>
 
-  <div class='space'></div>
-  <div *ngIf='onUpdateMode === false'>
-    <mat-card>
-      <mat-grid-list cols="12">
-        <mat-grid-tile colspan='1'></mat-grid-tile>                              
-        <mat-grid-tile colspan='10' *ngIf='answerIsCorrect'>
-          <p>{{entry.native}}</p>
-        </mat-grid-tile>
-        <mat-grid-tile colspan='10' *ngIf='!answerIsCorrect'>
-          <p>{{entry.native}} - {{entry.foreign}}</p>
-        </mat-grid-tile> 
-        <mat-grid-tile colspan='1'>          
-          <button mat-icon-button color='accent' [matMenuTriggerFor]="appMenu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-        
-          <mat-menu #appMenu="matMenu">
-            <div>
-              <button mat-menu-item (click)="toggleUpdateMode()">
-                <span>
-                  <mat-icon>mode_edit</mat-icon>Update
-                </span>
-              </button>
-            </div>
-            <div>
-              <button mat-menu-item (click)="deleteEntry()">
-                <span>
-                  <mat-icon>delete</mat-icon>Delete
-                </span>
-              </button>
-            </div>
-          </mat-menu>
-        </mat-grid-tile> 
-      </mat-grid-list>
-      
-    </mat-card> 
 
-    <div class='whitespace-tiny'></div>  
-    
-    <mat-card>
-      <mat-card-content>
+  <div class='card-button-container' *ngIf='onUpdateMode === false'>
+    <button mat-raised-button (click)='toggleUpdateMode()'>
+      <mat-card  *ngIf='answerIsCorrect'>
         <mat-grid-list cols="12">
-          <mat-grid-tile colspan='1'></mat-grid-tile>                              
-          <mat-grid-tile colspan='10'>
+          <mat-grid-tile colspan='12' *ngIf='answerIsCorrect'>
+            <p>{{entry.native}}</p>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-card>
+      <mat-card *ngIf='!answerIsCorrect' class='less-padding'>
+          <mat-grid-list cols="12">
+            <mat-grid-tile colspan='12'>
+              <p>{{entry.native}}</p>
+            </mat-grid-tile>
+          <mat-grid-tile colspan='12'>
+              <p class='correction'>{{entry.foreign}}</p>
+            </mat-grid-tile>
+        </mat-grid-list>
+      </mat-card> 
+    </button>
+  </div>
+  
+  <div class='whitespace-tiny'></div>  
+
+  <div class='card-button-container' *ngIf='onUpdateMode === false'>
+    <mat-card>
+        <mat-grid-list cols="12">
+          <mat-grid-tile colspan='12'>
             <input class='answer-input' [(ngModel)]='answer'>
           </mat-grid-tile>
-          <mat-grid-tile>          
-            <div class='fab-button-container'>
-              <button mat-fab (click)='check()'>
-                <mat-icon>done</mat-icon>
-              </button>
-            </div>
-          </mat-grid-tile>
         </mat-grid-list>      
-      </mat-card-content>
     </mat-card>  
+  </div>
 
+  <div class='fab-button-container' *ngIf='onUpdateMode === false'>
+    <button mat-fab (click)='check()'>
+      <mat-icon>done</mat-icon>
+    </button>
+  </div>
+
+  <div *ngIf='onUpdateMode === false'>
     <mat-grid-list cols="12">
       <mat-grid-tile colspan='1'></mat-grid-tile>                              
       <mat-grid-tile colspan='10' *ngIf='entry.score == -1'>
@@ -76,45 +61,44 @@
           <mat-icon class='empty-star'>star_border</mat-icon>
         </mat-grid-tile>
       <mat-grid-tile colspan='10' *ngIf='entry.score == 1'>
-        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
         <mat-icon class='empty-star'>star_border</mat-icon>
         <mat-icon class='empty-star'>star_border</mat-icon>
         <mat-icon class='empty-star'>star_border</mat-icon>
         <mat-icon class='empty-star'>star_border</mat-icon>
       </mat-grid-tile>
       <mat-grid-tile colspan='10' *ngIf='entry.score == 2'>
-        <mat-icon color='primary'>star</mat-icon>
-        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
         <mat-icon class='empty-star'>star_border</mat-icon>
         <mat-icon class='empty-star'>star_border</mat-icon>
         <mat-icon class='empty-star'>star_border</mat-icon>
       </mat-grid-tile>
       <mat-grid-tile colspan='10' *ngIf='entry.score == 3'>
-        <mat-icon color='primary'>star</mat-icon>
-        <mat-icon color='primary'>star</mat-icon>
-        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
         <mat-icon class='empty-star'>star_border</mat-icon>
         <mat-icon class='empty-star'>star_border</mat-icon>
       </mat-grid-tile>
       <mat-grid-tile colspan='10' *ngIf='entry.score == 4'>
-        <mat-icon color='primary'>star</mat-icon>
-        <mat-icon color='primary'>star</mat-icon>
-        <mat-icon color='primary'>star</mat-icon>
-        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
         <mat-icon class='empty-star'>star_border</mat-icon>
       </mat-grid-tile>
       <mat-grid-tile colspan='10' *ngIf='entry.score == 5'>
-        <mat-icon color='primary'>star</mat-icon>
-        <mat-icon color='primary'>star</mat-icon>
-        <mat-icon color='primary'>star</mat-icon>
-        <mat-icon color='primary'>star</mat-icon>
-        <mat-icon color='primary'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
+        <mat-icon class='full-star'>star</mat-icon>
       </mat-grid-tile>
     </mat-grid-list>  
   </div>
-  <div *ngIf='onUpdateMode === true'>
-  
-    <app-update-entry></app-update-entry> 
 
+  <div *ngIf='onUpdateMode === true'>
+    <app-update-entry></app-update-entry> 
   </div>      
 </mat-sidenav-container>

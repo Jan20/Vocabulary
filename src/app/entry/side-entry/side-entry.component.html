@@ -1,6 +1,5 @@
-<mat-sidenav #sidenav mode="side" opened="false">
-  <div class="scrolling-content">  
-    <button mat-button class="control-button" (click)="sidenav.toggle()"> 
+<mat-sidenav #sidenav mode="side" opened="false" class="scrolling-content">
+    <button mat-button class="control-button" (click)="sidenav.toggle()" > 
       <mat-icon>dehaze</mat-icon>
     </button>
     
@@ -27,10 +26,9 @@
       <app-add-entry></app-add-entry>
    
     </div>        
-  </div>
 </mat-sidenav>
 
-<button mat-button (click)="sidenav.toggle()"> 
+<button mat-button (click)="sidenav.toggle()" class='right'> 
   <mat-icon>dehaze</mat-icon>
 </button>
   

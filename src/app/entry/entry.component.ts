@@ -17,6 +17,19 @@ import { Entry } from './entry.model';
 })
 export class EntryComponent implements OnInit {
 
+  // @Component({
+  //   selector: 'app-key-up3',
+  //   template: `
+  //     <input #box (keyup.enter)="onEnter(box.value)">
+  //     <p>{{value}}</p>
+  //   `
+  // })
+  // export class KeyUpComponent_v3 {
+  //   value = '';
+  //   onEnter(value: string) { this.value = value; }
+  // }
+
+
   private entry: Entry;
   private entries: Entry[];
   private answer: string;
@@ -71,11 +84,11 @@ export class EntryComponent implements OnInit {
 
       });
 
-      if (this.entries[0]) {
+      // if (this.entries[0]) {
 
-        this.entry = this.entries[0];
+      //   this.entry = this.entries[0];
 
-      }
+      // }
 
     });
 
@@ -84,7 +97,8 @@ export class EntryComponent implements OnInit {
   ngOnInit() {
 
     this.onUpdateMode = this.entryService.getOnUpdateMode();
-
+    this.entry = this.entryService.getEntry();
+    
     this.entryService.onUpdateModeHasChanged.subscribe (res => {
 
       this.onUpdateMode = this.entryService.getOnUpdateMode();
@@ -108,6 +122,7 @@ export class EntryComponent implements OnInit {
     });
 
   }
+
 
   ///////////////
   // Functions //
@@ -133,7 +148,7 @@ export class EntryComponent implements OnInit {
         );
 
       }
-
+      console.log(this.pointer);
       if ( this.pointer < this.entries.length - 1) {
 
         this.pointer = this.pointer + 1;

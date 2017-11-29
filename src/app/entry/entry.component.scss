@@ -4,8 +4,9 @@
 
 mat-sidenav-container {
     
-    height: 100%;
-
+    height: 91.4%;
+    background-image: linear-gradient(45deg, rgb(50,100,210), rgb(70,280,255));
+    
 }
 
 p {
@@ -48,3 +49,76 @@ mat-input-container {
 
 }
 
+.full-star {
+    
+    color: #FFC107;
+
+}
+
+// -------------------------------
+//          Mat Card
+// -------------------------------
+
+@media (max-width: 680px) {
+    mat-card {
+        
+        width: 80%;
+        height: 70px;
+        padding-top: 54px;
+        
+    }
+}
+
+@media (min-width: 680px) {
+    mat-card {
+        
+        width: 500px;
+        height: 70px;
+        padding-top: 54px;
+        
+    }
+}
+
+@media (max-width: 680px) {
+    .card-button-container {
+        
+        width: 80%;
+        margin: auto;
+        
+    }
+}
+
+@media (min-width: 680px) {
+    .card-button-container  {
+        
+        width: 550px;
+        margin: auto;
+        
+    }
+
+}
+
+.mat-raised-button {
+    padding: 0;
+}
+
+.fab-button-container{
+    z-index: 12;
+    margin-top: -29px;
+    margin-left: 60%;
+    position: absolute;
+
+}
+
+.less-padding {
+
+    padding-top: 30px;
+    padding-bottom: 48px;
+
+}
+
+.correction {
+
+    color: #01579B;
+
+}
