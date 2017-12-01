@@ -62,17 +62,17 @@ export class EntryComponent implements OnInit {
           const t = new Entry(this.language, this.stage, this.topic, e.native, e.foreign, e.score);
           this.entries.push(t);
           this.topicScore = this.topicScore + e.score;
-          console.log(this.topicScore);
 
         }
 
       });
 
-      if (this.entries[0]) {
+      // if (this.entries[0]) {
 
-        this.entry = this.entries[0];
+      //   this.entry = this.entries[0];
 
-      }
+      // }
+
 
     });
 
@@ -96,7 +96,7 @@ export class EntryComponent implements OnInit {
       for (let i = 0; i < this.entries.length; i++) {
 
         if (this.entry.getNative() === this.entries[i].getNative()) {
-
+          console.log(this.pointer);
           this.pointer = i;
 
         }

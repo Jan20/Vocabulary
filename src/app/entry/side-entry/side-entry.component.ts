@@ -49,13 +49,12 @@ export class SideEntryComponent implements OnInit {
     this.entries = [];
     this.entries.push(this.entry);
     console.log(this.entries);
-    this.entryService.fetchEntries(
 
-      this.languageService.getLanguage().getName(),
-      this.stageService.getStage().getName(),
-      this.topicService.getTopic().getName()
-
-    ).valueChanges().subscribe( res => {
+    const language = this.languageService.getLanguage().getName();
+    const stage = this.stageService.getStage().getName();
+    const topic = this.topicService.getTopic().getName();
+  
+    this.entryService.fetchEntries(language, stage, topic).valueChanges().subscribe( res => {
 
       this.entries = [];
 
