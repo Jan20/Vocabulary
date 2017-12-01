@@ -1,3 +1,5 @@
+import { scan } from "rxjs/operator/scan";
+
 export class Topic {
 
     ///////////////
@@ -6,15 +8,17 @@ export class Topic {
     private language: string;
     private stage: string;
     private name: string;
+    private score: number;
 
     /////////////////
     // Constructor //
     /////////////////
-    public constructor(language: string, stage: string, name: string) {
+    public constructor(language: string, stage: string, name: string, score: number) {
 
         this.language = language;
         this.stage = stage;
         this.name = name;
+        this.score = score;
 
     }
 
@@ -39,6 +43,12 @@ export class Topic {
 
     }
 
+    public getScore(): number {
+
+        return this.score;
+
+    }
+
     /////////////
     // Setters //
     /////////////
@@ -57,6 +67,12 @@ export class Topic {
     public setName(name: string): void {
 
         this.name = name;
+
+    }
+
+    public setScore(score: number): void {
+
+        this.score = score;
 
     }
 

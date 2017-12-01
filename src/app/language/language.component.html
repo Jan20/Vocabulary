@@ -4,7 +4,7 @@
   <div *ngFor='let language of languages'>
     <div class='card-button-container'>
       <button mat-raised-button>
-        <mat-card>
+        <mat-card class='prime'>
           <mat-grid-list cols="12">
               <mat-grid-tile colspan='1'></mat-grid-tile>
               <mat-grid-tile colspan='10' (click)='selectLanguage(language)'><p>{{language.name}}</p></mat-grid-tile>

@@ -4,11 +4,76 @@
   <div *ngFor='let topic of topics'>
     <div class='card-button-container'>
       <button mat-raised-button>
-        <mat-card (click)='selectTopic(topic)'>
-          <mat-grid-list cols="12">
+          <mat-card (click)='selectTopic(topic)' *ngIf='topic.score === 5' class='five-stars'>
+              <mat-grid-list cols="12">
+                  <mat-grid-tile colspan='1'></mat-grid-tile>
+                  <mat-grid-tile colspan='10'>
+                          <p>{{topic.name}}</p>
+                  </mat-grid-tile>
+                  <mat-grid-tile colspan='1'>          
+                    <button mat-icon-button (click)="deleteTopic(topic)">
+                      <mat-icon color='accent'>close</mat-icon>
+                    </button>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </mat-card>
+          <mat-card (click)='selectTopic(topic)' *ngIf='topic.score === 4' class='four-stars'>
+              <mat-grid-list cols="12">
+                  <mat-grid-tile colspan='1'></mat-grid-tile>
+                  <mat-grid-tile colspan='10'>
+                          <p>{{topic.name}}</p>
+                  </mat-grid-tile>
+                  <mat-grid-tile colspan='1'>          
+                    <button mat-icon-button (click)="deleteTopic(topic)">
+                      <mat-icon color='accent'>close</mat-icon>
+                    </button>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </mat-card>
+          <mat-card (click)='selectTopic(topic)' *ngIf='topic.score === 3' class='three-stars'>
+              <mat-grid-list cols="12">
+                  <mat-grid-tile colspan='1'></mat-grid-tile>
+                  <mat-grid-tile colspan='10'>
+                          <p>{{topic.name}}</p>
+                  </mat-grid-tile>
+                  <mat-grid-tile colspan='1'>          
+                    <button mat-icon-button (click)="deleteTopic(topic)">
+                      <mat-icon color='accent'>close</mat-icon>
+                    </button>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </mat-card>
+          <mat-card (click)='selectTopic(topic)' *ngIf='topic.score === 2' class='two-stars'>
+              <mat-grid-list cols="12">
+                  <mat-grid-tile colspan='1'></mat-grid-tile>
+                  <mat-grid-tile colspan='10'>
+                          <p>{{topic.name}}</p>
+                  </mat-grid-tile>
+                  <mat-grid-tile colspan='1'>          
+                    <button mat-icon-button (click)="deleteTopic(topic)">
+                      <mat-icon color='accent'>close</mat-icon>
+                    </button>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </mat-card>
+          <mat-card (click)='selectTopic(topic)' *ngIf='topic.score === 1' class='one-stars'>
+              <mat-grid-list cols="12">
+                  <mat-grid-tile colspan='1'></mat-grid-tile>
+                  <mat-grid-tile colspan='10'>
+                          <p>{{topic.name}}</p>
+                  </mat-grid-tile>
+                  <mat-grid-tile colspan='1'>          
+                    <button mat-icon-button (click)="deleteTopic(topic)">
+                      <mat-icon color='accent'>close</mat-icon>
+                    </button>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </mat-card>
+          <mat-card (click)='selectTopic(topic)' *ngIf='topic.score === 0' class='zero-stars'>
+                  <mat-grid-list cols="12">
             <mat-grid-tile colspan='1'></mat-grid-tile>
             <mat-grid-tile colspan='10'>
-              <p>{{topic.name}}</p>
+                    <p>{{topic.name}}</p>
             </mat-grid-tile>
             <mat-grid-tile colspan='1'>          
               <button mat-icon-button (click)="deleteTopic(topic)">

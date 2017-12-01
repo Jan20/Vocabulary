@@ -32,26 +32,27 @@ export class TopicService {
 
   ) {
 
-    this.fetchTopics(
+    const language = this.languageService.getLanguage().getName();
+    const stage = this.stageService.getStage().getName();
 
-      this.languageService.getLanguage().getName(),
-      this.stageService.getStage().getName()
-
-    ).valueChanges().subscribe( res => {
+    this.fetchTopics(language, stage).valueChanges().subscribe( r => {
 
       const t: Topic[] = [];
 
-      res.forEach( e => {
+      r.forEach( e => {
 
-        t.push(new Topic(
+        if (e.score) {
 
-          this.languageService.getLanguage().getName(),
-          this.stageService.getStage().getName(),
-          e.topic)
+          t.push(new Topic(language, stage, e.topic, e.score));
 
-        );
+        } else {
+
+          t.push(new Topic(language, stage, e.topic, 0));          
+
+        }
 
       });
+
       this.topic = t[0];
 
     });
@@ -72,6 +73,21 @@ export class TopicService {
   public fetchTopics(language: string, stage: string): AngularFireList<any> {
 
     return this.db.list('Vocabulary' + '/' + language + '/' + stage);
+
+  }
+
+  ////////////
+  // UPDATE //
+  ////////////
+  public updateTopic(language: string, stage: string, topic: string, score: number): void {
+    
+    this.db.object('Vocabulary' + '/' + language + '/' + stage + '/' + topic).update(
+      
+      {language: language, stage: stage, topic: topic, score: score}
+
+    );
+
+    this.setTopic(new Topic(language, stage, topic, score));
 
   }
 
@@ -116,8 +132,9 @@ export class TopicService {
 
         this.languageService.getLanguage().getName(),
         this.stageService.getStage().getName(),
-        sessionStorage.getItem('topic')
-
+        sessionStorage.getItem('topic'),
+        +sessionStorage.getItem('topicScore')
+        
       );
     }
   }
@@ -129,7 +146,9 @@ export class TopicService {
 
     this.topic = topic;
     const name = this.topic.getName();
+    const score = this.topic.getScore().toString();
     sessionStorage.setItem('topic', name);
+    sessionStorage.setItem('topicScore', score);
     this.topicHasChanged.emit(this.topic);
 
   }

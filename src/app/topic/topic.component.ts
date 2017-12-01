@@ -9,6 +9,8 @@ import { Topic } from './topic.model';
 import { LanguageService } from './../language/language.service';
 import { StageService } from './../stage/stage.service';
 import { TopicService } from './topic.service';
+import { EntryService } from '../entry/entry.service';
+import { Entry } from '../entry/entry.model';
 
 @Component({
   selector: 'app-topic',
@@ -22,6 +24,9 @@ export class TopicComponent implements OnInit {
   ///////////////
   private topic: Topic;
   private topics: Topic[];
+  private entries: Entry[];
+  private score: number;
+  private scores: number[];
 
   /////////////////
   // Constructor //
@@ -31,30 +36,36 @@ export class TopicComponent implements OnInit {
     public languageService: LanguageService,
     public stageService: StageService,
     public topicService: TopicService,
+    public entryService: EntryService,
     private router: Router
 
   ) {
 
-    this.topicService.fetchTopics(
+    this.score = 0;
+    const language = this.languageService.getLanguage().getName();
+    const stage = this.stageService.getStage().getName();
+      
+    this.topicService.fetchTopics(language, stage).valueChanges().subscribe( r => {
 
-      this.languageService.getLanguage().getName(),
-      this.stageService.getStage().getName()
+      this.topics = [];       
 
-    ).valueChanges().subscribe( res => {
+      r.forEach( e => {
 
-      this.topics = [];
-
-      res.forEach( e => {
-
-        if (e.topic) {
-
-          this.topics.push(new Topic(
-
-            this.languageService.getLanguage().getName(),
-            this.stageService.getStage().getName(),
-            e.topic));
-
+        if (e.topic && e.score) {
+          
+          const m = Math.floor(e.score);
+          let t = new Topic(language, stage, e.topic, m);
+          this.topics.push(t);
+          
+        } 
+        
+        if (e.topic && !e.score) {
+          
+          let t = new Topic(language, stage, e.topic, 0);
+          this.topics.push(t);
+          
         }
+
 
       });
 
@@ -65,39 +76,41 @@ export class TopicComponent implements OnInit {
   }
 
   ngOnInit() {
+    
 
-    this.stageService.stageHasChanged.subscribe( data => {
+    this.stageService.stageHasChanged.subscribe( res => {
+      
+      const language = this.languageService.getLanguage().getName();
+      const stage = this.stageService.getStage().getName();
+      
+    this.topicService.fetchTopics(language, stage).valueChanges().subscribe( r => {
 
-      this.topicService.fetchTopics(
+      this.topics = []; 
+      
+      r.forEach( e => {
+        
+        if (e.topic && e.score) {
+          console.log(e );
+          
+          const m = Math.floor(e.score);
+          let t = new Topic(language, stage, e.topic, m);
+          this.topics.push(t);
+          
+        } else if (e.topic) {
+          
+          let t = new Topic(language, stage, e.topic, 0);
+          this.topics.push(t);
+          console.log(this.topics);
+          
+        }
 
-        this.languageService.getLanguage().getName(),
-        this.stageService.getStage().getName()
-
-      ).valueChanges().subscribe( res => {
-
-        this.topics = [];
-
-        res.forEach( e => {
-
-          if (e.topic) {
-
-            this.topics.push(new Topic(
-
-              this.languageService.getLanguage().getName(),
-              this.stageService.getStage().getName(),
-              e.topic));
-
-          }
-
-        });
-
-        this.topic = this.topics[0];
 
       });
 
+      this.topic = this.topics[0];
+
     });
-
-
+  });
   }
 
   ///////////////
@@ -119,9 +132,27 @@ export class TopicComponent implements OnInit {
   /////////////
   // Getters //
   /////////////
+  public getTopic(): Topic {
+
+    return this.topic;
+
+  }
+
   public getTopics(): Topic[] {
 
     return this.topics;
+
+  }
+
+  public getScore(): number {
+
+    return this.score;
+
+  }
+
+  public getScores(): number[] {
+
+    return this.scores;
 
   }
 
@@ -140,5 +171,18 @@ export class TopicComponent implements OnInit {
 
   }
 
+  public setScore(score: number): void {
+
+    this.score = score;
+
+  }
+
+  public setScores(scores: number[]): void {
+
+    this.scores = scores;
+
+  }
+
 
 }
+                            

@@ -1,7 +1,6 @@
 <mat-tab-group>
 
   <div *ngFor='let stage of stages'>
-    <div>
     <mat-tab>
       <ng-template mat-tab-label>
         <div (click)='selectStage(stage)'>
@@ -10,7 +9,6 @@
       </ng-template>
       <app-topic></app-topic>
     </mat-tab>
-  </div>
   </div>
 
   <mat-tab label='Add Stage'>

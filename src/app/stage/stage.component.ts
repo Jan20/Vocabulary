@@ -17,6 +17,7 @@ export class StageComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
+  private language: string;
   private stage: Stage;
   private stages: Stage[];
 
@@ -30,25 +31,24 @@ export class StageComponent implements OnInit {
 
   ) {
 
-    this.stageService.fetchStages(
+    this.language = this.languageService.getLanguage().getName();
 
-      this.languageService.getLanguage().getName()
-
-    ).valueChanges().subscribe( res => {
+    this.stageService.fetchStages(this.language).valueChanges().subscribe( r => {
 
       this.stages = [];
-      res.forEach( e => {
+      
+      r.forEach( e => {
 
         if (e.stage) {
 
-          this.stages.push(new Stage(this.languageService.getLanguage().getName(), e.stage));
+          this.stages.push(new Stage(this.language, e.stage));
 
         }
 
       });
-
-      this.stage = this.stages[0];
-
+      console.log(this.stages[0]);
+      this.stageService.setStage(this.stages[0]);
+      
     });
 
   }
@@ -57,28 +57,24 @@ export class StageComponent implements OnInit {
 
     this.languageService.languageHasChanged.subscribe( r => {
 
-      this.stageService.fetchStages(
-
-        this.languageService.getLanguage().getName()
-
-      ).valueChanges().subscribe( res => {
+      this.stageService.fetchStages(this.language).valueChanges().subscribe( r => {
 
         this.stages = [];
-        res.forEach( e => {
+
+        r.forEach( e => {
 
           if (e.stage) {
 
-            this.stages.push(new Stage(this.languageService.getLanguage().getName(), e.stage));
+            this.stages.push(new Stage(this.language, e.stage));
 
           }
 
         });
-
-        this.stage = this.stages[0];
-
+        console.log(this.stages[0]);
+        this.stageService.setStage(this.stages[0]);
+        
       });
     });
-
 
   }
 
@@ -94,7 +90,6 @@ export class StageComponent implements OnInit {
   public selectStage(stage: Stage): void {
 
     this.stage = stage;
-
     this.stageService.setStage(stage);
 
   }

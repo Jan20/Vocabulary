@@ -5,22 +5,21 @@
   </button>
 </div>
 
-<!-- Topic Form -->
-<mat-card *ngIf='onAddMode === true'>
-  <mat-card-content>
+<div class='whitespace'></div>
+<div class='card-button-container' *ngIf='onAddMode === true'>
+  <mat-card>
+      <mat-grid-list cols="12" class='large-grid-list'>
+        <mat-grid-tile colspan='12' class='large-tile'>
+          <mat-input-container class="full-width">
+            <input matInput placeholder='New Topic' [(ngModel)]='name'>
+          </mat-input-container>      
+        </mat-grid-tile>
+      </mat-grid-list>      
+  </mat-card>
+</div>
 
-    <mat-input-container class="full-width">
-      <input matInput placeholder='New Topic' [(ngModel)]='name'>
-    </mat-input-container>
-    
-    <mat-grid-list cols="12" rowHeight="80px">
-      <mat-grid-tile colspan='10'></mat-grid-tile>
-      <mat-grid-tile colspan='2'>
-        <button mat-fab (click)="save()">
-          <mat-icon>done</mat-icon>
-        </button>
-      </mat-grid-tile>
-    </mat-grid-list>
-
-  </mat-card-content>
-</mat-card>
+<div class='fab-button-container' *ngIf='onAddMode === true'>
+  <button mat-fab (click)='save()'>
+    <mat-icon>done</mat-icon>
+  </button>
+</div>

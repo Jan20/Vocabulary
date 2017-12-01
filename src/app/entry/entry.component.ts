@@ -17,18 +17,10 @@ import { Entry } from './entry.model';
 })
 export class EntryComponent implements OnInit {
 
-  // @Component({
-  //   selector: 'app-key-up3',
-  //   template: `
-  //     <input #box (keyup.enter)="onEnter(box.value)">
-  //     <p>{{value}}</p>
-  //   `
-  // })
-  // export class KeyUpComponent_v3 {
-  //   value = '';
-  //   onEnter(value: string) { this.value = value; }
-  // }
-
+  private language: string;
+  private stage: string;
+  private topic: string;
+  private topicScore: number;
 
   private entry: Entry;
   private entries: Entry[];
@@ -49,46 +41,38 @@ export class EntryComponent implements OnInit {
     this.entry = new Entry('', '', '', '', '', 0);
     this.entries = [];
     this.entries.push(this.entry);
+    this.topicScore = 0;
 
     this.answerIsCorrect = true;
     this.pointer = 0;
 
-    this.entryService.fetchEntries(
+    this.language = this.languageService.getLanguage().getName();    
+    this.stage = this.stageService.getStage().getName();
+    this.topic = this.topicService.getTopic().getName();
 
-      this.languageService.getLanguage().getName(),
-      this.stageService.getStage().getName(),
-      this.topicService.getTopic().getName()
+    this.entryService.fetchEntries(this.language, this.stage, this.topic).valueChanges().subscribe( r => {
 
-    ).valueChanges().subscribe( res => {
-
-      this.entries = [];
-
-      res.forEach( e => {
+      this.entries = []; 
+      this.topicScore = 0;
+      
+      r.forEach( e => {
 
         if (e.native) {
 
-          const t = new Entry(
-
-            this.languageService.getLanguage().getName(),
-            this.stageService.getStage().getName(),
-            this.topicService.getTopic().getName(),
-            e.native,
-            e.foreign,
-            e.score
-
-          );
-
+          const t = new Entry(this.language, this.stage, this.topic, e.native, e.foreign, e.score);
           this.entries.push(t);
+          this.topicScore = this.topicScore + e.score;
+          console.log(this.topicScore);
 
         }
 
       });
 
-      // if (this.entries[0]) {
+      if (this.entries[0]) {
 
-      //   this.entry = this.entries[0];
+        this.entry = this.entries[0];
 
-      // }
+      }
 
     });
 
@@ -134,7 +118,7 @@ export class EntryComponent implements OnInit {
       this.answerIsCorrect = true;
       this.answer = '';
 
-      if ( this.entry.getScore() < 5) {
+      if (this.entry.getScore() < 5) {
 
         this.entryService.updateEntry(
 
@@ -146,10 +130,14 @@ export class EntryComponent implements OnInit {
           this.entry.getScore() + 1
 
         );
+        
+        this.topicScore = this.topicScore + 1;
+        const topicScoreNormalized = (this.topicScore / this.entries.length);
+        this.topicService.updateTopic(this.language, this.stage, this.topic, topicScoreNormalized);
 
       }
-      console.log(this.pointer);
-      if ( this.pointer < this.entries.length - 1) {
+
+      if (this.pointer < this.entries.length - 1) {
 
         this.pointer = this.pointer + 1;
 
@@ -169,6 +157,10 @@ export class EntryComponent implements OnInit {
 
       this.answerIsCorrect = false;
       this.answer = '';
+
+      this.topicScore = this.topicScore - this.entry.getScore();
+      const topicScoreNormalized = (this.topicScore / this.entries.length);
+      this.topicService.updateTopic(this.language, this.stage, this.topic, topicScoreNormalized);
 
       this.entryService.updateEntry(
 
