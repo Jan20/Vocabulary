@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 // Firebase
 import { AngularFireDatabase } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuthModule, AngularFireAuth, AngularFireAuthProvider } from 'angularfire2/auth';
 
 // Router
 import { Router } from '@angular/router';
@@ -11,13 +11,23 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   private user: any;
+  private authState: any;
 
   constructor(
 
-    public angularFireAuth: AngularFireAuth,
-    public router: Router
+    private angularFireAuth: AngularFireAuth,
+    private db: AngularFireDatabase,
+    private router: Router
 
-  ) { }
+  ) { 
+
+    if (this.angularFireAuth.auth.currentUser) {
+   
+      this.user = this.angularFireAuth.auth.currentUser
+   
+    }
+
+  }
 
   ///////////////
   // Functions //

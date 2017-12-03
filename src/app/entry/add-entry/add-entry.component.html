@@ -1,24 +1,28 @@
-<mat-card>
-  <mat-card-content>
+<div class='card-container'>
+  <mat-card>
+      <mat-grid-list cols="12" class='large-grid-list'>
+      
+        <mat-grid-tile colspan='12' class='large-tile'>
+          <mat-input-container class="full-width">
+            <input matInput placeholder="Native" [(ngModel)]='native' (keyup.enter)='onKey($event)'>
+          </mat-input-container>      
+        </mat-grid-tile>
+        
+        <mat-grid-tile colspan='12' class='large-tile'></mat-grid-tile>
+        
+        <mat-grid-tile colspan='12' class='large-tile'>
+          <mat-input-container class="full-width">
+            <input matInput placeholder="Foreign" [(ngModel)]='foreign' (keyup.enter)='onKey($event)'>
+          </mat-input-container>       
+        </mat-grid-tile>
+        
+      </mat-grid-list>      
+  </mat-card>
+</div>
 
-    <mat-input-container class="full-width">
-      <input matInput placeholder="Native" [(ngModel)]="native">
-    </mat-input-container>
-    
-    <mat-input-container class="full-width">
-      <input matInput placeholder="Foreign" [(ngModel)]="foreign">
-    </mat-input-container>
-
-    <mat-grid-list cols="12">
-      <mat-grid-tile colspan='11'></mat-grid-tile>
-      <mat-grid-tile >
-        <div class='fab-button-container'>
-          <button mat-fab (click)="save()">
-            <mat-icon>done</mat-icon>
-          </button>
-        </div>
-      </mat-grid-tile>
-    </mat-grid-list>
-
-  </mat-card-content>
-</mat-card>
+<!-- Save Button -->
+<div class='fab-button-container'>
+  <button mat-fab (click)='save()'>
+    <mat-icon>done</mat-icon>
+  </button>
+</div>

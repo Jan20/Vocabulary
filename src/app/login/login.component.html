@@ -6,7 +6,7 @@
       
         <mat-grid-tile colspan='12' class='large-tile'>
           <mat-input-container class="full-width">
-              <input matInput placeholder="email" name="email" (ng-model)='email'>
+              <input matInput placeholder="email" name="email" [(ngModel)]='email'>
             </mat-input-container>      
         </mat-grid-tile>
         
@@ -14,14 +14,14 @@
         
         <mat-grid-tile colspan='12' class='large-tile'>
           <mat-input-container class="full-width">
-              <input matInput placeholder="password" name="password" (ng-model)='password'>
+              <input matInput placeholder="password" name="password" [(ngModel)]='password'>
             </mat-input-container>       
         </mat-grid-tile>
 
         <mat-grid-tile colspan='12' class='large-tile'></mat-grid-tile>            
         
         <mat-grid-tile colspan='12' class='large-tile'>
-          <button mat-raised-button color='accent' (click)="signUp()">Sign Up</button>
+          <button mat-raised-button color='accent' (click)="signUp()" *ngIf='!loggedIn'>Sign Up</button>
           <button mat-raised-button color='accent' (click)="logIn()" *ngIf='!loggedIn'>Log In</button>      
           <button mat-raised-button color='accent' (click)="logOut()" *ngIf='loggedIn'>Log Out</button>      
         </mat-grid-tile>

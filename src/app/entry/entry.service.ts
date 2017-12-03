@@ -18,6 +18,9 @@ export class EntryService {
   ////////////////
   // Attributes //
   ////////////////
+  private language: string;
+  private stage: string;
+  private topic: string;
   private entry: Entry;
   private entries: Entry[];
   private onUpdateMode: boolean;
@@ -31,38 +34,16 @@ export class EntryService {
   constructor(
 
     private db: AngularFireDatabase,
-    public languageService: LanguageService,
-    public stageService: StageService,
-    public topicService: TopicService
+    private languageService: LanguageService,
+    private stageService: StageService,
+    private topicService: TopicService
 
   ) {
 
+    this.language = languageService.getLanguage().getName(),
+    this.stage = stageService.getStage().getName(),
+    this.topic = topicService.getTopic().getName(),
     this.onUpdateMode = false;
-
-    this.fetchEntries(
-
-      this.languageService.getLanguage().getName(),
-      this.stageService.getStage().getName(),
-      this.topicService.getTopic().getName()
-
-    ).valueChanges().subscribe( res => {
-
-      const t: Entry[] = [];
-
-      res.forEach( e => {
-
-        if (e.native) {
-
-          const l: Entry = new Entry(e.language, e.stage, e.topic, e.native, e.foreign, e.number);
-          t.push(l);
-
-        }
-
-      });
-
-      this.entry = t[0];
-
-    });
 
   }
 

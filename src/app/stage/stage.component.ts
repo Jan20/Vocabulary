@@ -46,7 +46,6 @@ export class StageComponent implements OnInit {
         }
 
       });
-      console.log(this.stages[0]);
       this.stageService.setStage(this.stages[0]);
       
     });
@@ -70,7 +69,7 @@ export class StageComponent implements OnInit {
           }
 
         });
-        console.log(this.stages[0]);
+
         this.stageService.setStage(this.stages[0]);
         
       });

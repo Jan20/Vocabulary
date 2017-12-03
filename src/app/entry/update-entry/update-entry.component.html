@@ -1,27 +1,40 @@
 <div class='tiny-space'></div>
-<div class='card-button-container'>
+
+<div class='card-container'>
   <mat-card>
       <mat-grid-list cols="12" class='large-grid-list'>
       
         <mat-grid-tile colspan='12' class='large-tile'>
           <mat-input-container class="full-width">
-            <input matInput placeholder="Native" [(ngModel)]='entry.native'>
+            <input matInput placeholder="Native" [(ngModel)]='entry.native' (keyup.enter)='onKey($event)'>
           </mat-input-container>      
         </mat-grid-tile>
-        <mat-grid-tile colspan='12' class='large-tile'>
-  </mat-grid-tile>            
+        
+        <mat-grid-tile colspan='12' class='large-tile'></mat-grid-tile>
+
         <mat-grid-tile colspan='12' class='large-tile'>
           <mat-input-container class="full-width">
-            <input matInput placeholder="Foreign" [(ngModel)]='entry.foreign'>
+            <input matInput placeholder="Foreign" [(ngModel)]='entry.foreign' (keyup.enter)='onKey($event)'>
           </mat-input-container>       
         </mat-grid-tile>
-
+       
       </mat-grid-list>      
   </mat-card>
 </div>
 
+<!-- Save Button -->
 <div class='fab-button-container'>
-  <button mat-fab (click)='save()'>
+  <button mat-fab (click)='saveChanges()'>
     <mat-icon>done</mat-icon>
+  </button>
+</div>
+
+
+<div class='whitespace'></div>
+
+<!-- Delete Button -->
+<div class='card-container'>
+  <button mat-raised-button color='warn' (click)='deleteEntry()'>
+    <mat-icon>delete</mat-icon>
   </button>
 </div>

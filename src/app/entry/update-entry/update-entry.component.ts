@@ -20,34 +20,57 @@ export class UpdateEntryComponent implements OnInit {
   // Variables //
   ///////////////
   private entry: Entry;
+  private formerEntry: string;
 
   //////////////////
   // Constructors //
   //////////////////
   public constructor(
 
-    private languageService: LanguageService,
-    private stageService: StageService,
-    private topicService: TopicService,
     private entryService: EntryService
 
   ) {
 
+    this.formerEntry = this.entryService.getEntry().getNative();
     this.entry = this.entryService.getEntry();
 
   }
 
   ngOnInit() {
 
+    this.entryService.entryHasChanged.subscribe( r => {
+
+      this.entry = this.entryService.getEntry();
+      
+    });
+
+  }
+  
+  ////////////////////
+  // Event Handlers //
+  ////////////////////
+  public onKey(event: any) { 
+  
+    this.saveChanges();
+  
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public save(): void {
+  public saveChanges(): void {
+    console.log(this.formerEntry);
+    this.entryService.deleteEntry(
 
+      this.entry.getLanguage(),
+      this.entry.getStage(),
+      this.entry.getTopic(),
+      this.formerEntry
+
+    );
+    console.log(this.entry);
     this.entryService.createEntry(
-
+      
       this.entry.getLanguage(),
       this.entry.getStage(),
       this.entry.getTopic(),
@@ -56,11 +79,26 @@ export class UpdateEntryComponent implements OnInit {
       0
 
     );
-
+    
     this.entryService.toggleOnUpdateMode();
 
   }
 
+  public deleteEntry(): void {
+
+    this.entryService.deleteEntry(
+
+      this.entry.getLanguage(),
+      this.entry.getStage(),
+      this.entry.getTopic(),
+      this.entry.getNative()
+
+    );
+
+    this.entryService.toggleOnUpdateMode();    
+
+  }
+  
   /////////////
   // Getters //
   /////////////

@@ -17,7 +17,7 @@ export class LoginComponent {
   ///////////////
   // Variables //
   ///////////////
-  private loggedIn: boolean;
+  private flag: boolean;
   private email: string;
   private password: string;
   
@@ -26,11 +26,11 @@ export class LoginComponent {
   //////////////////
   public constructor(
 
-    public authService: AuthService
+    private authService: AuthService
     
   ) {
  
-    this.loggedIn = false;
+    this.flag = false;
 
   }
 
@@ -38,11 +38,12 @@ export class LoginComponent {
   // Functions //
   ///////////////
   public signUp(): void {
-
+    console.log(this.email);
+    console.log(this.password);
     this.authService.signUp(this.email, this.password);
     if (this.authService.getUser()) {
 
-      this.loggedIn = true;
+      this.flag = true;
 
     }
   }
@@ -52,7 +53,7 @@ export class LoginComponent {
     this.authService.logIn(this.email, this.password);
     if (this.authService.getUser()) {
 
-      this.loggedIn = true;
+      this.flag = true;
 
     }
 
@@ -61,7 +62,7 @@ export class LoginComponent {
   public logOut(): void {
 
     this.authService.logOut();
-    this.loggedIn = false;
+    this.setFlag(false);
 
   }
 
@@ -80,9 +81,9 @@ export class LoginComponent {
 
   }
 
-  public getLoggedIn(): boolean {
+  public getFlag(): boolean {
 
-    return this.loggedIn;
+    return this.flag;
 
   }
 
@@ -101,9 +102,9 @@ export class LoginComponent {
 
   }
 
-  public setLoggedIn(loggedIn: boolean): void {
+  public setFlag(flag: boolean): void {
 
-    this.loggedIn = loggedIn;
+    this.flag = flag;
 
   }
 

@@ -1,23 +1,60 @@
-button {
+// -------------------------------
+//          Mat Card
+// -------------------------------
 
-    font-size: 15px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
+@media (max-width: 680px) {
+    mat-card {
+        height: 140px;
+        width: 100%;
+    }
+}
+
+@media (min-width: 680px) {
+    mat-card {
+        height: 140px;
+        width: 100%;
+        
+    }
+}
+
+@media (max-width: 680px) {
+    .card-container {
+        
+        width: 84.5%;
+        margin-left: 0.5px;
+        
+    }
+}
+
+@media (min-width: 680px) {
+    .card-container {
+        
+        width: 84.5%;
+        margin-left: 0.5px;
+        
+    }
 
 }
 
-md-card {
-
-    margin-top: 20px;
-    width: 80%;
-
-}
-
-// Buttons
 .fab-button-container{
 
-    margin-top: 16px;
-    margin-left: -28px;
-    position: fixed;
+    z-index: 12;
+    margin-top: -29px;
+    margin-left: 60%;
+    position: absolute;
 
+}
+
+.large-tile {
+    
+    height: 30px;  
+    padding-top: 50px;  
+
+}
+
+.mat-input-container {
+
+    padding-bottom: 25px; 
+    padding-top: 25px; 
+    
 }

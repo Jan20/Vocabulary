@@ -90,7 +90,6 @@ export class TopicComponent implements OnInit {
       r.forEach( e => {
         
         if (e.topic && e.score) {
-          console.log(e );
           
           const m = Math.floor(e.score);
           let t = new Topic(language, stage, e.topic, m);
@@ -100,7 +99,6 @@ export class TopicComponent implements OnInit {
           
           let t = new Topic(language, stage, e.topic, 0);
           this.topics.push(t);
-          console.log(this.topics);
           
         }
 

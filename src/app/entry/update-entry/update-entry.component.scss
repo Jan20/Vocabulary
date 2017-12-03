@@ -24,14 +24,23 @@
         margin: auto;
         
     }
+    .card-container-2 {
+        width: 300px;
+        margin: auto;
+    }
 }
 
 @media (min-width: 680px) {
-    .card-button-container  {
+    .card-button-container {
         
         width: 550px;
         margin: auto;
         
+    }
+
+    .card-container-2 {
+        width: 300px;
+        margin: auto;
     }
 
 }
@@ -57,4 +66,17 @@
 
 .tiny-space {
     margin-top: -5px; 
+}
+
+.mat-raised-button {
+
+    width: 548px;
+    height: 60px;
+    
+}
+
+.whitespace {
+
+    margin-top: 100px;
+
 }

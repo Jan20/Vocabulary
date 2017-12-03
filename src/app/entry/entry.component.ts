@@ -9,7 +9,6 @@ import { EntryService } from './entry.service';
 // Model
 import { Entry } from './entry.model';
 
-
 @Component({
   selector: 'app-entry',
   templateUrl: './entry.component.html',
@@ -42,15 +41,13 @@ export class EntryComponent implements OnInit {
     this.entries = [];
     this.entries.push(this.entry);
     this.topicScore = 0;
-
     this.answerIsCorrect = true;
     this.pointer = 0;
-
     this.language = this.languageService.getLanguage().getName();    
     this.stage = this.stageService.getStage().getName();
     this.topic = this.topicService.getTopic().getName();
 
-    this.entryService.fetchEntries(this.language, this.stage, this.topic).valueChanges().subscribe( r => {
+    this.entryService.fetchEntries(this.language, this.stage, this.topic).valueChanges(['child_added', 'child_removed']).subscribe( r => {
 
       this.entries = []; 
       this.topicScore = 0;
@@ -67,11 +64,12 @@ export class EntryComponent implements OnInit {
 
       });
 
-      // if (this.entries[0]) {
+      if (this.entries[0]) {
 
-      //   this.entry = this.entries[0];
-
-      // }
+        this.entry = this.entries[0];
+        this.pointer = 0;
+        
+      }
 
 
     });
@@ -89,6 +87,7 @@ export class EntryComponent implements OnInit {
 
     });
 
+
     this.entryService.entryHasChanged.subscribe( data => {
 
       this.entry = this.entryService.getEntry();
@@ -96,7 +95,7 @@ export class EntryComponent implements OnInit {
       for (let i = 0; i < this.entries.length; i++) {
 
         if (this.entry.getNative() === this.entries[i].getNative()) {
-          console.log(this.pointer);
+
           this.pointer = i;
 
         }
@@ -104,9 +103,17 @@ export class EntryComponent implements OnInit {
       }
 
     });
-
+    
   }
 
+  ////////////////////
+  // Event Handlers //
+  ////////////////////
+  public onKey(event: any) { 
+  
+    this.check();
+  
+  }
 
   ///////////////
   // Functions //
@@ -183,18 +190,7 @@ export class EntryComponent implements OnInit {
 
   }
 
-  public deleteEntry(): void {
 
-    this.entryService.deleteEntry(
-
-      this.entry.getLanguage(),
-      this.entry.getStage(),
-      this.entry.getTopic(),
-      this.entry.getNative()
-
-    );
-
-  }
 
   /////////////
   // Getters //

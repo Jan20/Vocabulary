@@ -30,7 +30,16 @@ export class AddEntryComponent implements OnInit {
     public entryService: EntryService
 
   ) { }
-
+  
+  ////////////////////
+  // Event Handlers //
+  ////////////////////
+  public onKey(event: any) { 
+    
+      this.save();
+    
+    }
+  
   ///////////////
   // Functions //
   ///////////////

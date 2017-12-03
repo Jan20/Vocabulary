@@ -48,7 +48,6 @@ export class SideEntryComponent implements OnInit {
     this.entry = new Entry('', '', '', '', '', 0);
     this.entries = [];
     this.entries.push(this.entry);
-    console.log(this.entries);
 
     const language = this.languageService.getLanguage().getName();
     const stage = this.stageService.getStage().getName();
@@ -72,7 +71,6 @@ export class SideEntryComponent implements OnInit {
             e.score
 
           );
-          console.log(t);
 
           this.entries.push(t);
 
@@ -82,57 +80,75 @@ export class SideEntryComponent implements OnInit {
     });
   }
 
+
+  ngOnInit() {
+    
+      //   this.entryService.entriesHaveChanged.subscribe( res => {
+    
+      //     this.entryService.fetchEntries(
+    
+      //       this.languageService.getLanguage().getName(),
+      //       this.stageService.getStage().getName(),
+      //       this.topicService.getTopic().getName()
+    
+      //     ).valueChanges().subscribe( data => {
+    
+      //       this.entries = [];
+    
+      //       data.forEach( e => {
+    
+      //         if (e.native) {
+    
+      //           const t = new Entry(
+    
+      //             this.languageService.getLanguage().getName(),
+      //             this.stageService.getStage().getName(),
+      //             this.topicService.getTopic().getName(),
+      //             e.native,
+      //             e.foreign,
+      //             e.score
+    
+      //           );
+    
+      //           this.entries.push(t);
+    
+      //         }
+      //       });
+      //     });
+      //   });
+       }
+    
+
+  ////////////////////
+  // Event Handlers //
+  ////////////////////
+  public onKey(event: any) { 
+    console.log('asddfasdjfö');
+    this.toggleFlag();
+  
+  }
+  
   ///////////////
   // Functions //
   ///////////////
   public selectEntry(entry: Entry): void {
 
     this.entryService.setEntry(entry);
-    console.log(entry);
 
   }
 
   public toggleFlag(): void {
 
-    this.flag = !this.flag;
+    if (this.flag) {
 
-  }
+      this.flag = false;
 
-  ngOnInit() {
+    } else {
 
-    this.entryService.entriesHaveChanged.subscribe( res => {
+      this.flag = true;
 
-      this.entryService.fetchEntries(
-
-        this.languageService.getLanguage().getName(),
-        this.stageService.getStage().getName(),
-        this.topicService.getTopic().getName()
-
-      ).valueChanges().subscribe( data => {
-
-        this.entries = [];
-
-        data.forEach( e => {
-
-          if (e.native) {
-
-            const t = new Entry(
-
-              this.languageService.getLanguage().getName(),
-              this.stageService.getStage().getName(),
-              this.topicService.getTopic().getName(),
-              e.native,
-              e.foreign,
-              e.score
-
-            );
-
-            this.entries.push(t);
-
-          }
-        });
-      });
-    });
+    }
+    
   }
 
   public select(entry: Entry): void {

@@ -1,7 +1,6 @@
 <mat-sidenav-container>
-    
-  <app-side-entry></app-side-entry>
 
+  <app-side-entry></app-side-entry>
 
   <div class='card-button-container' *ngIf='onUpdateMode === false'>
     <button mat-raised-button (click)='toggleUpdateMode()'>
@@ -27,19 +26,21 @@
   
   <div class='whitespace-tiny'></div>  
 
+  <!-- Answer Field -->
   <div class='card-button-container' *ngIf='onUpdateMode === false'>
     <mat-card>
         <mat-grid-list cols="12">
           <mat-grid-tile colspan='12'>
-            <input class='answer-input' [(ngModel)]='answer'>
+            <input class='answer-input' [(ngModel)]='answer' (keyup.enter)='onKey($event)'>
           </mat-grid-tile>
         </mat-grid-list>      
     </mat-card>  
   </div>
-
+  
+  <!-- Check Button -->
   <div class='fab-button-container' *ngIf='onUpdateMode === false'>
     <button mat-fab (click)='check()'>
-      <mat-icon>done</mat-icon>
+        <mat-icon>done</mat-icon>
     </button>
   </div>
 
@@ -101,4 +102,5 @@
   <div *ngIf='onUpdateMode === true'>
     <app-update-entry></app-update-entry> 
   </div>      
+
 </mat-sidenav-container>
