@@ -1,18 +1,19 @@
 <div class='card-container'>
   <mat-card>
-      <mat-grid-list cols="12" class='large-grid-list'>
+      <mat-grid-list cols='12' class='large-grid-list'>
       
-        <mat-grid-tile colspan='12' class='large-tile'>
-          <mat-input-container class="full-width">
-            <input matInput placeholder="Native" [(ngModel)]='native' (keyup.enter)='onKey($event)'>
+        <mat-grid-tile colspan='12'>
+          <mat-input-container class='full-width'>
+            <input matInput placeholder='Native' [(ngModel)]='native' (keyup.enter)='onKey($event)'>
           </mat-input-container>      
         </mat-grid-tile>
         
-        <mat-grid-tile colspan='12' class='large-tile'></mat-grid-tile>
+        <mat-grid-tile colspan='12'></mat-grid-tile>
+        <mat-grid-tile colspan='12'></mat-grid-tile>
         
-        <mat-grid-tile colspan='12' class='large-tile'>
-          <mat-input-container class="full-width">
-            <input matInput placeholder="Foreign" [(ngModel)]='foreign' (keyup.enter)='onKey($event)'>
+        <mat-grid-tile colspan='12'>
+          <mat-input-container class='full-width'>
+            <input matInput placeholder='Foreign' [(ngModel)]='foreign' (keyup.enter)='onKey($event)'>
           </mat-input-container>       
         </mat-grid-tile>
         
@@ -26,3 +27,4 @@
     <mat-icon>done</mat-icon>
   </button>
 </div>
+

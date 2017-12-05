@@ -26,7 +26,6 @@ export class EntryService {
   private onUpdateMode: boolean;
   public onUpdateModeHasChanged: EventEmitter<any> = new EventEmitter();
   public entryHasChanged: EventEmitter<any> = new EventEmitter();
-  public entriesHaveChanged: EventEmitter<any> = new EventEmitter();
 
   /////////////////
   // Constructor //
@@ -67,10 +66,6 @@ export class EntryService {
 
   }
 
-  /////////////////////////
-  // Database Connection //
-  /////////////////////////
-
   /////////
   // GET //
   /////////
@@ -95,8 +90,6 @@ export class EntryService {
       score: score
 
     });
-
-    this.entriesHaveChanged.emit(this.entries);
 
   }
 
@@ -148,16 +141,20 @@ export class EntryService {
 
       return new Entry(
 
-        this.languageService.getLanguage().getName(),
-        this.stageService.getStage().getName(),
-        this.topicService.getTopic().getName(),
+        this.language
+        this.stage
+        this.topic
         sessionStorage.getItem('native'),
         sessionStorage.getItem('foreign'),
         +sessionStorage.getItem('score')
 
       );
-
     }
+  }
+
+  public getEntryHasChanged(): EventEmitter<any> {
+
+    return this.entryHasChanged;
 
   }
 
@@ -173,8 +170,13 @@ export class EntryService {
     sessionStorage.setItem('native', a);
     sessionStorage.setItem('foreign', b);
     sessionStorage.setItem('score', c);
-    this.entryHasChanged.emit(this.entry);
+    this.entryHasChanged.emit();
 
   }
 
+  public setEntryHasChanged(entryHasChanged: EventEmitter<any>): void {
+
+    this.entryHasChanged = entryHasChanged;
+
+  }
 }

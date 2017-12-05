@@ -33,10 +33,14 @@ export class StageComponent implements OnInit {
 
     this.language = this.languageService.getLanguage().getName();
 
+  }
+
+  ngOnInit() {
+
     this.stageService.fetchStages(this.language).valueChanges().subscribe( r => {
 
       this.stages = [];
-      
+
       r.forEach( e => {
 
         if (e.stage) {
@@ -46,33 +50,17 @@ export class StageComponent implements OnInit {
         }
 
       });
-      this.stageService.setStage(this.stages[0]);
-      
-    });
 
-  }
-
-  ngOnInit() {
-
-    this.languageService.languageHasChanged.subscribe( r => {
-
-      this.stageService.fetchStages(this.language).valueChanges().subscribe( r => {
-
-        this.stages = [];
-
-        r.forEach( e => {
-
-          if (e.stage) {
-
-            this.stages.push(new Stage(this.language, e.stage));
-
-          }
-
-        });
-
-        this.stageService.setStage(this.stages[0]);
+      if(this.stageService.getStage()) {
         
-      });
+        this.stage = this.stageService.getStage();
+
+      } else {
+
+        this.stage = this.stages[0];
+        this.stageService.setStage(this.stages[0]);
+
+      }      
     });
 
   }
@@ -90,7 +78,7 @@ export class StageComponent implements OnInit {
 
     this.stage = stage;
     this.stageService.setStage(stage);
-
+    
   }
 
   /////////////

@@ -17,8 +17,9 @@ export class StageService {
   ///////////////
   // Variables //
   ///////////////
+  private language: string;
   private stage: Stage;
-  public stageHasChanged: EventEmitter<any> = new EventEmitter();
+  private stageHasChanged: EventEmitter<any>;
 
   /////////////////
   // Constructor //
@@ -30,23 +31,8 @@ export class StageService {
 
   ) {
 
-    this.fetchStages(this.languageService.getLanguage().getName()).valueChanges().subscribe( res => {
-
-      const t: Stage[] = [];
-
-      res.forEach( e => {
-
-        if (e.language) {
-
-          t.push(new Stage(e.language, e.name));
-
-        }
-
-      });
-
-      this.stage = t[0];
-
-    });
+    this.language = this.languageService.getLanguage().getName();    
+    this.stageHasChanged = new EventEmitter();
 
   }
 
@@ -54,9 +40,6 @@ export class StageService {
   // Functions //
   ///////////////
 
-  /////////////////////////
-  // Database Connection //
-  /////////////////////////
 
   /////////
   // GET //
@@ -72,12 +55,7 @@ export class StageService {
   //////////
   public createStage(language: string, name: string): void {
 
-    this.db.object('Vocabulary' + '/' + language + '/' + name).set({
-
-      stage: name
-
-    });
-
+    this.db.object('Vocabulary' + '/' + language + '/' + name).set({ stage: name });
     this.setStage(new Stage(language, name));
 
   }
@@ -106,14 +84,15 @@ export class StageService {
 
     } else {
 
-      return new Stage(
-
-        this.languageService.getLanguage().getName(),
-        sessionStorage.getItem('stage')
-
-      );
+      return new Stage( this.language, sessionStorage.getItem('stage'));
 
     }
+
+  }
+
+  public getStageHasChanged(): EventEmitter {
+
+    return this.stageHasChanged;
 
   }
 
@@ -125,7 +104,13 @@ export class StageService {
     this.stage = stage;
     const t = this.stage.getName();
     sessionStorage.setItem('stage', t);
-    this.stageHasChanged.emit(this.stage);
+    this.stageHasChanged.emit();
+    
+  }
+
+  public setStageHasChanged(stageHasChanged: EventEmitter<any>): void {
+
+    this.stageHasChanged = stageHasChanged;
 
   }
 

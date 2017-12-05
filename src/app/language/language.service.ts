@@ -14,9 +14,8 @@ export class LanguageService {
   // Variables //
   ///////////////
   private language: Language;
-  public languageHasChanged: EventEmitter<any> = new EventEmitter();
   private onUpdateMode: boolean;
-  public onUpdateModeHasChanged: EventEmitter<any> = new EventEmitter();
+  private onUpdateModeHasChanged: EventEmitter<any> = new EventEmitter();
 
   /////////////////
   // Constructor //
@@ -50,10 +49,6 @@ export class LanguageService {
 
   }
 
-  /////////////////////////
-  // Database Connection //
-  /////////////////////////
-
   /////////
   // GET //
   /////////
@@ -68,11 +63,7 @@ export class LanguageService {
   //////////
   public createLanguage(name: string): void {
 
-    this.db.object('Vocabulary' + '/' + name).set({
-
-      language: name
-
-    });
+    this.db.object('Vocabulary' + '/' + name).set({ language: name });
 
   }
 
@@ -81,11 +72,7 @@ export class LanguageService {
   ////////////
   public updateLanguage(language: string): void {
 
-    this.db.object('Vocabulary' + '/' + language).update({
-
-      language: language
-
-    });
+    this.db.object('Vocabulary' + '/' + language).update({ language: language });
 
   }
 
@@ -121,6 +108,12 @@ export class LanguageService {
 
   }
 
+  public getOnUpdateModeHasChanged(): EventEmitter<any> {
+
+    return this.onUpdateModeHasChanged;
+
+  }
+
   /////////////
   // Setters //
   /////////////
@@ -129,13 +122,18 @@ export class LanguageService {
     this.language = language;
     const t = this.language.getName();
     sessionStorage.setItem('language', t);
-    this.languageHasChanged.emit(this.language);
 
   }
 
   public setOnUpdateMode(onUpdateMode: boolean): void {
 
     this.onUpdateMode = onUpdateMode;
+
+  }
+
+  public setOnUpdateModeHasChanged(onUpdateModeHasChanged: EventEmitter<any>): void {
+
+    return this.onUpdateModeHasChanged;
 
   }
 

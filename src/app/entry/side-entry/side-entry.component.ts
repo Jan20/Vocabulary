@@ -20,6 +20,9 @@ export class SideEntryComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
+  private language: string;
+  private stage: string;
+  private topic: string;
   private flag: boolean;
   private entry: Entry;
   private entries: Entry[];
@@ -37,23 +40,13 @@ export class SideEntryComponent implements OnInit {
 
   ) {
 
+    this.language = this.languageService.getLanguage().getName();
+    this.stage = this.stageService.getStage().getName();
+    this.topic = this.topicService.getTopic().getName();
+
     this.flag = false;
 
-    if (this.entryService.getEntry()) {
-
-      this.entry = this.entryService.getEntry();
-
-    }
-
-    this.entry = new Entry('', '', '', '', '', 0);
-    this.entries = [];
-    this.entries.push(this.entry);
-
-    const language = this.languageService.getLanguage().getName();
-    const stage = this.stageService.getStage().getName();
-    const topic = this.topicService.getTopic().getName();
-  
-    this.entryService.fetchEntries(language, stage, topic).valueChanges().subscribe( res => {
+    this.entryService.fetchEntries(this.language, this.stage, this.topic).valueChanges().subscribe( res => {
 
       this.entries = [];
 
@@ -61,69 +54,48 @@ export class SideEntryComponent implements OnInit {
 
         if (e.native) {
 
-          const t = new Entry(
+          this.entries.push(new Entry(this.language, this.stage, this.topic, e.native, e.foreign, e.score));
 
-            this.languageService.getLanguage().getName(),
-            this.stageService.getStage().getName(),
-            this.topicService.getTopic().getName(),
-            e.native,
-            e.foreign,
-            e.score
+        }
 
-          );
+      });
 
-          this.entries.push(t);
+      if (this.entries[0]) {
+  
+        this.entry = this.entries[0];
+  
+      }
+
+    });
+  }
+    
+  ///////////////////////
+  // On Initialization //
+  ///////////////////////
+  ngOnInit() {
+    
+    this.entryService.fetchEntries(this.language, this.stage, this.topic).valueChanges().subscribe( r => {
+
+      this.entries = [];
+
+      r.forEach( e => {
+
+        if (e.native) {
+
+          this.entries.push(new Entry(this.language, this.stage, this.topic, e.native, e.foreign, e.score));
 
         }
 
       });
     });
   }
-
-
-  ngOnInit() {
-    
-      //   this.entryService.entriesHaveChanged.subscribe( res => {
-    
-      //     this.entryService.fetchEntries(
-    
-      //       this.languageService.getLanguage().getName(),
-      //       this.stageService.getStage().getName(),
-      //       this.topicService.getTopic().getName()
-    
-      //     ).valueChanges().subscribe( data => {
-    
-      //       this.entries = [];
-    
-      //       data.forEach( e => {
-    
-      //         if (e.native) {
-    
-      //           const t = new Entry(
-    
-      //             this.languageService.getLanguage().getName(),
-      //             this.stageService.getStage().getName(),
-      //             this.topicService.getTopic().getName(),
-      //             e.native,
-      //             e.foreign,
-      //             e.score
-    
-      //           );
-    
-      //           this.entries.push(t);
-    
-      //         }
-      //       });
-      //     });
-      //   });
-       }
     
 
   ////////////////////
   // Event Handlers //
   ////////////////////
   public onKey(event: any) { 
-    console.log('asddfasdjfö');
+
     this.toggleFlag();
   
   }

@@ -16,11 +16,13 @@ import { Entry } from './entry.model';
 })
 export class EntryComponent implements OnInit {
 
+  ///////////////
+  // Variables //
+  ///////////////
   private language: string;
   private stage: string;
   private topic: string;
   private topicScore: number;
-
   private entry: Entry;
   private entries: Entry[];
   private answer: string;
@@ -28,26 +30,28 @@ export class EntryComponent implements OnInit {
   private onUpdateMode: boolean;
   private answerIsCorrect: boolean;
 
+  /////////////////
+  // Constructor //
+  /////////////////
   constructor(
 
-    public languageService: LanguageService,
-    public stageService: StageService,
-    public topicService: TopicService,
-    public entryService: EntryService
+    private languageService: LanguageService,
+    private stageService: StageService,
+    private topicService: TopicService,
+    private entryService: EntryService
 
   ) {
 
-    this.entry = new Entry('', '', '', '', '', 0);
-    this.entries = [];
-    this.entries.push(this.entry);
-    this.topicScore = 0;
-    this.answerIsCorrect = true;
-    this.pointer = 0;
     this.language = this.languageService.getLanguage().getName();    
     this.stage = this.stageService.getStage().getName();
     this.topic = this.topicService.getTopic().getName();
+    this.entry = new Entry();
+    this.topicScore = 0;
+    this.answerIsCorrect = true;
+    this.pointer = 0;
+    this.onUpdateMode = this.entryService.getOnUpdateMode();
 
-    this.entryService.fetchEntries(this.language, this.stage, this.topic).valueChanges(['child_added', 'child_removed']).subscribe( r => {
+    this.entryService.fetchEntries(this.language, this.stage, this.topic).valueChanges().subscribe( r => {
 
       this.entries = []; 
       this.topicScore = 0;
@@ -56,18 +60,16 @@ export class EntryComponent implements OnInit {
 
         if (e.native) {
 
-          const t = new Entry(this.language, this.stage, this.topic, e.native, e.foreign, e.score);
-          this.entries.push(t);
+          this.entries.push(new Entry(this.language, this.stage, this.topic, e.native, e.foreign, e.score));
           this.topicScore = this.topicScore + e.score;
 
         }
 
       });
 
-      if (this.entries[0]) {
+      if (this.entries[this.pointer]) {
 
-        this.entry = this.entries[0];
-        this.pointer = 0;
+        this.entry = this.entries[this.pointer];
         
       }
 
@@ -76,19 +78,18 @@ export class EntryComponent implements OnInit {
 
   }
 
+  ///////////////////////
+  // On Initialization //
+  ///////////////////////
   ngOnInit() {
 
-    this.onUpdateMode = this.entryService.getOnUpdateMode();
-    this.entry = this.entryService.getEntry();
-    
-    this.entryService.onUpdateModeHasChanged.subscribe (res => {
+    this.entryService.onUpdateModeHasChanged.subscribe (r => {
 
       this.onUpdateMode = this.entryService.getOnUpdateMode();
 
     });
 
-
-    this.entryService.entryHasChanged.subscribe( data => {
+    this.entryService.entryHasChanged.subscribe( r => {
 
       this.entry = this.entryService.getEntry();
 
@@ -189,8 +190,6 @@ export class EntryComponent implements OnInit {
     this.entryService.toggleOnUpdateMode();
 
   }
-
-
 
   /////////////
   // Getters //

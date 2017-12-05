@@ -16,6 +16,9 @@ export class AddEntryComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
+  private language: string;
+  private stage: string;
+  private topic: string;
   private native: string;
   private foreign: string;
 
@@ -24,43 +27,69 @@ export class AddEntryComponent implements OnInit {
   //////////////////
   public constructor(
 
-    public languageService: LanguageService,
-    public stageService: StageService,
-    public topicService: TopicService,
-    public entryService: EntryService
+    private languageService: LanguageService,
+    private stageService: StageService,
+    private topicService: TopicService,
+    private entryService: EntryService
 
-  ) { }
+  ) {
+
+    this.language = this.languageService.getLanguage().getName();
+    this.stage = this.stageService.getStage().getName();
+    this.topic = this.topicService.getTopic().getName();
+
+   }
   
   ////////////////////
   // Event Handlers //
   ////////////////////
   public onKey(event: any) { 
     
-      this.save();
-    
-    }
+    this.save();
+
+  }
   
   ///////////////
   // Functions //
   ///////////////
   public save(): void {
 
-    this.entryService.createEntry(
-
-      this.languageService.getLanguage().getName(),
-      this.stageService.getStage().getName(),
-      this.topicService.getTopic().getName(),
-      this.native,
-      this.foreign,
-      0
-
-    );
-
+    this.entryService.createEntry(this.language, this.stage, this.topic, this.native, this.foreign, 0);
     this.native = '';
     this.foreign = '';
 
   }
 
   ngOnInit() { }
+
+  /////////////
+  // Getters //
+  /////////////
+  public getNative(): string {
+
+    return this.native;
+
+  }
+
+  public getForeign(): string {
+
+    return this.foreign;
+
+  }
+
+  /////////////
+  // Setters //
+  /////////////
+  public setNative(native: string): void {
+  
+    this.native = native;
+
+  }
+
+  public setForeign(foreign: string): void {
+
+    this.foreign = foreign;
+
+  }
 
 }
