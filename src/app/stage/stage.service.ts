@@ -90,7 +90,7 @@ export class StageService {
 
   }
 
-  public getStageHasChanged(): EventEmitter {
+  public getStageHasChanged(): EventEmitter<any> {
 
     return this.stageHasChanged;
 
@@ -104,7 +104,7 @@ export class StageService {
     this.stage = stage;
     const t = this.stage.getName();
     sessionStorage.setItem('stage', t);
-    this.stageHasChanged.emit();
+    this.stageHasChanged.emit(this.stage);
     
   }
 

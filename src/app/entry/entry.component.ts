@@ -45,7 +45,7 @@ export class EntryComponent implements OnInit {
     this.language = this.languageService.getLanguage().getName();    
     this.stage = this.stageService.getStage().getName();
     this.topic = this.topicService.getTopic().getName();
-    this.entry = new Entry();
+    this.entry = new Entry('', '', '', '', '', 0);
     this.topicScore = 0;
     this.answerIsCorrect = true;
     this.pointer = 0;

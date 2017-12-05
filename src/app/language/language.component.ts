@@ -14,16 +14,16 @@ import { Language } from './language.model';
 })
 export class LanguageComponent implements OnInit {
 
-  ////////////////
-  // Attributes //
-  ////////////////
-  public language: Language;
-  public languages: Language[];
+  ///////////////
+  // Variables //
+  ///////////////
+  private language: Language;
+  private languages: Language[];
   private onUpdateMode: boolean;
 
   constructor(
 
-    public languageService: LanguageService,
+    private languageService: LanguageService,
     private router: Router
 
   ) {
@@ -71,7 +71,7 @@ export class LanguageComponent implements OnInit {
 
     this.onUpdateMode = this.languageService.getOnUpdateMode();
 
-    this.languageService.onUpdateModeHasChanged.subscribe ( res => {
+    this.languageService.getOnUpdateModeHasChanged().subscribe(r => {
 
       this.onUpdateMode = this.languageService.getOnUpdateMode();
 

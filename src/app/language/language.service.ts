@@ -15,7 +15,7 @@ export class LanguageService {
   ///////////////
   private language: Language;
   private onUpdateMode: boolean;
-  private onUpdateModeHasChanged: EventEmitter<any> = new EventEmitter();
+  private onUpdateModeHasChanged: EventEmitter<any>;
 
   /////////////////
   // Constructor //
@@ -27,6 +27,7 @@ export class LanguageService {
   ) {
 
     this.onUpdateMode = false;
+    this.onUpdateModeHasChanged = new EventEmitter();
 
   }
 
@@ -133,7 +134,7 @@ export class LanguageService {
 
   public setOnUpdateModeHasChanged(onUpdateModeHasChanged: EventEmitter<any>): void {
 
-    return this.onUpdateModeHasChanged;
+    this.onUpdateModeHasChanged = onUpdateModeHasChanged;
 
   }
 

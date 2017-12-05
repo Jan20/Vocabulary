@@ -141,9 +141,9 @@ export class EntryService {
 
       return new Entry(
 
-        this.language
-        this.stage
-        this.topic
+        this.language,
+        this.stage,
+        this.topic,
         sessionStorage.getItem('native'),
         sessionStorage.getItem('foreign'),
         +sessionStorage.getItem('score')

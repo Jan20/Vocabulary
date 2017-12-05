@@ -18,8 +18,10 @@ export class TopicService {
   ///////////////
   // Variables //
   ///////////////
+  private language: string;
+  private stage: string;
   private topic: Topic;
-  public topicHasChanged: EventEmitter<any> = new EventEmitter();
+  private topicHasChanged: EventEmitter<any>;
 
   /////////////////
   // Constructor //
@@ -27,15 +29,16 @@ export class TopicService {
   constructor(
 
     private db: AngularFireDatabase,
-    public languageService: LanguageService,
-    public stageService: StageService
+    private languageService: LanguageService,
+    private stageService: StageService
 
   ) {
 
-    const language = this.languageService.getLanguage().getName();
-    const stage = this.stageService.getStage().getName();
+    this.topicHasChanged = new EventEmitter();
+    this.language = this.languageService.getLanguage().getName();
+    this.stage = this.stageService.getStage().getName();
 
-    this.fetchTopics(language, stage).valueChanges().subscribe( r => {
+    this.fetchTopics(this.language, this.stage).valueChanges().subscribe( r => {
 
       const t: Topic[] = [];
 
@@ -43,11 +46,11 @@ export class TopicService {
 
         if (e.score) {
 
-          t.push(new Topic(language, stage, e.topic, e.score));
+          t.push(new Topic(this.language, this.stage, e.topic, e.score));
 
         } else {
 
-          t.push(new Topic(language, stage, e.topic, 0));          
+          t.push(new Topic(this.language, this.stage, e.topic, 0));          
 
         }
 
@@ -62,10 +65,6 @@ export class TopicService {
   ///////////////
   // Functions //
   ///////////////
-
-  /////////////////////////
-  // Database Connection //
-  /////////////////////////
 
   /////////
   // GET //
@@ -130,13 +129,19 @@ export class TopicService {
 
       return new Topic(
 
-        this.languageService.getLanguage().getName(),
-        this.stageService.getStage().getName(),
+        this.language,
+        this.stage,
         sessionStorage.getItem('topic'),
         +sessionStorage.getItem('topicScore')
         
       );
     }
+  }
+
+  public getTopicHasChanged(): EventEmitter<any> {
+
+    return this.topicHasChanged;
+
   }
 
   /////////////
@@ -150,6 +155,12 @@ export class TopicService {
     sessionStorage.setItem('topic', name);
     sessionStorage.setItem('topicScore', score);
     this.topicHasChanged.emit(this.topic);
+
+  }
+
+  public setTopicHasChanged(topicHasChanged: EventEmitter<any>): void {
+
+    this.topicHasChanged = topicHasChanged;
 
   }
 }

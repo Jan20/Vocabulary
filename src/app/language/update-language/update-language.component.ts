@@ -27,21 +27,12 @@ export class UpdateLanguageComponent implements OnInit {
 
   ) {
 
+    this.language = this.languageService.getLanguage();
+    
   }
 
   ngOnInit() {
 
-    this.language = this.languageService.getLanguage();
-
-    this.languageService.languageHasChanged.subscribe(
-
-      (res) => {
-
-        this.language = this.languageService.getLanguage();
-
-      }
-
-    );
   }
 
   ///////////////

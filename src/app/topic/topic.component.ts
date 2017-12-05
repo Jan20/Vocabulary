@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Router } from '@angular/router';
 
-// Model
+// Models
 import { Topic } from './topic.model';
 
 // Services
@@ -22,6 +21,8 @@ export class TopicComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
+  private language: string;
+  private stage: string;
   private topic: Topic;
   private topics: Topic[];
   private entries: Entry[];
@@ -33,19 +34,20 @@ export class TopicComponent implements OnInit {
   /////////////////
   public constructor(
 
-    public languageService: LanguageService,
-    public stageService: StageService,
-    public topicService: TopicService,
-    public entryService: EntryService,
+    private languageService: LanguageService,
+    private stageService: StageService,
+    private topicService: TopicService,
+    private entryService: EntryService,
     private router: Router
 
   ) {
 
+    this.language = this.languageService.getLanguage().getName();
+    this.stage = this.stageService.getStage().getName();
     this.score = 0;
-    const language = this.languageService.getLanguage().getName();
-    const stage = this.stageService.getStage().getName();
+    this.topics = [];       
       
-    this.topicService.fetchTopics(language, stage).valueChanges().subscribe( r => {
+    this.topicService.fetchTopics(this.language, this.stage).valueChanges().subscribe( r => {
 
       this.topics = [];       
 
@@ -54,18 +56,15 @@ export class TopicComponent implements OnInit {
         if (e.topic && e.score) {
           
           const m = Math.floor(e.score);
-          let t = new Topic(language, stage, e.topic, m);
-          this.topics.push(t);
+          this.topics.push(new Topic(this.language, this.stage, e.topic, m));
           
         } 
         
         if (e.topic && !e.score) {
           
-          let t = new Topic(language, stage, e.topic, 0);
-          this.topics.push(t);
+          this.topics.push(new Topic(this.language, this.stage, e.topic, 0)); 
           
         }
-
 
       });
 
@@ -75,40 +74,33 @@ export class TopicComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnInit() {  
+
+    this.stageService.getStageHasChanged().subscribe( res => {
     
+      this.topicService.fetchTopics(this.language, this.stageService.getStage().getName()).valueChanges().subscribe( r => {
 
-    this.stageService.stageHasChanged.subscribe( res => {
-      
-      const language = this.languageService.getLanguage().getName();
-      const stage = this.stageService.getStage().getName();
-      
-    this.topicService.fetchTopics(language, stage).valueChanges().subscribe( r => {
-
-      this.topics = []; 
-      
-      r.forEach( e => {
+        this.topics = []; 
         
-        if (e.topic && e.score) {
+        r.forEach( e => {
           
-          const m = Math.floor(e.score);
-          let t = new Topic(language, stage, e.topic, m);
-          this.topics.push(t);
-          
-        } else if (e.topic) {
-          
-          let t = new Topic(language, stage, e.topic, 0);
-          this.topics.push(t);
-          
-        }
+          if (e.topic && e.score) {
+            
+            const m = Math.floor(e.score);
+            this.topics.push(new Topic(this.language, this.stage, e.topic, m));
+            
+          } else if (e.topic) {
+            
+            this.topics.push(new Topic(this.language, this.stage, e.topic, 0)); 
+            
+          }
 
+        });
+
+        this.topic = this.topics[0];
 
       });
-
-      this.topic = this.topics[0];
-
     });
-  });
   }
 
   ///////////////
@@ -180,7 +172,5 @@ export class TopicComponent implements OnInit {
     this.scores = scores;
 
   }
-
-
 }
                             
