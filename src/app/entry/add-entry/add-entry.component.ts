@@ -54,7 +54,12 @@ export class AddEntryComponent implements OnInit {
   ///////////////
   public save(): void {
 
-    this.entryService.createEntry(this.language, this.stage, this.topic, this.native, this.foreign, 0);
+    if (this.native != '' && this.foreign != '') {
+
+      this.entryService.createEntry(this.language, this.stage, this.topic, this.native, this.foreign, 0);      
+
+    }
+
     this.native = '';
     this.foreign = '';
 
