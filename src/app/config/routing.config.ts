@@ -10,8 +10,10 @@ import { EntryComponent } from './../entry/entry.component';
 
 // Routing
 export const ROUTES: Routes = [
+
   { path: 'login', component: LoginComponent },
   { path: 'language', component: LanguageComponent },
   { path: '', component: StageComponent },
   { path: 'entry', component: EntryComponent },
+
 ];

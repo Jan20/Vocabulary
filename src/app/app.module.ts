@@ -1,92 +1,68 @@
 // Angular Components
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { NgModule } from '@angular/core'
+import { HttpModule } from '@angular/http'
+import { BrowserModule } from '@angular/platform-browser'
 import { APP_BASE_HREF } from '@angular/common'
-
-// Routes
-import { ROUTES } from './config/routing.config';
-import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 // Angular Material
-import { MaterialModule } from './material.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './config/material.module'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
-// Firebase
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { EngishConfig } from './config/firebase.config';
-import { SpanishConfig } from './config/firebase.config';
-
-// Services
-import { LanguageService } from './language/language.service';
-import { StageService } from './stage/stage.service';
-import { TopicService } from './topic/topic.service';
-import { EntryService } from './entry/entry.service';
-import { AuthService } from './login/auth.service';
 
 // Custom Components
-import { AppComponent } from './app.component';
-import { MenuComponent } from './menu/menu.component';
-import { LoginComponent } from './login/login.component';
-import { LanguageComponent } from './language/language.component';
-import { AddLanguageComponent } from './language/add-language/add-language.component';
-import { UpdateLanguageComponent } from './language/update-language/update-language.component';
-import { StageComponent } from './stage/stage.component';
-import { AddStageComponent } from './stage/add-stage/add-stage.component';
-import { TopicComponent } from './topic/topic.component';
-import { AddTopicComponent } from './topic/add-topic/add-topic.component';
-import { EntryComponent } from './entry/entry.component';
-import { AddEntryComponent } from './entry/add-entry/add-entry.component';
-import { UpdateEntryComponent } from './entry/update-entry/update-entry.component';
-import { SideEntryComponent } from './entry/side-entry/side-entry.component';
+import { AppComponent } from './app.component'
+
+// Custom Modules
+import { ConfigModule } from './config/config.module'
+import { UserModule } from './user/user.module'
+import { MenuModule } from './menu/menu.module'
+import { AssetModule } from './asset/asset.module'
+import { MarketModule } from './market/market.module'
+import { PortfolioModule } from './portfolio/portfolio.module'
+import { PortfolioMemberModule } from './portfolio-member/portfolio-member.module'
+import { MomentumModule } from './momentum/momentum.module'
+
+// Directives
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+
 
 @NgModule({
+  
   declarations: [
+    
     AppComponent,
-    MenuComponent,
-    LoginComponent,
-    LanguageComponent,
-    AddLanguageComponent,
-    UpdateLanguageComponent,
-    StageComponent,
-    AddStageComponent,
-    TopicComponent,
-    AddTopicComponent,
-    EntryComponent,
-    AddEntryComponent,
-    SideEntryComponent,
-    UpdateEntryComponent,
-  ],
-  imports: [
+  
+  ], imports: [
+    
+    MaterialModule,
     BrowserModule,
+    NgxChartsModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(
-      ROUTES,
-      { enableTracing: true }
-    ),
-    AngularFireModule.initializeApp(EngishConfig),
-    AngularFirestoreModule,
-    AngularFireDatabaseModule,
+    Ng2GoogleChartsModule,
     HttpModule,
+    HttpClientModule,
     BrowserAnimationsModule,
-    MaterialModule,
-  ],
-  providers: [
-    LanguageService,
-    StageService,
-    TopicService,
-    EntryService,
-    AuthService,
-    AngularFireAuth,
+    ConfigModule,
+    UserModule,
+    MenuModule,
+    MarketModule,
+    AssetModule,
+    PortfolioModule,
+    PortfolioMemberModule,
+    MomentumModule
+
+  ], providers: [
+    
     {provide: APP_BASE_HREF, useValue : '/' }
-  ],
-  bootstrap: [AppComponent, MenuComponent],
-  exports: [MaterialModule]
+  
+  ], bootstrap: [
+  
+    AppComponent
+  
+  ]
 })
 export class AppModule { }
