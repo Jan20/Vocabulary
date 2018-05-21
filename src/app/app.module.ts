@@ -10,24 +10,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './config/material.module'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
-
-// Custom Components
+// Components
 import { AppComponent } from './app.component'
 
-// Custom Modules
+// Modules
 import { ConfigModule } from './config/config.module'
-import { UserModule } from './user/user.module'
 import { MenuModule } from './menu/menu.module'
-import { AssetModule } from './asset/asset.module'
-import { MarketModule } from './market/market.module'
-import { PortfolioModule } from './portfolio/portfolio.module'
-import { PortfolioMemberModule } from './portfolio-member/portfolio-member.module'
-import { MomentumModule } from './momentum/momentum.module'
+import { UserModule } from './user/user.module'
+import { LanguageModule } from './language/language.module'
+import { StageModule } from './stage/stage.module'
+import { TopicModule } from './topic/topic.module'
+import { EntryModule } from './entry/entry.module'
 
 // Directives
-import {NgxChartsModule} from '@swimlane/ngx-charts';
-import { Ng2GoogleChartsModule } from 'ng2-google-charts';
-
+// import { NgxChartsModule } from '@swimlane/ngx-charts';
+// import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 @NgModule({
   
@@ -39,21 +36,20 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     
     MaterialModule,
     BrowserModule,
-    NgxChartsModule,
+    // NgxChartsModule,
     FormsModule,
     ReactiveFormsModule,
-    Ng2GoogleChartsModule,
+    // Ng2GoogleChartsModule,
     HttpModule,
     HttpClientModule,
     BrowserAnimationsModule,
     ConfigModule,
     UserModule,
     MenuModule,
-    MarketModule,
-    AssetModule,
-    PortfolioModule,
-    PortfolioMemberModule,
-    MomentumModule
+    LanguageModule,
+    // StageModule,
+    // TopicModule,
+    // EntryModule
 
   ], providers: [
     

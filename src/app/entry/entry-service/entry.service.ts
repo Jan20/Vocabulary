@@ -1,182 +1,106 @@
 import { Injectable, EventEmitter } from '@angular/core';
-
-// Firebase
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-
-// Model
-import { Entry } from './entry.model';
-
-// Services
-import { LanguageService } from './../language/language.service';
-import { StageService } from './../stage/stage.service';
-import { TopicService } from './../topic/topic.service';
-import { Observable } from '../../../../Flow/node_modules/rxjs/Observable';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { Subject } from 'rxjs';
+import { GenericService } from '../../config/generic-service'
+import { User } from '../../user/user-model/user';
+import { UserService } from '../../user/user-service/user.service';
+import { Entry } from './../entry-model/entry';
 
 @Injectable()
-export class EntryService {
+export class EntryService extends GenericService {
 
-  ////////////////
-  // Attributes //
-  ////////////////
-  private language: string;
-  private stage: string;
-  private topic: string;
-  private entry: Entry;
-  private entries: Entry[];
-  private onUpdateMode: boolean;
-  public onUpdateModeHasChanged: EventEmitter<any> = new EventEmitter();
-  public entryHasChanged: EventEmitter<any> = new EventEmitter();
+  ///////////////
+  // Variables //
+  ///////////////
+  private user: User
+  private entry: Entry
+  private entrys: Entry[]
 
-  /////////////////
-  // Constructor //
-  /////////////////
+  //////////////
+  // Subjects //
+  //////////////
+  public entrySubject: Subject<Entry> = new Subject<Entry>()
+  public entrysSubject: Subject<Entry[]> = new Subject<Entry[]>()
+
+  //////////////////
+  // Constructors //
+  //////////////////
   constructor(
-
-    private db: AngularFireDatabase,
-    private languageService: LanguageService,
-    private stageService: StageService,
-    private topicService: TopicService
-
-  ) {
-
-    this.language = languageService.getLanguage().getName(),
-    this.stage = stageService.getStage().getName(),
-    this.topic = topicService.getTopic().getName(),
-    this.onUpdateMode = false;
-
+  
+    private angularFirestore: AngularFirestore,
+    private userService: UserService,
+  
+  ) { 
+    
+    super() 
+  
   }
 
   ///////////////
   // Functions //
   ///////////////
+  public async fetchEntry(entryId: string): Promise<void> {
 
-  public toggleOnUpdateMode(): void {
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc<Entry>(`users/${this.user.userId}/entrys/${entryId}`).valueChanges().subscribe(entry => this.setEntry(entry))
 
-    if (this.onUpdateMode === true) {
+  }
+  
+  public async fetchEntrys(): Promise<void> {
 
-      this.onUpdateMode = false;
-      this.onUpdateModeHasChanged.emit(this.onUpdateMode);
-
-    } else {
-
-      this.onUpdateMode = true;
-      this.onUpdateModeHasChanged.emit(this.onUpdateMode);
-
-    }
+    await this.userService.getUser().then( user => this.user = user)
+    this.angularFirestore.collection<Entry>(`users/${this.user.userId}/entrys`).valueChanges().subscribe(entrys => this.setEntrys(entrys))
 
   }
 
-  /////////
-  // GET //
-  /////////
-  public fetchEntries(language: string, stage: string, topic: string): AngularFireList<any> {
-
-    return this.db.list('Vocabulary' + '/' + language + '/' + stage + '/' + topic);
-
-  }
-
-  //////////
-  // POST //
-  //////////
-  public createEntry(language: string, stage: string, topic: string, native: string, foreign: string, score: number): void {
-
-    this.db.object('Vocabulary' + '/' + language + '/' + stage + '/' + topic + '/' + native).set({
-
-      language: language,
-      stage: stage,
-      topic: topic,
-      native: native,
-      foreign: foreign,
-      score: score
-
-    });
+  public async addEntry(entry: string): Promise<void> {
+    
+    await this.userService.getUser().then(user => this.user = user)
+    const newEntry: any = {name: entry}
+    const entryCollection = this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/entrys/${entry}`)
+    entryCollection.add(newEntry)
+    entryCollection.ref.where('name', '==', name).get().then( entrys => entrys.docs.forEach(entry => entryCollection.doc(entry.id).update({ entryId: entry.id })))
+    this.setInAddMode(false)
 
   }
 
-  ////////////
-  // UPDATE //
-  ////////////
-  public updateEntry(language: string, stage: string, topic: string, native: string, foreign: string, score: number): void {
+  public async updateEntry(languageId: string, stageId: string, topicId: string, entryId: string, name: string): Promise<void> {
 
-    this.db.object('Vocabulary' + '/' + language + '/' + stage + '/' + topic + '/' + native).update({
-
-      language: language,
-      stage: stage,
-      topic: topic,
-      native: native,
-      foreign: foreign,
-      score: score
-
-    });
-
-    this.setEntry(new Entry(language, stage, topic, native, foreign, score));
-
-  }
-
-  ////////////
-  // Delete //
-  ////////////
-  public deleteEntry(language: string, stage: string, topic: string, native: string): void {
-
-    this.db.object('Vocabulary' + '/' + language + '/' + stage + '/' + topic + '/' + native).remove();
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries/${entryId}`).update({name: name})
 
   }
 
   /////////////
   // Getters //
   /////////////
-  public getOnUpdateMode(): boolean {
-
-    return this.onUpdateMode;
-
-  }
-
   public getEntry(): Entry {
 
-    if (this.entry) {
-
-      return this.entry;
-
-    } else {
-
-      return new Entry(
-
-        this.language,
-        this.stage,
-        this.topic,
-        sessionStorage.getItem('native'),
-        sessionStorage.getItem('foreign'),
-        +sessionStorage.getItem('score')
-
-      );
-    }
-  }
-
-  public getEntryHasChanged(): EventEmitter<any> {
-
-    return this.entryHasChanged;
+    return this.entry
 
   }
 
+  public getEntrys(): Entry[] {
+
+    return this.entrys
+
+  }
+  
   /////////////
   // Setters //
   /////////////
   public setEntry(entry: Entry): void {
 
-    this.entry = entry;
-    const a = this.entry.getNative();
-    const b = this.entry.getForeign();
-    const c = '' + this.entry.getScore();
-    sessionStorage.setItem('native', a);
-    sessionStorage.setItem('foreign', b);
-    sessionStorage.setItem('score', c);
-    this.entryHasChanged.emit();
+    this.entry  = entry
+    this.entrySubject.next(entry)
 
   }
+ 
+  public setEntrys(entrys: Entry[]): void {
 
-  public setEntryHasChanged(entryHasChanged: EventEmitter<any>): void {
-
-    this.entryHasChanged = entryHasChanged;
+    this.entrys = entrys
+    this.entrysSubject.next(entrys)
 
   }
 }

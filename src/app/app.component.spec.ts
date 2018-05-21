@@ -4,7 +4,6 @@ import { APP_BASE_HREF } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 // Angular Material
-import { MaterialModule } from '@angular/material';
 
 // Routing
 import { ROUTES } from './config/routing.config';
@@ -12,31 +11,15 @@ import { RouterModule, Routes } from '@angular/router';
 
 // Custom Components
 import { AppComponent } from './app.component';
-import { MenuComponent } from './menu/menu.component';
-import { LoginComponent } from './login/login.component';
-import { TopicComponent } from './topic/topic.component';
-import { AddStageComponent } from './topic/add-stage/add-stage.component';
-import { AddTopicComponent } from './topic/add-topic/add-topic.component';
-import { EntryComponent } from './entry/entry.component';
-import { AddEntryComponent } from './entry/add-entry/add-entry.component';
-import { SideEntryComponent } from './entry/side-entry/side-entry.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        MenuComponent,
-        LoginComponent,
-        TopicComponent,
-        AddStageComponent,
-        AddTopicComponent,
-        EntryComponent,
-        AddEntryComponent,
-        SideEntryComponent
+
       ],
       imports: [
-        MaterialModule,
         FormsModule,
         RouterModule.forRoot(
           ROUTES,

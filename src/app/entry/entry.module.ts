@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common'
 
 // Components
 import { EntryOverviewComponent } from './entry-overview/entry-overview.component'
-import { EntryAddComponent } from './entry-add/entry-add.component'
 import { EntryUpdateComponent } from './entry-update/entry-update.component'
 import { EntrySideComponent } from './entry-side/entry-side.component'
+import { EntryAddComponent } from './entry-add/entry-add.component'
 
 // Services
 import { EntryService } from './entry-service/entry.service'
@@ -19,10 +19,10 @@ import { EntryService } from './entry-service/entry.service'
   declarations: [
 
     EntryOverviewComponent,
-    EntryAddComponent,
     EntryUpdateComponent,
     EntrySideComponent,
-
+    EntryAddComponent,
+ 
   ],
   providers: [
 

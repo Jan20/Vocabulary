@@ -1,51 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-
-// Model
-import { Stage } from '../stage.model';
-
-// Services
-import { LanguageService } from './../../language/language.service';
-import { StageService } from '../stage.service';
+import { Component, OnInit } from '@angular/core'
+import { FormControl } from '@angular/forms'
+import { ActivatedRoute } from '@angular/router';
+import { Stage } from './../stage-model/stage'
+import { StageService } from './../stage-service/stage.service'
 
 @Component({
-  selector: 'app-add-stage',
-  templateUrl: './add-stage.component.html',
-  styleUrls: ['./add-stage.component.scss']
+  selector: 'app-stage-add',
+  templateUrl: './stage-add.component.html',
+  styleUrls: ['./stage-add.component.scss']
 })
-export class AddStageComponent implements OnInit {
+export class StageAddComponent implements OnInit {
 
   ///////////////
   // Variables //
   ///////////////
-  private name: string;
+  private name: string
+  public title = 'Add Stage'
+  public nameFormControl: FormControl = new FormControl()
 
   //////////////////
   // Constructors //
   //////////////////
   public constructor(
+  
+    public activatedRoute: ActivatedRoute,
+    public stageService: StageService,
 
-    public languageService: LanguageService,
-    public stageService: StageService
-
-  ) { }
+  ) {}
 
   ngOnInit() {
-
+  
+    this.nameFormControl.valueChanges.subscribe(name => this.name = name)
+  
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public save(): void {
+  public addStage(): void {
 
-    this.stageService.createStage(
-
-      this.languageService.getLanguage().getName(),
-      this.name
-
-    );
-
-    this.name = '';
+    this.activatedRoute.params.subscribe(params => this.stageService.addStage(params['languageId'], this.name))
+    this.nameFormControl.reset()
 
   }
 

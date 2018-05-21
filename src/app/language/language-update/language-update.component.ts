@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-
-// Model
-import { Language } from './../language-model/language';
-
-// Services
-import { LanguageService } from './../language-service/language.service';
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms'
+import { LanguageService } from './../language-service/language.service'
+import { Language } from './../language-model/language'
 
 @Component({
   selector: 'app-language-update',
@@ -16,56 +14,36 @@ export class LanguageUpdateComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private language: Language;
-  
+  private name: string
+  public nameFormControl: FormControl = new FormControl()
+
   //////////////////
   // Constructors //
   //////////////////
   public constructor(
 
+    private activatedRoute: ActivatedRoute,
     private languageService: LanguageService,
 
-  ) {
-
-    this.language = this.languageService.getLanguage();
-    
-  }
+  ) {}
 
   ngOnInit() {
+
+    this.nameFormControl.valueChanges.subscribe(name => this.name = name)
 
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public save(): void {
+  public updateLanguage(): void {
 
-    this.languageService.updateLanguage(
+    this.activatedRoute.params.subscribe(params => {
 
-      this.language.getName()
+      this.languageService.updateLanguage(params['languageId'], name)
+      this.nameFormControl.reset()
 
-    );
-
-    this.languageService.toggleOnUpdateMode();
-
-  }
-
-  /////////////
-  // Getters //
-  /////////////
-  public getLanguage(): Language {
-
-    return this.language;
+    })
 
   }
-
-  /////////////
-  // Setters //
-  /////////////
-  public setLanguage(language: Language): void {
-
-    this.language = language;
-
-  }
-
 }

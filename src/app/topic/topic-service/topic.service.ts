@@ -1,166 +1,109 @@
-// Angular Modules
 import { Injectable, EventEmitter } from '@angular/core';
-
-// Firebase
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-
-// Model
 import { Topic } from './../topic-model/topic';
-
-// Services
-import { LanguageService } from './../language-service/language.service';
-import { StageService } from './../stage/stage.service';
-import { Observable } from '../../../../Flow/node_modules/rxjs/Observable';
+import { GenericService } from '../../config/generic-service'
+import { User } from '../../user/user-model/user';
+import { Subject } from 'rxjs';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { UserService } from '../../user/user-service/user.service';
 
 @Injectable()
-export class TopicService {
+export class TopicService extends GenericService{
 
   ///////////////
   // Variables //
   ///////////////
-  private language: string;
-  private stage: string;
-  private topic: Topic;
-  private topicHasChanged: EventEmitter<any>;
+  private user: User
+  private topic: Topic
+  private portfolios: Topic[]
 
-  /////////////////
-  // Constructor //
-  /////////////////
+  //////////////
+  // Subjects //
+  //////////////
+  public portfolioSubject: Subject<Topic> = new Subject<Topic>()
+  public portfoliosSubject: Subject<Topic[]> = new Subject<Topic[]>()
+
+  //////////////////
+  // Constructors //
+  //////////////////
   constructor(
-
-    private db: AngularFireDatabase,
-    private languageService: LanguageService,
-    private stageService: StageService
-
-  ) {
-
-    this.topicHasChanged = new EventEmitter();
-    this.language = this.languageService.getLanguage().getName();
-    this.stage = this.stageService.getStage().getName();
-
-    this.fetchTopics(this.language, this.stage).valueChanges().subscribe( r => {
-
-      const t: Topic[] = [];
-
-      r.forEach( e => {
-
-        if (e.score) {
-
-          t.push(new Topic(this.language, this.stage, e.topic, e.score));
-
-        } else {
-
-          t.push(new Topic(this.language, this.stage, e.topic, 0));          
-
-        }
-
-      });
-
-      this.topic = t[0];
-
-    });
-
+  
+    private angularFirestore: AngularFirestore,
+    private userService: UserService,
+  
+  ) { 
+    
+    super() 
+  
   }
 
   ///////////////
   // Functions //
   ///////////////
+  public async fetchTopic(portfolioId: string): Promise<void> {
 
-  /////////
-  // GET //
-  /////////
-  public fetchTopics(language: string, stage: string): AngularFireList<any> {
-
-    return this.db.list('Vocabulary' + '/' + language + '/' + stage);
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc<Topic>(`users/${this.user.userId}/portfolios/${portfolioId}`).valueChanges().subscribe(topic => this.setTopic(topic))
 
   }
 
-  ////////////
-  // UPDATE //
-  ////////////
-  public updateTopic(language: string, stage: string, topic: string, score: number): void {
+  
+  public async fetchTopics(): Promise<void> {
+
+    await this.userService.getUser().then( user => this.user = user)
+    this.angularFirestore.collection<Topic>(`users/${this.user.userId}/portfolios`).valueChanges().subscribe(portfolios => this.setTopics(portfolios))
+
+  }
+
+
+  public async addTopic(language: string, stage: string, topic: string): Promise<void> {
     
-    this.db.object('Vocabulary' + '/' + language + '/' + stage + '/' + topic).update(
-      
-      {language: language, stage: stage, topic: topic, score: score}
-
-    );
-
-    this.setTopic(new Topic(language, stage, topic, score));
-
-  }
-
-  //////////
-  // POST //
-  //////////
-  public createTopic(language: string, stage: string, name: string): void {
-
-    this.db.object('Vocabulary' + '/' + language + '/' + stage + '/' + name).set({
-
-      topic: name
-
-    });
+    await this.userService.getUser().then(user => this.user = user)
+    const newTopic: any = {language: language, stage: stage, topic: topic}
+    const portfolioCollection = this.angularFirestore.collection<Topic>(`/users/${this.user.userId}/languages/${language}/stages/${stage}/topics/${topic}`)
+    portfolioCollection.add(newTopic)
+    portfolioCollection.ref.where('name', '==', name).get().then( portfolios => portfolios.docs.forEach(topic => portfolioCollection.doc(topic.id).update({ portfolioId: topic.id })))
+    this.setInAddMode(false)
 
   }
 
-  ////////////
-  // UPDATE //
-  ////////////
+  public async updateTopic(portfolioId: string): Promise<void> {
 
-  ////////////
-  // Delete //
-  ////////////
-  public deleteTopic(language: string, stage: string, topic: string): void {
-
-    this.db.object('Vocabulary' + '/' + language + '/' + stage + '/' + topic).remove();
+    await this.userService.getUser().then(user => this.user = user)
 
   }
+
 
   /////////////
   // Getters //
   /////////////
   public getTopic(): Topic {
 
-    if (this.topic) {
-
-      return this.topic;
-
-    } else {
-
-      return new Topic(
-
-        this.language,
-        this.stage,
-        sessionStorage.getItem('topic'),
-        +sessionStorage.getItem('topicScore')
-        
-      );
-    }
-  }
-
-  public getTopicHasChanged(): EventEmitter<any> {
-
-    return this.topicHasChanged;
+    return this.topic
 
   }
 
+  public getTopics(): Topic[] {
+
+    return this.portfolios
+
+  }
+  
   /////////////
   // Setters //
   /////////////
   public setTopic(topic: Topic): void {
 
-    this.topic = topic;
-    const name = this.topic.getName();
-    const score = this.topic.getScore().toString();
-    sessionStorage.setItem('topic', name);
-    sessionStorage.setItem('topicScore', score);
-    this.topicHasChanged.emit(this.topic);
+    this.topic  = topic
+    this.portfolioSubject.next(topic)
+
+  }
+ 
+  public setTopics(portfolios: Topic[]): void {
+
+    this.portfolios = portfolios
+    this.portfoliosSubject.next(portfolios)
 
   }
 
-  public setTopicHasChanged(topicHasChanged: EventEmitter<any>): void {
-
-    this.topicHasChanged = topicHasChanged;
-
-  }
 }

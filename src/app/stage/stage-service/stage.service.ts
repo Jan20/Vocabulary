@@ -1,116 +1,106 @@
-// Angular Modules
 import { Injectable, EventEmitter } from '@angular/core';
-
-// Firebase
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-
-// Model
-import { Stage } from './stage.model';
-
-// Services
-import { LanguageService } from './../language/language.service';
-import { Observable } from '../../../../Flow/node_modules/rxjs/Observable';
+import { Stage } from './../stage-model/stage';
+import { GenericService } from '../../config/generic-service'
+import { User } from '../../user/user-model/user';
+import { Subject } from 'rxjs';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { UserService } from '../../user/user-service/user.service';
 
 @Injectable()
-export class StageService {
+export class StageService extends GenericService{
 
   ///////////////
   // Variables //
   ///////////////
-  private language: string;
-  private stage: Stage;
-  private stageHasChanged: EventEmitter<any>;
+  private user: User
+  private stage: Stage
+  private stages: Stage[]
 
-  /////////////////
-  // Constructor //
-  /////////////////
+  //////////////
+  // Subjects //
+  //////////////
+  public stageSubject: Subject<Stage> = new Subject<Stage>()
+  public stagesSubject: Subject<Stage[]> = new Subject<Stage[]>()
+
+  //////////////////
+  // Constructors //
+  //////////////////
   constructor(
-
-    private db: AngularFireDatabase,
-    private languageService: LanguageService,
-
-  ) {
-
-    this.language = this.languageService.getLanguage().getName();    
-    this.stageHasChanged = new EventEmitter();
-
+  
+    private angularFirestore: AngularFirestore,
+    private userService: UserService,
+  
+  ) { 
+    
+    super() 
+  
   }
 
   ///////////////
   // Functions //
   ///////////////
+  public async fetchStage(languageId: string, stageId: string): Promise<void> {
 
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc<Stage>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}`).valueChanges().subscribe(stage => this.setStage(stage))
 
-  /////////
-  // GET //
-  /////////
-  public fetchStages(language: string): AngularFireList<any> {
+  }
+  
+  public async fetchStages(languageId: string): Promise<void> {
 
-    return this.db.list('Vocabulary' + '/' + language);
+    await this.userService.getUser().then( user => this.user = user)
+    this.angularFirestore.collection<Stage>(`users/${this.user.userId}/languages/${languageId}/stages`).valueChanges().subscribe(stages => this.setStages(stages))
 
   }
 
-  //////////
-  // POST //
-  //////////
-  public createStage(language: string, name: string): void {
+  public async addStage(languageId: string, name: string): Promise<void> {
+    
+    await this.userService.getUser().then(user => this.user = user)
+    const newStage: any = {name: name}
+    const stageCollection = this.angularFirestore.collection<Stage>(`/users/${this.user.userId}/languages/${languageId}/stages`)
+    stageCollection.add(newStage)
+    stageCollection.ref.where('name', '==', name).get().then( stages => stages.docs.forEach(stage => stageCollection.doc(stage.id).update({ stageId: stage.id })))
+    this.setInAddMode(false)
 
-    this.db.object('Vocabulary' + '/' + language + '/' + name).set({ stage: name });
-    this.setStage(new Stage(language, name));
+  }
+
+  public async updateStage(stageId: string): Promise<void> {
+
+    await this.userService.getUser().then(user => this.user = user)
 
   }
 
-  ////////////
-  // UPDATE //
-  ////////////
-
-  ////////////
-  // Delete //
-  ////////////
-  public deleteStage(language: string, name: string): void {
-
-    this.db.object('Vocabulary' + '/' + language + '/' + name).remove();
-
-  }
 
   /////////////
   // Getters //
   /////////////
   public getStage(): Stage {
 
-    if (this.stage) {
-
-      return this.stage;
-
-    } else {
-
-      return new Stage( this.language, sessionStorage.getItem('stage'));
-
-    }
+    return this.stage
 
   }
 
-  public getStageHasChanged(): EventEmitter<any> {
+  public getStages(): Stage[] {
 
-    return this.stageHasChanged;
+    return this.stages
 
   }
-
+  
   /////////////
   // Setters //
   /////////////
   public setStage(stage: Stage): void {
 
-    this.stage = stage;
-    const t = this.stage.getName();
-    sessionStorage.setItem('stage', t);
-    this.stageHasChanged.emit(this.stage);
-    
+    this.stage  = stage
+    this.stageSubject.next(stage)
+
   }
+ 
+  public setStages(stages: Stage[]): void {
 
-  public setStageHasChanged(stageHasChanged: EventEmitter<any>): void {
-
-    this.stageHasChanged = stageHasChanged;
+    this.stages = stages
+    this.stagesSubject.next(stages)
 
   }
 

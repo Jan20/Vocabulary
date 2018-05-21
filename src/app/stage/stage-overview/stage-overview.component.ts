@@ -8,11 +8,11 @@ import { LanguageService } from './../language/language.service';
 import { StageService } from './../stage/stage.service';
 
 @Component({
-  selector: 'app-stage',
-  templateUrl: './stage.component.html',
-  styleUrls: ['./stage.component.scss']
+  selector: 'app-stage-overview',
+  templateUrl: './stage-overview.component.html',
+  styleUrls: ['./stage-overview.component.scss']
 })
-export class StageComponent implements OnInit {
+export class StageOverviewComponent implements OnInit {
 
   ///////////////
   // Variables //

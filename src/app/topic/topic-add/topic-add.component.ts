@@ -1,12 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-
-// Model
-import { Topic } from '../topic.model';
-
-// Services
-import { LanguageService } from './../../language/language.service';
-import { StageService } from './../../stage/stage.service';
-import { TopicService } from './../../topic/topic.service';
+import { Component, OnInit } from '@angular/core'
+import { FormControl } from '@angular/forms'
+import { ActivatedRoute } from '@angular/router';
+import { Topic } from './../topic-model/topic'
+import { TopicService } from './../topic-service/topic.service'
 
 @Component({
   selector: 'app-topic-add',
@@ -18,75 +14,33 @@ export class TopicAddComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private name: string;
-  private onAddMode: boolean;
+  private name: string
+  public title = 'Add Topic'
+  public nameFormControl: FormControl = new FormControl()
 
-  /////////////////
-  // Constructor //
-  /////////////////
+  //////////////////
+  // Constructors //
+  //////////////////
   public constructor(
+  
+    public activatedRoute: ActivatedRoute,
+    public topicService: TopicService,
 
-    private languageService: LanguageService,
-    private stageService: StageService,
-    private topicService: TopicService
-
-  ) {
-
-    this.onAddMode = false;
-
-  }
+  ) {}
 
   ngOnInit() {
-
-    // this.languageService.languageHasChanged.subscribe( res => {
-
-    //   this.language = this.languageService.getLanguage().getName();
-
-    // });
-
-    // this.topicService.stageHasChanged.subscribe( res => {
-
-    //     this.stage = this.topicService.getStage();
-
-    // });
-
+  
+    this.nameFormControl.valueChanges.subscribe(name => this.name = name)
+  
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public toggleOnAddMode(): void {
+  public addMarket(): void {
 
-    if (this.onAddMode === false) {
-
-      this.onAddMode = true;
-
-    } else {
-
-      this.onAddMode = false;
-
-    }
+    this.activatedRoute.params.subscribe(params => this.topicService.addTopic(params['language'], params['stage'], this.name))
+    this.nameFormControl.reset()
 
   }
-
-  public save(): void {
-
-    if (this.name === '') { return; };
-    console.log('create stage');
-    console.log(this.languageService.getLanguage().getName());
-    console.log(this.stageService.getStage().getName());
-    console.log(this.name);
-    this.topicService.createTopic(
-
-      this.languageService.getLanguage().getName(),
-      this.stageService.getStage().getName(),
-      this.name
-
-    );
-
-    this.toggleOnAddMode();
-
-  }
-
-
 }

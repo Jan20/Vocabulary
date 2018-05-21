@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-
-// Model
-import { Language } from './../language-model/language';
-
-// Services
-import { LanguageService } from './../language-service/language.service';
+import { Component, OnInit } from '@angular/core'
+import { FormControl } from '@angular/forms'
+import { ActivatedRoute } from '@angular/router';
+import { Language } from './../language-model/language'
+import { LanguageService } from './../language-service/language.service'
 
 @Component({
   selector: 'app-language-add',
@@ -16,87 +14,33 @@ export class LanguageAddComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private name: string;
-  private onAddMode: boolean;
+  private name: string
+  public title = 'Add Language'
+  public nameFormControl: FormControl = new FormControl()
 
-  /////////////////
-  // Constructor //
-  /////////////////
+  //////////////////
+  // Constructors //
+  //////////////////
   public constructor(
+  
+    public activatedRoute: ActivatedRoute,
+    public languageService: LanguageService,
 
-    private languageService: LanguageService,
-
-  ) {
-
-    this.onAddMode = false;
-
-  }
+  ) {}
 
   ngOnInit() {
-
-    // this.languageService.languageHasChanged.subscribe(
-
-    //   (res) => {
-
-    //     this.language = this.languageService.getLanguage();
-
-    //   }
-
-    // );
-
+  
+    this.nameFormControl.valueChanges.subscribe(name => this.name = name)
+  
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public save(): void {
+  public addStage(): void {
 
-    this.languageService.createLanguage(this.name);
-    this.toggleMode();
-    this.name = '';
-
-  }
-
-  public toggleMode(): void {
-
-    if (this.onAddMode === false) {
-
-      this.onAddMode = true;
-
-    } else {
-
-      this.onAddMode = false;
-
-    }
-
-  }
-
-  /////////////
-  // Getters //
-  /////////////
-  public getName(): string {
-
-    return this.name;
-
-  }
-
-  public getAnAddMode(): boolean {
-
-    return this.onAddMode;
-
-  }
-  /////////////
-  // Setters //
-  /////////////
-  public setName(name: string): void {
-
-    this.name = name;
-
-  }
-
-  public setOnAddMode(onAddMode: boolean): void {
-
-    this.onAddMode = onAddMode;
+    this.activatedRoute.params.subscribe(params => this.languageService.addLanguage(this.name))
+    this.nameFormControl.reset()
 
   }
 

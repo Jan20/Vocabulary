@@ -1,12 +1,11 @@
 <!-- Fab Button -->
-<div class='add-button-container' *ngIf='onAddMode === false'>
-  <button mat-fab class='add-button' (click)='toggleOnAddMode()'>
+<div class='add-button-container' *ngIf='topicService.inAddMode === false'>
+  <button mat-fab class='add-button' (click)='topicService.toggleInAddMode()'>
     <mat-icon>add</mat-icon>
   </button>
 </div>
 
-<div class='whitespace'></div>
-<div class='card-button-container' *ngIf='onAddMode === true'>
+<div class='card-button-container' *ngIf='topicService.inAddMode === true'>
   <mat-card>
       <mat-grid-list cols="12" class='large-grid-list'>
         <mat-grid-tile colspan='12' class='large-tile'>
@@ -18,7 +17,7 @@
   </mat-card>
 </div>
 
-<div class='fab-button-container' *ngIf='onAddMode === true'>
+<div class='fab-button-container' *ngIf='topicService.inAddMode === true'>
   <button mat-fab (click)='save()'>
     <mat-icon>done</mat-icon>
   </button>

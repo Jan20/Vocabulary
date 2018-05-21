@@ -1,13 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-
-// Models
-import { Entry } from '../entry.model';
-
-// Services
-import { LanguageService } from './../../language/language.service';
-import { StageService } from './../../stage/stage.service';
-import { TopicService } from './../../topic/topic.service';
-import { EntryService } from '../entry.service';
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms'
+import { EntryService } from './../entry-service/entry.service'
+import { Entry } from './../entry-model/entry'
 
 @Component({
   selector: 'app-entry-update',
@@ -19,102 +14,36 @@ export class EntryUpdateComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private entry: Entry;
-  private formerEntry: string;
+  private name: string
+  public nameFormControl: FormControl = new FormControl()
 
   //////////////////
   // Constructors //
   //////////////////
   public constructor(
 
-    private entryService: EntryService
+    private activatedRoute: ActivatedRoute,
+    private entryService: EntryService,
 
-  ) {
-
-    this.formerEntry = this.entryService.getEntry().getNative();
-    this.entry = this.entryService.getEntry();
-
-  }
+  ) {}
 
   ngOnInit() {
 
-    this.entryService.entryHasChanged.subscribe( r => {
+    this.nameFormControl.valueChanges.subscribe(name => this.name = name)
 
-      this.entry = this.entryService.getEntry();
-      
-    });
-
-  }
-  
-  ////////////////////
-  // Event Handlers //
-  ////////////////////
-  public onKey(event: any) { 
-  
-    this.saveChanges();
-  
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public saveChanges(): void {
-    console.log(this.formerEntry);
-    this.entryService.deleteEntry(
+  public updateEntry(): void {
 
-      this.entry.getLanguage(),
-      this.entry.getStage(),
-      this.entry.getTopic(),
-      this.formerEntry
+    this.activatedRoute.params.subscribe(params => {
 
-    );
-    console.log(this.entry);
-    this.entryService.createEntry(
-      
-      this.entry.getLanguage(),
-      this.entry.getStage(),
-      this.entry.getTopic(),
-      this.entry.getNative(),
-      this.entry.getForeign(),
-      0
+      this.entryService.updateEntry(params['languageId'], params['stageId'], params['topicId'], params['entryId'], name)
+      this.nameFormControl.reset()
 
-    );
-    
-    this.entryService.toggleOnUpdateMode();
+    })
 
   }
-
-  public deleteEntry(): void {
-
-    this.entryService.deleteEntry(
-
-      this.entry.getLanguage(),
-      this.entry.getStage(),
-      this.entry.getTopic(),
-      this.entry.getNative()
-
-    );
-
-    this.entryService.toggleOnUpdateMode();    
-
-  }
-  
-  /////////////
-  // Getters //
-  /////////////
-  public getEntry(): Entry {
-
-    return this.entry;
-
-  }
-
-  /////////////
-  // Setters //
-  /////////////
-  public setEntry(entry: Entry): void {
-
-    this.entry = entry;
-
-  }
-
 }

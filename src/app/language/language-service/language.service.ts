@@ -1,88 +1,74 @@
-// Angular Modules
 import { Injectable, EventEmitter } from '@angular/core';
-
-// Firebase
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-
-// Model
-import { Language } from './language.model';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { Subject } from 'rxjs';
+import { GenericService } from '../../config/generic-service'
+import { User } from '../../user/user-model/user';
+import { UserService } from '../../user/user-service/user.service';
+import { Language } from './../language-model/language';
 
 @Injectable()
-export class LanguageService {
+export class LanguageService extends GenericService{
 
   ///////////////
   // Variables //
   ///////////////
-  private language: Language;
-  private onUpdateMode: boolean;
-  private onUpdateModeHasChanged: EventEmitter<any>;
+  private user: User
+  private language: Language
+  private languages: Language[]
 
-  /////////////////
-  // Constructor //
-  /////////////////
+  //////////////
+  // Subjects //
+  //////////////
+  public languageSubject: Subject<Language> = new Subject<Language>()
+  public languagesSubject: Subject<Language[]> = new Subject<Language[]>()
+
+  //////////////////
+  // Constructors //
+  //////////////////
   constructor(
-
-    private db: AngularFireDatabase,
-
-  ) {
-
-    this.onUpdateMode = false;
-    this.onUpdateModeHasChanged = new EventEmitter();
-
+  
+    private angularFirestore: AngularFirestore,
+    private userService: UserService,
+  
+  ) { 
+    
+    super() 
+  
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public toggleOnUpdateMode(): void {
+  public async fetchLanguage(languageId: string): Promise<void> {
 
-    if (this.onUpdateMode === true) {
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc<Language>(`users/${this.user.userId}/languages/${languageId}`).valueChanges().subscribe(language => this.setLanguage(language))
 
-      this.onUpdateMode = false;
-      this.onUpdateModeHasChanged.emit(this.onUpdateMode);
+  }
+  
+  public async fetchLanguages(): Promise<void> {
 
-    } else {
-
-      this.onUpdateMode = true;
-      this.onUpdateModeHasChanged.emit(this.onUpdateMode);
-
-    }
+    await this.userService.getUser().then( user => this.user = user)
+    this.angularFirestore.collection<Language>(`users/${this.user.userId}/languages`).valueChanges().subscribe(languages => this.setLanguages(languages))
 
   }
 
-  /////////
-  // GET //
-  /////////
-  public fetchLanguages(): AngularFireList<any> {
-
-    return this.db.list('Vocabulary');
-
-  }
-
-  //////////
-  // POST //
-  //////////
-  public createLanguage(name: string): void {
-
-    this.db.object('Vocabulary' + '/' + name).set({ language: name });
+  public async addLanguage(language: string): Promise<void> {
+    
+    await this.userService.getUser().then(user => this.user = user)
+    const newLanguage: any = {name: language}
+    const languageCollection = this.angularFirestore.collection<Language>(`/users/${this.user.userId}/languages/${language}`)
+    languageCollection.add(newLanguage)
+    languageCollection.ref.where('name', '==', name).get().then( languages => languages.docs.forEach(language => languageCollection.doc(language.id).update({ languageId: language.id })))
+    this.setInAddMode(false)
 
   }
 
-  ////////////
-  // UPDATE //
-  ////////////
-  public updateLanguage(language: string): void {
+  public async updateLanguage(language: string, new_language: string): Promise<void> {
 
-    this.db.object('Vocabulary' + '/' + language).update({ language: language });
-
-  }
-
-  ////////////
-  // Delete //
-  ////////////
-  public deleteLanguage(language: string): void {
-
-    this.db.object('Vocabulary' + '/' + language).remove();
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${language}`).update({name: new_language})
 
   }
 
@@ -91,50 +77,30 @@ export class LanguageService {
   /////////////
   public getLanguage(): Language {
 
-    if (this.language) {
-
-      return this.language;
-
-    } else {
-
-      return new Language(sessionStorage.getItem('language'));
-
-    }
+    return this.language
 
   }
 
-  public getOnUpdateMode(): boolean {
+  public getLanguages(): Language[] {
 
-    return this.onUpdateMode;
-
-  }
-
-  public getOnUpdateModeHasChanged(): EventEmitter<any> {
-
-    return this.onUpdateModeHasChanged;
+    return this.languages
 
   }
-
+  
   /////////////
   // Setters //
   /////////////
   public setLanguage(language: Language): void {
 
-    this.language = language;
-    const t = this.language.getName();
-    sessionStorage.setItem('language', t);
+    this.language  = language
+    this.languageSubject.next(language)
 
   }
+ 
+  public setLanguages(languages: Language[]): void {
 
-  public setOnUpdateMode(onUpdateMode: boolean): void {
-
-    this.onUpdateMode = onUpdateMode;
-
-  }
-
-  public setOnUpdateModeHasChanged(onUpdateModeHasChanged: EventEmitter<any>): void {
-
-    this.onUpdateModeHasChanged = onUpdateModeHasChanged;
+    this.languages = languages
+    this.languagesSubject.next(languages)
 
   }
 

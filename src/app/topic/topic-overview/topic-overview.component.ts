@@ -119,58 +119,5 @@ export class TopicOverviewComponent implements OnInit {
 
   }
 
-  /////////////
-  // Getters //
-  /////////////
-  public getTopic(): Topic {
-
-    return this.topic
-
-  }
-
-  public getTopics(): Topic[] {
-
-    return this.topics
-
-  }
-
-  public getScore(): number {
-
-    return this.score
-
-  }
-
-  public getScores(): number[] {
-
-    return this.scores
-
-  }
-
-  /////////////
-  // Setters //
-  /////////////
-  public setTopic(topic: Topic): void {
-
-    this.topic = topic
-
-  }
-
-  public setTopics(topics: Topic[]): void {
-
-    this.topics = topics
-
-  }
-
-  public setScore(score: number): void {
-
-    this.score = score
-
-  }
-
-  public setScores(scores: number[]): void {
-
-    this.scores = scores
-
-  }
 }
                             
