@@ -1,10 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
-import { LanguageService } from '../../language/language-service/language.service'
-import { StageService } from '../../stage/stage-service/stage.service'
 import { TopicService } from '../topic-service/topic.service'
-import { EntryService } from '../../entry/entry-service/entry.service'
-import { Entry } from '../../entry/entry-model/entry'
 import { Topic } from './../topic-model/topic'
 
 @Component({

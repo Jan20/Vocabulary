@@ -3,9 +3,9 @@ export class Topic {
     ///////////////
     // Variables //
     ///////////////
-    private topicId: string
-    private name: string
-    private score: number
+    public topicId: string
+    public name: string
+    public score: number
 
     /////////////////
     // Constructor //

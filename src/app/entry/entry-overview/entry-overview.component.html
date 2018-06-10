@@ -41,8 +41,8 @@
   </div>
   
   <!-- Check Button -->
-  <div class='fab-button-container' *ngIf='entryService.inAddMode === false'>
-    <button mat-fab (click)='check()'>
+  <div *ngIf='entryService.inAddMode === false' class='fab-button-container' >
+    <button mat-fab (click)='check()' class='check-button'>
         <mat-icon>done</mat-icon>
     </button>
   </div>

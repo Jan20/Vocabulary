@@ -22,6 +22,7 @@ export class EntryService extends GenericService {
   //////////////
   public entrySubject: Subject<Entry> = new Subject<Entry>()
   public entriesSubject: Subject<Entry[]> = new Subject<Entry[]>()
+  public selectSubject: Subject<boolean> = new Subject<boolean>()
 
   //////////////////
   // Constructors //
@@ -68,7 +69,7 @@ export class EntryService extends GenericService {
   public async updateEntry(languageId: string, stageId: string, topicId: string, entry: Entry): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries/${entry.getEntryId()}`).update({score: entry.getScore()})
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries/${entry.entryId}`).update({score: entry.score})
 
   }
 

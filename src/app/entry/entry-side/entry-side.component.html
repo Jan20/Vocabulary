@@ -15,7 +15,7 @@
       </div>
     
     <!-- Button to open the newTopic form -->
-    <button mat-button class="control-button" (click)='toggleFlag()' *ngIf='!flag'> 
+    <button mat-button class="control-button" (click)='toggleFlag()' *ngIf='!flag' (keyup.enter)='onKey($event)'> 
       <mat-icon>expand_more</mat-icon>
     </button>
   

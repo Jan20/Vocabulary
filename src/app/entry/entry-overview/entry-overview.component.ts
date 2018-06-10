@@ -51,17 +51,30 @@ export class EntryOverviewComponent implements OnInit {
 
     this.topicService.topicSubject.subscribe(topic => this.topic = topic)
     this.entryService.entriesSubject.subscribe(entries => {
-      console.log(entries)
-      this.entries = entries
+      
+      if (this.entryService.getEntry() == null) {
 
-      if (this.entries != []) {
+        this.entries = entries
+        if (this.entries[0] != null && this.entries[0] != undefined) {
 
-        this.entry = this.entries[0]
+          this.entry = this.entries[0]
+
+        }
 
       }
-
+      
     })
 
+    this.entryService.selectSubject.subscribe(boolean => {
+
+      this.entry = this.entryService.getEntry()
+      
+      for(let i = 0; i < this.entries.length; i++) {
+
+        this.entry.native === this.entries[i].native ? this.pointer = i : null
+
+      }
+    })
   }
 
   ////////////////////
@@ -78,18 +91,16 @@ export class EntryOverviewComponent implements OnInit {
   ///////////////
   public check() {
 
-    this.answer = ''
-
     if (this.answer === this.entry.foreign) {
 
       this.answerIsCorrect = true
 
-      if (this.entry.getScore() < 5) {
+      if (this.entry.score < 5) {
 
-        this.topic.setScore(this.topic.getScore() + 1)
+        this.topic.score = this.topic.score + 1
         this.topicService.updateTopic(this.languageId, this.stageId, this.topic)
   
-        this.entry.setScore(this.entry.getScore() + 1)
+        this.entry.score = this.entry.score + 1
         this.entryService.updateEntry(this.languageId, this.stageId, this.topicId, this.entry)
   
       }
@@ -97,17 +108,18 @@ export class EntryOverviewComponent implements OnInit {
       this.pointer < this.entries.length - 1 ? this.pointer = this.pointer + 1 : this.pointer = 0
       this.entry = this.entries[this.pointer]
 
-      return
+      this.answer = ''
     
+    } else {
+
+      this.answerIsCorrect = false
+
+      this.topic.score = this.topic.score - this.entry.score
+      this.topicService.updateTopic(this.languageId, this.stageId, this.topic)
+  
+      this.entry.score = 0
+      this.entryService.updateEntry(this.languageId, this.stageId, this.topicId, this.entry)
+
     }
-
-    this.answerIsCorrect = false
-
-    this.topic.setScore(this.topic.getScore() - this.entry.getScore())
-    this.topicService.updateTopic(this.languageId, this.stageId, this.topic)
-
-    this.entry.setScore(0)
-    this.entryService.updateEntry(this.languageId, this.stageId, this.topicId, this.entry)
-    
   }
 }

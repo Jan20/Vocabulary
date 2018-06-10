@@ -56,9 +56,7 @@ export class EntrySideComponent implements OnInit {
       this.entry = this.entries[0]
 
     })
-    
   }
-    
 
   ////////////////////
   // Event Handlers //
@@ -76,6 +74,7 @@ export class EntrySideComponent implements OnInit {
 
     this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}/entries/${entry.entryId}`])
     this.entryService.setEntry(entry)
+    this.entryService.selectSubject.next(true)
 
   }
 

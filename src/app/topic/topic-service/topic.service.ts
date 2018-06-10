@@ -70,7 +70,7 @@ export class TopicService extends GenericService{
   public async updateTopic(languageId: string, stageId: string, topic: Topic): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topic.getTopicId()}`).update({score: topic.getScore()})
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topic.topicId}`).update({score: topic.score})
 
   }
 
