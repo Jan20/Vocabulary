@@ -1,60 +1,30 @@
-// -------------------------------
-//          Mat Card
-// -------------------------------
+h1 {
 
-@media (max-width: 680px) {
-    mat-card {
-        height: 180px;
-        width: 80%;
-    }
-}
-
-@media (min-width: 680px) {
-    mat-card {
-        height: 180px;
-        width: 500px;
-        
-    }
-}
-
-@media (max-width: 680px) {
-    .card-button-container {
-        
-        width: 80%;
-        margin: auto;
-        
-    }
-}
-
-@media (min-width: 680px) {
-    .card-button-container  {
-        
-        width: 550px;
-        margin: auto;
-        
-    }
+    color: rgb(128, 128, 128);
+	font-size: 34px;
+    font-weight: 100;
+    font-family: 'Roboto', sans-serif;
 
 }
 
-.mat-raised-button {
-    padding: 0;
-}
+mat-card {
 
-.fab-button-container{
-
-    z-index: 12;
-    margin-top: -29px;
-    margin-left: 60%;
-    position: absolute;
+    margin:auto;
+    margin-top: 50px;
+    background-color: white;
 
 }
 
-.large-tile {
-    
-    height: 30px;    
-
+.add-button-container {
+    margin: auto;
+    width: 54px;
+    padding: 10px;
 }
 
-.tiny-space {
-    margin-top: -5px; 
+.add-button {
+    margin-top: 50px;
+    border: 0.5px solid rgb(237, 237, 237);
+    background: linear-gradient(to right bottom, rgb(255, 218, 163),rgb(194, 117, 54));
+    color: white;
+    box-shadow: none;
 }

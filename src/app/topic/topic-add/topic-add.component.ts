@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Input } from '@angular/core'
 import { FormControl } from '@angular/forms'
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Topic } from './../topic-model/topic'
 import { TopicService } from './../topic-service/topic.service'
 
@@ -11,9 +11,15 @@ import { TopicService } from './../topic-service/topic.service'
 })
 export class TopicAddComponent implements OnInit {
 
+  ////////////
+  // Inputs //
+  ////////////
+  @Input() stageId: string
+
   ///////////////
   // Variables //
   ///////////////
+  private languageId: string
   private name: string
   public title = 'Add Topic'
   public nameFormControl: FormControl = new FormControl()
@@ -25,6 +31,7 @@ export class TopicAddComponent implements OnInit {
   
     public activatedRoute: ActivatedRoute,
     public topicService: TopicService,
+    private router: Router,
 
   ) {}
 
@@ -37,10 +44,30 @@ export class TopicAddComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public addMarket(): void {
+  public addTopic(): void {
 
-    this.activatedRoute.params.subscribe(params => this.topicService.addTopic(params['language'], params['stage'], this.name))
-    this.nameFormControl.reset()
+    if (this.name == '') {
+
+      return
+
+    }
+
+    this.activatedRoute.params.subscribe(params => {
+      
+      this.languageId = params['languageId']
+      
+      this.topicService.addTopic(this.languageId, this.stageId, this.name)
+      this.router.navigate([`/languages/${this.languageId}`])
+      this.nameFormControl.reset()
+      this.topicService.toggleInAddMode()
+
+    })
+  }
+
+  public returnToOverview(): void {
+
+    this.router.navigate([`/languages/${this.languageId}`])
+    this.topicService.toggleInAddMode()
 
   }
 }

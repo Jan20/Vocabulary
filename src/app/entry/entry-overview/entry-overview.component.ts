@@ -19,7 +19,7 @@ export class EntryOverviewComponent implements OnInit {
   private stageId: string
   private topicId: string
   private entry: Entry = new Entry('', '', 0)
-  private entries: Entry[]
+  private entries: Entry[] = [new Entry('', '', 0)]
   private answer: string
   private pointer: number = 0
   private answerIsCorrect: boolean = true
@@ -37,9 +37,6 @@ export class EntryOverviewComponent implements OnInit {
 
   ) {}
 
-  ///////////////////////
-  // On Initialization //
-  ///////////////////////
   ngOnInit() {
 
     this.activatedRoute.params.subscribe(params => {
@@ -53,7 +50,17 @@ export class EntryOverviewComponent implements OnInit {
     })
 
     this.topicService.topicSubject.subscribe(topic => this.topic = topic)
-    this.entryService.entriesSubject.subscribe(entries => this.entries = entries)
+    this.entryService.entriesSubject.subscribe(entries => {
+      console.log(entries)
+      this.entries = entries
+
+      if (this.entries != []) {
+
+        this.entry = this.entries[0]
+
+      }
+
+    })
 
   }
 
@@ -73,7 +80,7 @@ export class EntryOverviewComponent implements OnInit {
 
     this.answer = ''
 
-    if (this.answer === this.entry.getForeign()) {
+    if (this.answer === this.entry.foreign) {
 
       this.answerIsCorrect = true
 

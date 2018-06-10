@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Language } from './../language-model/language'
 import { LanguageService } from './../language-service/language.service'
 
@@ -25,6 +25,7 @@ export class LanguageAddComponent implements OnInit {
   
     public activatedRoute: ActivatedRoute,
     public languageService: LanguageService,
+    private router: Router,
 
   ) {}
 
@@ -37,10 +38,17 @@ export class LanguageAddComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public addStage(): void {
+  public addLanguage(): void {
 
-    this.activatedRoute.params.subscribe(params => this.languageService.addLanguage(this.name))
+    this.languageService.addLanguage(this.name)
+    this.router.navigate(['/'])
     this.nameFormControl.reset()
+
+  }
+
+  public returnToOverview(): void {
+
+    this.router.navigate(['/'])
 
   }
 

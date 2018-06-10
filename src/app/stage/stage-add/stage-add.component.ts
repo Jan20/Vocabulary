@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Stage } from './../stage-model/stage'
 import { StageService } from './../stage-service/stage.service'
 
@@ -14,6 +14,7 @@ export class StageAddComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
+  private languageId: string
   private name: string
   public title = 'Add Stage'
   public nameFormControl: FormControl = new FormControl()
@@ -25,6 +26,7 @@ export class StageAddComponent implements OnInit {
   
     public activatedRoute: ActivatedRoute,
     public stageService: StageService,
+    private router: Router,
 
   ) {}
 
@@ -39,9 +41,28 @@ export class StageAddComponent implements OnInit {
   ///////////////
   public addStage(): void {
 
-    this.activatedRoute.params.subscribe(params => this.stageService.addStage(params['languageId'], this.name))
-    this.nameFormControl.reset()
+    if (this.name == '') {
 
+      return
+
+    }
+
+    this.activatedRoute.params.subscribe(params => {
+      
+      this.languageId = params['languageId']
+      this.stageService.addStage(this.languageId, this.name)
+      this.router.navigate([`languages/${this.languageId}`])
+      this.nameFormControl.reset()
+      this.stageService.toggleInAddMode()
+
+    })
   }
 
+  public returnToOverview(): void {
+
+    this.router.navigate([`languages/${this.languageId}`])
+    this.stageService.toggleInAddMode()
+
+  }
 }
+

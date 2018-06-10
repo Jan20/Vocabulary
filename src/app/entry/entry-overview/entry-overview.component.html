@@ -2,8 +2,9 @@
 
   <app-entry-side></app-entry-side>
 
-  <div class='card-button-container' *ngIf='onUpdateMode === false'>
-    <button mat-raised-button (click)='toggleUpdateMode()'>
+  <div class='card-button-container' *ngIf='entryService.inAddMode === false'>
+    <button mat-raised-button (click)='entryService.toggleInAddMode()'>
+      
       <mat-card  *ngIf='answerIsCorrect'>
         <mat-grid-list cols="12">
           <mat-grid-tile colspan='12' *ngIf='answerIsCorrect'>
@@ -11,6 +12,7 @@
           </mat-grid-tile>
         </mat-grid-list>
       </mat-card>
+      
       <mat-card *ngIf='!answerIsCorrect' class='less-padding'>
           <mat-grid-list cols="12">
             <mat-grid-tile colspan='12'>
@@ -21,13 +23,14 @@
             </mat-grid-tile>
         </mat-grid-list>
       </mat-card> 
+    
     </button>
   </div>
   
   <div class='whitespace-tiny'></div>  
 
   <!-- Answer Field -->
-  <div class='card-button-container' *ngIf='onUpdateMode === false'>
+  <div class='card-button-container' *ngIf='entryService.inAddMode === false'>
     <mat-card>
         <mat-grid-list cols="12">
           <mat-grid-tile colspan='12'>
@@ -38,13 +41,13 @@
   </div>
   
   <!-- Check Button -->
-  <div class='fab-button-container' *ngIf='onUpdateMode === false'>
+  <div class='fab-button-container' *ngIf='entryService.inAddMode === false'>
     <button mat-fab (click)='check()'>
         <mat-icon>done</mat-icon>
     </button>
   </div>
 
-  <div *ngIf='onUpdateMode === false'>
+  <div *ngIf='entryService.inAddMode === false'>
   
     <mat-grid-list cols="12">
       <mat-grid-tile colspan='1'></mat-grid-tile>                              
@@ -101,7 +104,7 @@
   
   </div>
 
-  <div *ngIf='onUpdateMode === true'>
+  <div *ngIf='entryService.inAddMode === true'>
     <app-entry-update></app-entry-update> 
   </div>      
 

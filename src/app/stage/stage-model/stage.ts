@@ -3,9 +3,9 @@ export class Stage {
     ///////////////
     // Variables //
     ///////////////
-    private stageId: string
-    private language: string
-    private name: string
+    public stageId: string
+    public language: string
+    public name: string
 
     /////////////////
     // Constructor //

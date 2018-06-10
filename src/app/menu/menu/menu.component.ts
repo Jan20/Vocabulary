@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuService } from '../menu-service/menu.service';
 import { MenuItem } from '../menu-model/menu.item';
+import { LanguageService } from '../../language/language-service/language.service';
 
 @Component({
   selector: 'app-menu',
@@ -21,23 +22,26 @@ export class MenuComponent implements OnInit {
   //////////////////
   constructor(
 
+    private languageService: LanguageService,
     private router: Router,
-    public menuService: MenuService
-  
-  ) {
-  
-    this.items = []
-    this.items.push(
+    public menuService: MenuService,
 
-      new MenuItem('Momentum', 'lock_open', '/momentum'),
-      new MenuItem('Markets', 'grain', '/markets'),
-      new MenuItem('User', 'lock_open', '/user'),
+  ) {}
 
-    )
-  
+  ngOnInit() {
+
+    this.languageService.fetchLanguages()
+    this.languageService.languagesSubject.subscribe(languages => {
+
+      this.items = []
+
+      languages.forEach(language => {
+
+        this.items.push(new MenuItem(language.name, 'grain', '/languages/' + language.languageId))
+
+      })
+    })
   }
-
-  ngOnInit() {}
 
   ///////////////
   // Functions //
@@ -45,6 +49,12 @@ export class MenuComponent implements OnInit {
   public navigateToMenuEntry(item: MenuItem): void {
 
     this.router.navigate([item.getLink()])
+
+  }
+
+  public addLanguage(): void {
+
+    this.router.navigate(['/languages/add'])
 
   }
 

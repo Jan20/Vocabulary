@@ -39,6 +39,11 @@ import { EntryDetailsComponent } from './entry-details/entry-details.component'
 
     EntryService
 
+  ],
+  exports: [
+
+    EntryOverviewComponent,
+
   ]
 })
 export class EntryModule { }

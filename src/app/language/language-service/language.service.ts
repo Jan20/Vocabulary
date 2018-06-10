@@ -54,13 +54,13 @@ export class LanguageService extends GenericService{
 
   }
 
-  public async addLanguage(language: string): Promise<void> {
+  public async addLanguage(name: string): Promise<void> {
     
     await this.userService.getUser().then(user => this.user = user)
-    const newLanguage: any = {name: language}
-    const languageCollection = this.angularFirestore.collection<Language>(`/users/${this.user.userId}/languages/${language}`)
+    const newLanguage: any = {name: name}
+    const languageCollection = this.angularFirestore.collection<Language>(`/users/${this.user.userId}/languages`)
     languageCollection.add(newLanguage)
-    languageCollection.ref.where('name', '==', name).get().then( languages => languages.docs.forEach(language => languageCollection.doc(language.id).update({ languageId: language.id })))
+    languageCollection.ref.where('name', '==', name).get().then( languages => languages.docs.forEach(language => languageCollection.doc(language.id).update({ 'languageId': language.id })))
     this.setInAddMode(false)
 
   }

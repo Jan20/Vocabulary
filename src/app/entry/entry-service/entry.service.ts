@@ -43,24 +43,24 @@ export class EntryService extends GenericService {
   public async fetchEntry(languageId: string, stageId: string, topicId: string, entryId: string): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<Entry>(`users/${this.user.userId}/entries/${entryId}`).valueChanges().subscribe(entry => this.setEntry(entry))
+    this.angularFirestore.doc<Entry>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries/${entryId}`).valueChanges().subscribe(entry => this.setEntry(entry))
 
   }
   
   public async fetchEntries(languageId: string, stageId: string, topicId: string): Promise<void> {
 
     await this.userService.getUser().then( user => this.user = user)
-    this.angularFirestore.collection<Entry>(`users/${this.user.userId}/entries`).valueChanges().subscribe(entries => this.setEntrys(entries))
+    this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries`).valueChanges().subscribe(entries => this.setEntrys(entries))
 
   }
 
   public async addEntry(languageId: string, stageId: string, topicId: string, entry: Entry): Promise<void> {
     
     await this.userService.getUser().then(user => this.user = user)
-    const newEntry: any = entry
-    const entryCollection = this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/entries/${entry}`)
+    const newEntry: any = {native: entry.native, foreign: entry.foreign, score: entry.score}
+    const entryCollection = this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries`)
     entryCollection.add(newEntry)
-    entryCollection.ref.where('name', '==', name).get().then( entries => entries.docs.forEach(entry => entryCollection.doc(entry.id).update({ entryId: entry.id })))
+    entryCollection.ref.where('native', '==', entry.native).get().then( entries => entries.docs.forEach(entry => entryCollection.doc(entry.id).update({ entryId: entry.id })))
     this.setInAddMode(false)
 
   }

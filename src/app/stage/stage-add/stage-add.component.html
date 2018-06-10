@@ -1,29 +1,30 @@
-<div class='add-button-container' *ngIf='languageService.inAddMode === false'>
-  <button mat-fab class='add-button' (click)='languageService.toggleInAddMode()'>
+<div class='add-button-container' *ngIf='stageService.inAddMode === false'>
+  <button mat-fab class='add-button' (click)='stageService.toggleInAddMode()'>
     <mat-icon>add</mat-icon>
   </button>
 </div>
 
-<div class='outline' *ngIf='languageService.inAddMode === true'>
+<div class='outline' *ngIf='stageService.inAddMode === true'>
   
-  <!-- Form Title -->
-  <h2>{{title}}</h2>
+  <mat-card>
   
-  <!-- Form -->
-  <form class='form'>
-    <mat-form-field class='full-width'>
-      <input matInput placeholder='name' [formControl]='nameFromControl'>
-    </mat-form-field>
-  </form>
-
-  <!-- Control Buttons -->
-  <div class='wrapper'>
-    <button mat-raised-button (click)='addAsset()' class='control-button submit-button'>
-      <mat-icon>done</mat-icon>
-    </button>    
-    <button mat-raised-button (click)='languageService.setInAddMode(false)' class='control-button cancel-button'>
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-
+    <h1>{{title}}</h1>
+    
+    <form class='form'>
+      <mat-form-field class='full-width'>
+        <input matInput placeholder='Name' [formControl]='nameFormControl'>
+      </mat-form-field>
+    </form>
+  
+    <div class='wrapper'>
+      <button mat-raised-button (click)='addStage()' class='control-button submit-button'>
+        <mat-icon>done</mat-icon>
+      </button>    
+      <button mat-raised-button (click)='returnToOverview()' class='control-button cancel-button'>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  
+  </mat-card>
+  
 </div>

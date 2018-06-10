@@ -1,10 +1,17 @@
-// -------------------------------
-//             Card
-// -------------------------------
+h1 {
 
-md-card {
+    color: rgb(128, 128, 128);
+	font-size: 34px;
+    font-weight: 100;
+    font-family: 'Roboto', sans-serif;
 
-    width: 600px;
+}
+
+mat-card {
+
+    margin:auto;
+    margin-top: 50px;
+    background-color: white;
 
 }
 

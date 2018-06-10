@@ -51,18 +51,18 @@ export class TopicService extends GenericService{
   public async fetchTopics(languageId: string, stageId: string): Promise<void> {
 
     await this.userService.getUser().then( user => this.user = user)
-    this.angularFirestore.collection<Topic>(`users/${this.user.userId}/topics`).valueChanges().subscribe(topics => this.setTopics(topics))
+    this.angularFirestore.collection<Topic>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics`).valueChanges().subscribe(topics => this.setTopics(topics))
 
   }
 
 
-  public async addTopic(language: string, stage: string, topic: string): Promise<void> {
+  public async addTopic(language: string, stage: string, name: string): Promise<void> {
     
     await this.userService.getUser().then(user => this.user = user)
-    const newTopic: any = {language: language, stage: stage, topic: topic}
-    const portfolioCollection = this.angularFirestore.collection<Topic>(`/users/${this.user.userId}/languages/${language}/stages/${stage}/topics/${topic}`)
-    portfolioCollection.add(newTopic)
-    portfolioCollection.ref.where('name', '==', name).get().then( topics => topics.docs.forEach(topic => portfolioCollection.doc(topic.id).update({ portfolioId: topic.id })))
+    const newTopic: any = {language: language, stage: stage, name: name}
+    const topicCollection = this.angularFirestore.collection<Topic>(`/users/${this.user.userId}/languages/${language}/stages/${stage}/topics`)
+    topicCollection.add(newTopic)
+    topicCollection.ref.where('name', '==', name).get().then( topics => topics.docs.forEach(topic => topicCollection.doc(topic.id).update({ topicId: topic.id })))
     this.setInAddMode(false)
 
   }
@@ -93,7 +93,7 @@ export class TopicService extends GenericService{
   // Setters //
   /////////////
   public setTopic(topic: Topic): void {
-
+  
     this.topic = topic
     this.topicSubject.next(topic)
 
@@ -101,6 +101,7 @@ export class TopicService extends GenericService{
  
   public setTopics(topics: Topic[]): void {
 
+    console.log(topics)
     this.topics = topics
     this.topicsSubject.next(topics)
 

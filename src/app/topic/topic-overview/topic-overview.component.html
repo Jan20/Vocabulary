@@ -1,8 +1,14 @@
-<div *ngFor='let topic of topics'>
-  <button mat-raised-button (click)='selectTopic(topic.topicId)'>
-    {{topic.name}}
-  </button>
-</div> 
+<div *ngIf='topicService.inAddMode === false'>
+  <span *ngFor='let topic of topics'>
+    <button mat-raised-button (click)='selectTopic(topic.topicId)' class='card'> 
+      <h1>{{topic.name}}</h1>
+    </button>
+  </span>
+  <span class='special'>
+    <button mat-raised-button *ngIf='topicService.inAddMode === false' (click)='topicService.toggleInAddMode()' class='card'> 
+      <mat-icon>add</mat-icon>
+    </button>
+  </span>
+</div>
 
-<app-topic-add></app-topic-add>
-
+<app-topic-add [stageId]='stageId'></app-topic-add>

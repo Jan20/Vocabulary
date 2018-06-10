@@ -74,7 +74,7 @@ export class EntrySideComponent implements OnInit {
   ///////////////
   public selectEntry(entry: Entry): void {
 
-    this.router.navigate([`/${this.languageId}/${this.stageId}/${this.topicId}/${entry.getEntryId()}`])
+    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}/entries/${entry.entryId}`])
     this.entryService.setEntry(entry)
 
   }

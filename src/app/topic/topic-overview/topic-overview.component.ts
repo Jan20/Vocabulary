@@ -14,11 +14,14 @@ import { Topic } from './../topic-model/topic'
 })
 export class TopicOverviewComponent implements OnInit {
 
+  ////////////
+  // Inputs //
+  ////////////
+  @Input() stageId: string
+  
   ///////////////
   // Variables //
   ///////////////
-  @Input() stageId: string
-  
   private languageId: string
   public topics: Topic[]
 
@@ -27,7 +30,7 @@ export class TopicOverviewComponent implements OnInit {
   /////////////////
   public constructor(
 
-    private topicService: TopicService,
+    public topicService: TopicService,
     private activatedRoute: ActivatedRoute,
     private router: Router
 

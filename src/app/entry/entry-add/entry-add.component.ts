@@ -35,8 +35,10 @@ export class EntryAddComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+ 
     this.nativeFromControl.valueChanges.subscribe(native => this.native = native)
     this.foreignFromControl.valueChanges.subscribe(foreign => this.foreign = foreign)
+ 
   }
 
   ///////////////
@@ -50,6 +52,7 @@ export class EntryAddComponent implements OnInit {
       this.entryService.addEntry(params['languageId'], params['stageId'], params['topicId'], newEntry)
       this.nativeFromControl.reset()
       this.foreignFromControl.reset()
+ 
     })
   }
 

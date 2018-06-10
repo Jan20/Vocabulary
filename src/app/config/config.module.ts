@@ -1,23 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
 
-// Routes
-import { ROUTES } from './routing.config';
-import { RouterModule, Routes } from '@angular/router';
+// Firebase
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuth, AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { environment } from './environment';
+export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
   imports: [
-
     CommonModule,
-    RouterModule.forRoot( 
-      ROUTES,
-      { enableTracing: true }
-    ),
-
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule.enablePersistence(),
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    HttpClientModule,
   ],
-  declarations: [
-
-    
-  ]
+  providers: [
+  ],
+  exports: []
 })
 export class ConfigModule { }

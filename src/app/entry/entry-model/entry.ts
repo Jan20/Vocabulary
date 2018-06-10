@@ -3,10 +3,10 @@ export class Entry {
     ///////////////
     // Variables //
     ///////////////
-    private entryId: string
-    private native: string
-    private foreign: string
-    private score: number
+    public entryId: string
+    public native: string
+    public foreign: string
+    public score: number
 
     /////////////////
     // Constructor //

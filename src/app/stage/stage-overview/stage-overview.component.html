@@ -1,12 +1,11 @@
-<mat-tab-group>
-
+<div *ngIf='stageService.inAddMode === false'>
   <div *ngFor='let stage of stages'>
+    <button mat-raised-button (click)='selectStage(stage)' class='banner'> 
+      <h1>{{stage.name}}</h1>
+    </button>
     <app-topic-overview [stageId]='stage.stageId'></app-topic-overview>
   </div>
+</div>
 
-  <mat-tab label='Add Stage'>
-    <app-stage-add></app-stage-add>
-  </mat-tab>
-
-</mat-tab-group>
+<app-stage-add></app-stage-add>
 

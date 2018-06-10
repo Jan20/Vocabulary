@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Input } from '@angular/core'
 import { LanguageService } from '../../language/language-service/language.service'
 import { StageService } from '../../stage/stage-service/stage.service'
 import { Stage } from '../stage-model/stage'
@@ -11,12 +11,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class StageOverviewComponent implements OnInit {
 
+  ////////////
+  // Inputs //
+  ////////////
+  @Input() languageId: string
+
   ///////////////
   // Variables //
   ///////////////
-  private languageId: string
-  private stage: Stage
-  public stages: Stage[]
+  public stage: Stage = new Stage('', '')
+  public stages: Stage[] = []
 
   /////////////////
   // Constructor //
@@ -54,7 +58,7 @@ export class StageOverviewComponent implements OnInit {
   ///////////////
   public selectStage(stage: Stage): void {
 
-    this.router.navigate([`/languages/${this.languageId}/${stage.getStageId()}`])
+    this.router.navigate([`/languages/${this.languageId}/stages/${stage.getStageId()}`])
     
   }
 }

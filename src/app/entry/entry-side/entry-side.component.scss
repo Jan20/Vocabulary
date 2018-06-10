@@ -1,9 +1,6 @@
 @import '~@angular/material/theming';
 @import '../../../theme.scss';
 
-// -------------------------------
-//           Sidebar
-// -------------------------------
 .scrolling-content {
     
     height: 100%;
@@ -27,6 +24,8 @@
     width: 100%;
     border-radius: 3px;
     background-color: #546E7A;    
+    background: linear-gradient(to right bottom, rgb(255, 218, 163),rgb(194, 117, 54));
+
 }
 
 .add-button-container {
@@ -74,7 +73,6 @@
 }
         
 .scrolling-content {
-    background-color: #546E7A;    
     padding: 3px;
 }
 
