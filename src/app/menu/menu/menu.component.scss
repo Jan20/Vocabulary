@@ -1,16 +1,22 @@
+
 .spacer{
 	flex: 1 1 auto;
 }
 
 mat-toolbar {
+	
+	margin: 0;
 	border-top: 1px solid rgb(237, 237, 237);
 	border-bottom: 1px solid rgb(237, 237, 237);
+
 }	
 
 span {
+
 	font-family: 'Roboto', sans-serif;
-	font-weight: 300;
 	color: rgb(128, 128, 128);
+    font-weight: 300;
+
 }
 
 
@@ -24,4 +30,12 @@ span {
 	.desktop-menu {
 		display: none;
 	}
+}
+
+.title {
+
+	color: rgb(128, 128, 128);
+	font-size: 24px;
+	font-weight: 100;
+
 }

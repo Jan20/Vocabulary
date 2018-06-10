@@ -1,13 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-
-// Services
-import { LanguageService } from './../language/language.service';
-import { StageService } from './../stage/stage.service';
-import { TopicService } from './../topic/topic.service';
-import { EntryService } from './entry.service';
-
-// Model
-import { Entry } from './entry.model';
+import { Component, OnInit } from '@angular/core'
+import { TopicService } from '../../topic/topic-service/topic.service'
+import { EntryService } from '../entry-service/entry.service'
+import { Entry } from '../entry-model/entry'
+import { ActivatedRoute, Router } from '@angular/router';
+import { Topic } from '../../topic/topic-model/topic';
 
 @Component({
   selector: 'app-entry-overview',
@@ -19,92 +15,46 @@ export class EntryOverviewComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private language: string;
-  private stage: string;
-  private topic: string;
-  private topicScore: number;
-  private entry: Entry;
-  private entries: Entry[];
-  private answer: string;
-  private pointer: number;
-  private onUpdateMode: boolean;
-  private answerIsCorrect: boolean;
+  private languageId: string
+  private stageId: string
+  private topicId: string
+  private entry: Entry = new Entry('', '', 0)
+  private entries: Entry[]
+  private answer: string
+  private pointer: number = 0
+  private answerIsCorrect: boolean = true
+  public topic: Topic
 
   /////////////////
   // Constructor //
   /////////////////
   constructor(
 
-    private languageService: LanguageService,
-    private stageService: StageService,
     private topicService: TopicService,
-    private entryService: EntryService
+    private entryService: EntryService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
 
-  ) {
-
-    this.language = this.languageService.getLanguage().getName();    
-    this.stage = this.stageService.getStage().getName();
-    this.topic = this.topicService.getTopic().getName();
-    this.entry = new Entry('', '', '', '', '', 0);
-    this.topicScore = 0;
-    this.answerIsCorrect = true;
-    this.pointer = 0;
-    this.onUpdateMode = this.entryService.getOnUpdateMode();
-
-    this.entryService.fetchEntries(this.language, this.stage, this.topic).valueChanges().subscribe( r => {
-
-      this.entries = []; 
-      this.topicScore = 0;
-      
-      r.forEach( e => {
-
-        if (e.native) {
-
-          this.entries.push(new Entry(this.language, this.stage, this.topic, e.native, e.foreign, e.score));
-          this.topicScore = this.topicScore + e.score;
-
-        }
-
-      });
-
-      if (this.entries[this.pointer]) {
-
-        this.entry = this.entries[this.pointer];
-        
-      }
-
-
-    });
-
-  }
+  ) {}
 
   ///////////////////////
   // On Initialization //
   ///////////////////////
   ngOnInit() {
 
-    this.entryService.onUpdateModeHasChanged.subscribe (r => {
+    this.activatedRoute.params.subscribe(params => {
 
-      this.onUpdateMode = this.entryService.getOnUpdateMode();
+      this.languageId = params['languageId']
+      this.stageId = params['stageId']
+      this.topicId = params['topicId']
+      this.topicService.fetchTopic(this.languageId, this.stageId, this.topicId)
+      this.entryService.fetchEntries(this.languageId, this.stageId, this.topicId)
 
-    });
+    })
 
-    this.entryService.entryHasChanged.subscribe( r => {
+    this.topicService.topicSubject.subscribe(topic => this.topic = topic)
+    this.entryService.entriesSubject.subscribe(entries => this.entries = entries)
 
-      this.entry = this.entryService.getEntry();
-
-      for (let i = 0; i < this.entries.length; i++) {
-
-        if (this.entry.getNative() === this.entries[i].getNative()) {
-
-          this.pointer = i;
-
-        }
-
-      }
-
-    });
-    
   }
 
   ////////////////////
@@ -112,7 +62,7 @@ export class EntryOverviewComponent implements OnInit {
   ////////////////////
   public onKey(event: any) { 
   
-    this.check();
+    this.check()
   
   }
 
@@ -121,128 +71,36 @@ export class EntryOverviewComponent implements OnInit {
   ///////////////
   public check() {
 
+    this.answer = ''
+
     if (this.answer === this.entry.getForeign()) {
 
-      this.answerIsCorrect = true;
-      this.answer = '';
+      this.answerIsCorrect = true
 
       if (this.entry.getScore() < 5) {
 
-        this.entryService.updateEntry(
-
-          this.entry.getLanguage(),
-          this.entry.getStage(),
-          this.entry.getTopic(),
-          this.entry.getNative(),
-          this.entry.getForeign(),
-          this.entry.getScore() + 1
-
-        );
-        
-        this.topicScore = this.topicScore + 1;
-        const topicScoreNormalized = (this.topicScore / this.entries.length);
-        this.topicService.updateTopic(this.language, this.stage, this.topic, topicScoreNormalized);
-
+        this.topic.setScore(this.topic.getScore() + 1)
+        this.topicService.updateTopic(this.languageId, this.stageId, this.topic)
+  
+        this.entry.setScore(this.entry.getScore() + 1)
+        this.entryService.updateEntry(this.languageId, this.stageId, this.topicId, this.entry)
+  
       }
 
-      if (this.pointer < this.entries.length - 1) {
+      this.pointer < this.entries.length - 1 ? this.pointer = this.pointer + 1 : this.pointer = 0
+      this.entry = this.entries[this.pointer]
 
-        this.pointer = this.pointer + 1;
-
-      } else {
-
-        this.pointer = 0;
-
-      }
-
-      if (this.entries[this.pointer]) {
-
-        this.entry = this.entries[this.pointer];
-
-      }
-
-    } else {
-
-      this.answerIsCorrect = false;
-      this.answer = '';
-
-      this.topicScore = this.topicScore - this.entry.getScore();
-      const topicScoreNormalized = (this.topicScore / this.entries.length);
-      this.topicService.updateTopic(this.language, this.stage, this.topic, topicScoreNormalized);
-
-      this.entryService.updateEntry(
-
-        this.entry.getLanguage(),
-        this.entry.getStage(),
-        this.entry.getTopic(),
-        this.entry.getNative(),
-        this.entry.getForeign(),
-        0
-
-      );
-
+      return
+    
     }
 
+    this.answerIsCorrect = false
+
+    this.topic.setScore(this.topic.getScore() - this.entry.getScore())
+    this.topicService.updateTopic(this.languageId, this.stageId, this.topic)
+
+    this.entry.setScore(0)
+    this.entryService.updateEntry(this.languageId, this.stageId, this.topicId, this.entry)
+    
   }
-
-  public toggleUpdateMode(): void {
-
-    this.entryService.toggleOnUpdateMode();
-
-  }
-
-  /////////////
-  // Getters //
-  /////////////
-  public getEntry(): Entry {
-
-    return this.entry;
-
-  }
-
-  public getEntries(): Entry[] {
-
-    return this.entries;
-
-  }
-
-  public getOnUpdateMode(): boolean {
-
-    return this.onUpdateMode;
-
-  }
-
-  public getAnswerIsCorrect(): boolean {
-
-    return this.answerIsCorrect;
-
-  }
-
-  /////////////
-  // Setters //
-  /////////////
-  public setEntry(entry: Entry): void {
-
-    this.entry = entry;
-
-  }
-
-  public setEntries(entries: Entry[]): void {
-
-    this.entries = entries;
-
-  }
-
-  public setOnUpdateMode(onUpdateMode: boolean): void {
-
-    this.onUpdateMode = onUpdateMode;
-
-  }
-
-  public setAnswerIsCorrect(answerIsCorrect: boolean): void {
-
-    this.answerIsCorrect = answerIsCorrect;
-
-  }
-
 }

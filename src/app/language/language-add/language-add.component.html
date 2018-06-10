@@ -1,27 +1,29 @@
-<!-- Fab Button -->
-<div class='add-button-container' *ngIf="onAddMode == false">
-  <button mat-fab class='add-button' (click)="toggleMode()">
+<div class='add-button-container' *ngIf='languageService.inAddMode === false'>
+  <button mat-fab class='add-button' (click)='languageService.toggleInAddMode()'>
     <mat-icon>add</mat-icon>
   </button>
 </div>
 
-<div class='whitespace'  *ngIf="onAddMode == true"></div>
-
-<mat-card *ngIf="onAddMode == true">
-
-  <mat-input-container class="full-width">
-    <input matInput placeholder="Language" [(ngModel)]='name'>
-  </mat-input-container>
+<div class='outline' *ngIf='languageService.inAddMode === true'>
   
-  <mat-grid-list cols="12">
-    <mat-grid-tile colspan='11'></mat-grid-tile>
-    <mat-grid-tile >
-      <div class='fab-button-container'>
-        <button mat-fab (click)="save()">
-          <mat-icon>done</mat-icon>
-        </button>
-      </div>
-    </mat-grid-tile>
-  </mat-grid-list>
+  <!-- Form Title -->
+  <h2>{{title}}</h2>
+  
+  <!-- Form -->
+  <form class='form'>
+    <mat-form-field class='full-width'>
+      <input matInput placeholder='name' [formControl]='nameFromControl'>
+    </mat-form-field>
+  </form>
 
-</mat-card>
+  <!-- Control Buttons -->
+  <div class='wrapper'>
+    <button mat-raised-button (click)='addAsset()' class='control-button submit-button'>
+      <mat-icon>done</mat-icon>
+    </button>    
+    <button mat-raised-button (click)='languageService.setInAddMode(false)' class='control-button cancel-button'>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+</div>

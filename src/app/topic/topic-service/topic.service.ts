@@ -15,13 +15,13 @@ export class TopicService extends GenericService{
   ///////////////
   private user: User
   private topic: Topic
-  private portfolios: Topic[]
+  private topics: Topic[]
 
   //////////////
   // Subjects //
   //////////////
-  public portfolioSubject: Subject<Topic> = new Subject<Topic>()
-  public portfoliosSubject: Subject<Topic[]> = new Subject<Topic[]>()
+  public topicSubject: Subject<Topic> = new Subject<Topic>()
+  public topicsSubject: Subject<Topic[]> = new Subject<Topic[]>()
 
   //////////////////
   // Constructors //
@@ -40,18 +40,18 @@ export class TopicService extends GenericService{
   ///////////////
   // Functions //
   ///////////////
-  public async fetchTopic(portfolioId: string): Promise<void> {
+  public async fetchTopic(languageId: string, stageId: string, topicId: string): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<Topic>(`users/${this.user.userId}/portfolios/${portfolioId}`).valueChanges().subscribe(topic => this.setTopic(topic))
+    this.angularFirestore.doc<Topic>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}`).valueChanges().subscribe(topic => this.setTopic(topic))
 
   }
 
   
-  public async fetchTopics(): Promise<void> {
+  public async fetchTopics(languageId: string, stageId: string): Promise<void> {
 
     await this.userService.getUser().then( user => this.user = user)
-    this.angularFirestore.collection<Topic>(`users/${this.user.userId}/portfolios`).valueChanges().subscribe(portfolios => this.setTopics(portfolios))
+    this.angularFirestore.collection<Topic>(`users/${this.user.userId}/topics`).valueChanges().subscribe(topics => this.setTopics(topics))
 
   }
 
@@ -62,17 +62,17 @@ export class TopicService extends GenericService{
     const newTopic: any = {language: language, stage: stage, topic: topic}
     const portfolioCollection = this.angularFirestore.collection<Topic>(`/users/${this.user.userId}/languages/${language}/stages/${stage}/topics/${topic}`)
     portfolioCollection.add(newTopic)
-    portfolioCollection.ref.where('name', '==', name).get().then( portfolios => portfolios.docs.forEach(topic => portfolioCollection.doc(topic.id).update({ portfolioId: topic.id })))
+    portfolioCollection.ref.where('name', '==', name).get().then( topics => topics.docs.forEach(topic => portfolioCollection.doc(topic.id).update({ portfolioId: topic.id })))
     this.setInAddMode(false)
 
   }
 
-  public async updateTopic(portfolioId: string): Promise<void> {
+  public async updateTopic(languageId: string, stageId: string, topic: Topic): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topic.getTopicId()}`).update({score: topic.getScore()})
 
   }
-
 
   /////////////
   // Getters //
@@ -85,7 +85,7 @@ export class TopicService extends GenericService{
 
   public getTopics(): Topic[] {
 
-    return this.portfolios
+    return this.topics
 
   }
   
@@ -94,15 +94,15 @@ export class TopicService extends GenericService{
   /////////////
   public setTopic(topic: Topic): void {
 
-    this.topic  = topic
-    this.portfolioSubject.next(topic)
+    this.topic = topic
+    this.topicSubject.next(topic)
 
   }
  
-  public setTopics(portfolios: Topic[]): void {
+  public setTopics(topics: Topic[]): void {
 
-    this.portfolios = portfolios
-    this.portfoliosSubject.next(portfolios)
+    this.topics = topics
+    this.topicsSubject.next(topics)
 
   }
 

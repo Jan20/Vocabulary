@@ -1,6 +1,6 @@
 <mat-sidenav-container>
 
-  <app-side-entry></app-side-entry>
+  <app-entry-side></app-entry-side>
 
   <div class='card-button-container' *ngIf='onUpdateMode === false'>
     <button mat-raised-button (click)='toggleUpdateMode()'>
@@ -45,6 +45,7 @@
   </div>
 
   <div *ngIf='onUpdateMode === false'>
+  
     <mat-grid-list cols="12">
       <mat-grid-tile colspan='1'></mat-grid-tile>                              
       <mat-grid-tile colspan='10' *ngIf='entry.score == -1'>
@@ -97,10 +98,11 @@
         <mat-icon class='full-star'>star</mat-icon>
       </mat-grid-tile>
     </mat-grid-list>  
+  
   </div>
 
   <div *ngIf='onUpdateMode === true'>
-    <app-update-entry></app-update-entry> 
+    <app-entry-update></app-entry-update> 
   </div>      
 
 </mat-sidenav-container>

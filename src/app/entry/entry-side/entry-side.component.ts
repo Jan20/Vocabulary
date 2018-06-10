@@ -1,14 +1,8 @@
 // Angular Modules
-import { Component, OnInit, Injectable, EventEmitter } from '@angular/core';
-
-// Models
-import { Entry } from '../entry.model';
-
-// Services
-import { LanguageService } from './../../language/language.service';
-import { StageService } from './../../stage/stage.service';
-import { TopicService } from './../../topic/topic.service';
-import { EntryService } from '../entry.service';
+import { Component, OnInit, Injectable, EventEmitter } from '@angular/core'
+import { EntryService } from '../entry-service/entry.service'
+import { Entry } from '../entry-model/entry'
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-entry-side',
@@ -20,74 +14,49 @@ export class EntrySideComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private language: string;
-  private stage: string;
-  private topic: string;
-  private flag: boolean;
-  private entry: Entry;
-  private entries: Entry[];
-  public entryHasChanged: EventEmitter<any> = new EventEmitter();
+  private languageId: string
+  private stageId: string
+  private topicId: string
+  private flag: boolean
+  public entry: Entry
+  public entries: Entry[]
+  public entryHasChanged: EventEmitter<any> = new EventEmitter()
 
   /////////////////
   // Constructor //
   /////////////////
   public constructor(
 
-    private languageService: LanguageService,
-    private stageService: StageService,
-    private topicService: TopicService,
-    private entryService: EntryService
+    private entryService: EntryService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
 
-  ) {
-
-    this.language = this.languageService.getLanguage().getName();
-    this.stage = this.stageService.getStage().getName();
-    this.topic = this.topicService.getTopic().getName();
-
-    this.flag = false;
-
-    this.entryService.fetchEntries(this.language, this.stage, this.topic).valueChanges().subscribe( res => {
-
-      this.entries = [];
-
-      res.forEach( e => {
-
-        if (e.native) {
-
-          this.entries.push(new Entry(this.language, this.stage, this.topic, e.native, e.foreign, e.score));
-
-        }
-
-      });
-
-      if (this.entries[0]) {
-  
-        this.entry = this.entries[0];
-  
-      }
-
-    });
-  }
+  ) {}
     
   ///////////////////////
   // On Initialization //
   ///////////////////////
   ngOnInit() {
+
+    this.flag = false
+
+    this.activatedRoute.params.subscribe(params => {
+
+      this.languageId = params['languageId']
+      this.stageId = params['stageId']
+      this.topicId = params['topicId']
+
+      this.entryService.fetchEntries(this.languageId, this.stageId, this.topicId)
+
+    })
+
+    this.entryService.entriesSubject.subscribe(entries => {
     
-    this.entryService.fetchEntries(this.language, this.stage, this.topic).valueChanges().subscribe( r => {
+      this.entries = entries
+      this.entry = this.entries[0]
 
-      this.entries = [];
-
-      r.forEach( e => {
-
-        if (e.native) {
-
-          this.entries.push(new Entry(this.language, this.stage, this.topic, e.native, e.foreign, e.score));
-
-        }
-
-      });
-    });
+    })
+    
   }
     
 
@@ -96,7 +65,7 @@ export class EntrySideComponent implements OnInit {
   ////////////////////
   public onKey(event: any) { 
 
-    this.toggleFlag();
+    this.toggleFlag()
   
   }
   
@@ -105,53 +74,15 @@ export class EntrySideComponent implements OnInit {
   ///////////////
   public selectEntry(entry: Entry): void {
 
-    this.entryService.setEntry(entry);
+    this.router.navigate([`/${this.languageId}/${this.stageId}/${this.topicId}/${entry.getEntryId()}`])
+    this.entryService.setEntry(entry)
 
   }
 
   public toggleFlag(): void {
 
-    if (this.flag) {
-
-      this.flag = false;
-
-    } else {
-
-      this.flag = true;
-
-    }
+    this.flag ? this.flag = false : this.flag = true
     
-  }
-
-  public select(entry: Entry): void {
-
-    this.entryService.setEntry(entry);
-
-  }
-
-  /////////////
-  // Getters //
-  /////////////
-  public getEntries(): Entry[] {
-
-    return this.entries;
-
-  }
-
-
-  /////////////
-  // Setters //
-  /////////////
-  public setEntries(entries: Entry[]): void {
-
-    this.entries = entries;
-
-  }
-
-  public setEntry(entry: Entry): void {
-
-    this.entryService.setEntry(entry);
-
   }
 
 }

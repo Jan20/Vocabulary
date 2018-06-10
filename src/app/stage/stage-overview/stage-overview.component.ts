@@ -1,11 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-
-// Model
-import { Stage } from './stage.model';
-
-// Services
-import { LanguageService } from './../language/language.service';
-import { StageService } from './../stage/stage.service';
+import { Component, OnInit } from '@angular/core'
+import { LanguageService } from '../../language/language-service/language.service'
+import { StageService } from '../../stage/stage-service/stage.service'
+import { Stage } from '../stage-model/stage'
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-stage-overview',
@@ -17,9 +14,9 @@ export class StageOverviewComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private language: string;
-  private stage: Stage;
-  private stages: Stage[];
+  private languageId: string
+  private stage: Stage
+  public stages: Stage[]
 
   /////////////////
   // Constructor //
@@ -28,87 +25,36 @@ export class StageOverviewComponent implements OnInit {
 
     public languageService: LanguageService,
     public stageService: StageService,
+    public activatedRoute: ActivatedRoute,
+    public router: Router,
 
-  ) {
-
-    this.language = this.languageService.getLanguage().getName();
-
-  }
+  ) {}
 
   ngOnInit() {
 
-    this.stageService.fetchStages(this.language).valueChanges().subscribe( r => {
+    this.activatedRoute.params.subscribe(params => {
 
-      this.stages = [];
+      this.languageId = params['languageId']
+      this.stageService.fetchStages(this.languageId)
+    
+    })
 
-      r.forEach( e => {
+    this.stageService.stagesSubject.subscribe( stages => {
 
-        if (e.stage) {
+      this.stages = []
+      this.stages = stages
+      this.stages != null ? this.stage = this.stages[0] : null
 
-          this.stages.push(new Stage(this.language, e.stage));
-
-        }
-
-      });
-
-      if(this.stageService.getStage()) {
-        
-        this.stage = this.stageService.getStage();
-
-      } else {
-
-        this.stage = this.stages[0];
-        this.stageService.setStage(this.stages[0]);
-
-      }      
-    });
+    })
 
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public deleteStage(stage: Stage): void {
-
-    this.stageService.deleteStage(stage.getLanguage(), stage.getName());
-
-  }
-
   public selectStage(stage: Stage): void {
 
-    this.stage = stage;
-    this.stageService.setStage(stage);
+    this.router.navigate([`/languages/${this.languageId}/${stage.getStageId()}`])
     
   }
-
-  /////////////
-  // Getters //
-  /////////////
-  public getStage(): Stage {
-
-    return this.stage;
-
-  }
-
-  public getStages(): Stage[] {
-
-    return this.stages;
-
-  }
-
-  /////////////
-  // Setters //
-  /////////////
-  public setStage(stage: Stage): void {
-
-    this.stage = stage;
-
-  }
-
-  public setStages(stages: Stage[]): void {
-
-    this.stages = stages;
-
-  }
-
 }

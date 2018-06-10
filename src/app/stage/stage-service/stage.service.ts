@@ -71,7 +71,6 @@ export class StageService extends GenericService{
 
   }
 
-
   /////////////
   // Getters //
   /////////////

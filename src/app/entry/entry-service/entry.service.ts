@@ -15,13 +15,13 @@ export class EntryService extends GenericService {
   ///////////////
   private user: User
   private entry: Entry
-  private entrys: Entry[]
+  private entries: Entry[]
 
   //////////////
   // Subjects //
   //////////////
   public entrySubject: Subject<Entry> = new Subject<Entry>()
-  public entrysSubject: Subject<Entry[]> = new Subject<Entry[]>()
+  public entriesSubject: Subject<Entry[]> = new Subject<Entry[]>()
 
   //////////////////
   // Constructors //
@@ -40,35 +40,35 @@ export class EntryService extends GenericService {
   ///////////////
   // Functions //
   ///////////////
-  public async fetchEntry(entryId: string): Promise<void> {
+  public async fetchEntry(languageId: string, stageId: string, topicId: string, entryId: string): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<Entry>(`users/${this.user.userId}/entrys/${entryId}`).valueChanges().subscribe(entry => this.setEntry(entry))
+    this.angularFirestore.doc<Entry>(`users/${this.user.userId}/entries/${entryId}`).valueChanges().subscribe(entry => this.setEntry(entry))
 
   }
   
-  public async fetchEntrys(): Promise<void> {
+  public async fetchEntries(languageId: string, stageId: string, topicId: string): Promise<void> {
 
     await this.userService.getUser().then( user => this.user = user)
-    this.angularFirestore.collection<Entry>(`users/${this.user.userId}/entrys`).valueChanges().subscribe(entrys => this.setEntrys(entrys))
+    this.angularFirestore.collection<Entry>(`users/${this.user.userId}/entries`).valueChanges().subscribe(entries => this.setEntrys(entries))
 
   }
 
-  public async addEntry(entry: string): Promise<void> {
+  public async addEntry(languageId: string, stageId: string, topicId: string, entry: Entry): Promise<void> {
     
     await this.userService.getUser().then(user => this.user = user)
-    const newEntry: any = {name: entry}
-    const entryCollection = this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/entrys/${entry}`)
+    const newEntry: any = entry
+    const entryCollection = this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/entries/${entry}`)
     entryCollection.add(newEntry)
-    entryCollection.ref.where('name', '==', name).get().then( entrys => entrys.docs.forEach(entry => entryCollection.doc(entry.id).update({ entryId: entry.id })))
+    entryCollection.ref.where('name', '==', name).get().then( entries => entries.docs.forEach(entry => entryCollection.doc(entry.id).update({ entryId: entry.id })))
     this.setInAddMode(false)
 
   }
 
-  public async updateEntry(languageId: string, stageId: string, topicId: string, entryId: string, name: string): Promise<void> {
+  public async updateEntry(languageId: string, stageId: string, topicId: string, entry: Entry): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries/${entryId}`).update({name: name})
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries/${entry.getEntryId()}`).update({score: entry.getScore()})
 
   }
 
@@ -81,9 +81,9 @@ export class EntryService extends GenericService {
 
   }
 
-  public getEntrys(): Entry[] {
+  public getEntries(): Entry[] {
 
-    return this.entrys
+    return this.entries
 
   }
   
@@ -97,10 +97,10 @@ export class EntryService extends GenericService {
 
   }
  
-  public setEntrys(entrys: Entry[]): void {
+  public setEntrys(entries: Entry[]): void {
 
-    this.entrys = entrys
-    this.entrysSubject.next(entrys)
+    this.entries = entries
+    this.entriesSubject.next(entries)
 
   }
 }

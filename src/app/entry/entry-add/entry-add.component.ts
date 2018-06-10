@@ -14,34 +14,43 @@ export class EntryAddComponent implements OnInit {
   ///////////////
   // Variables //
   ///////////////
-  private name: string
-  public title = 'Add Language'
-  public nameFormControl: FormControl = new FormControl()
+  public title = 'Add Entry'
+  private native: string
+  private foreign: string
+
+  //////////////////
+  // FormControls //
+  //////////////////
+  public nativeFromControl: FormControl = new FormControl()
+  public foreignFromControl: FormControl = new FormControl()
 
   //////////////////
   // Constructors //
   //////////////////
   public constructor(
   
-    public activatedRoute: ActivatedRoute,
-    public entryService: EntryService,
-
+    private activatedRoute: ActivatedRoute,
+    private entryService: EntryService,
+  
   ) {}
 
   ngOnInit() {
-  
-    this.nameFormControl.valueChanges.subscribe(name => this.name = name)
-  
+    this.nativeFromControl.valueChanges.subscribe(native => this.native = native)
+    this.foreignFromControl.valueChanges.subscribe(foreign => this.foreign = foreign)
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public addStage(): void {
-
-    this.activatedRoute.params.subscribe(params => this.entryService.addEntry(this.name))
-    this.nameFormControl.reset()
-
+  public addEntry(): void {
+    
+    this.activatedRoute.params.subscribe(params => {
+    
+      const newEntry = new Entry(this.native, this.foreign, 0)
+      this.entryService.addEntry(params['languageId'], params['stageId'], params['topicId'], newEntry)
+      this.nativeFromControl.reset()
+      this.foreignFromControl.reset()
+    })
   }
 
 }

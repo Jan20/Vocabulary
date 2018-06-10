@@ -1,30 +1,32 @@
-<div class='card-container'>
-  <mat-card>
-      <mat-grid-list cols='12' class='large-grid-list'>
-      
-        <mat-grid-tile colspan='12'>
-          <mat-input-container class='full-width'>
-            <input matInput placeholder='Native' [(ngModel)]='native' (keyup.enter)='onKey($event)'>
-          </mat-input-container>      
-        </mat-grid-tile>
-        
-        <mat-grid-tile colspan='12'></mat-grid-tile>
-        <mat-grid-tile colspan='12'></mat-grid-tile>
-        
-        <mat-grid-tile colspan='12'>
-          <mat-input-container class='full-width'>
-            <input matInput placeholder='Foreign' [(ngModel)]='foreign' (keyup.enter)='onKey($event)'>
-          </mat-input-container>       
-        </mat-grid-tile>
-        
-      </mat-grid-list>      
-  </mat-card>
-</div>
-
-<!-- Save Button -->
-<div class='fab-button-container'>
-  <button mat-fab (click)='save()'>
-    <mat-icon>done</mat-icon>
+<div class='add-button-container' *ngIf='entryService.inAddMode === false'>
+  <button mat-fab class='add-button' (click)='entryService.toggleInAddMode()'>
+    <mat-icon>add</mat-icon>
   </button>
 </div>
 
+<div class='outline' *ngIf='entryService.inAddMode === true'>
+  
+  <!-- Form Title -->
+  <h2>{{title}}</h2>
+  
+  <!-- Form -->
+  <form class='form'>
+    <mat-form-field class='full-width'>
+      <input matInput placeholder='native' [formControl]='nativeFromControl'>
+    </mat-form-field>
+    <mat-form-field class='full-width'>
+      <input matInput placeholder='foreign' [formControl]='foreignFromControl'>
+    </mat-form-field>
+  </form>
+
+  <!-- Control Buttons -->
+  <div class='wrapper'>
+    <button mat-raised-button (click)='addAsset()' class='control-button submit-button'>
+      <mat-icon>done</mat-icon>
+    </button>    
+    <button mat-raised-button (click)='entryService.setInAddMode(false)' class='control-button cancel-button'>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+</div>

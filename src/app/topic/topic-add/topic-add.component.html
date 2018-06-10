@@ -1,24 +1,29 @@
-<!-- Fab Button -->
 <div class='add-button-container' *ngIf='topicService.inAddMode === false'>
   <button mat-fab class='add-button' (click)='topicService.toggleInAddMode()'>
     <mat-icon>add</mat-icon>
   </button>
 </div>
 
-<div class='card-button-container' *ngIf='topicService.inAddMode === true'>
-  <mat-card>
-      <mat-grid-list cols="12" class='large-grid-list'>
-        <mat-grid-tile colspan='12' class='large-tile'>
-          <mat-input-container class="full-width">
-            <input matInput placeholder='New Topic' [(ngModel)]='name'>
-          </mat-input-container>      
-        </mat-grid-tile>
-      </mat-grid-list>      
-  </mat-card>
-</div>
+<div class='outline' *ngIf='topicService.inAddMode === true'>
+  
+  <!-- Form Title -->
+  <h2>{{title}}</h2>
+  
+  <!-- Form -->
+  <form class='form'>
+    <mat-form-field class='full-width'>
+      <input matInput placeholder='name' [formControl]='nameFromControl'>
+    </mat-form-field>
+  </form>
 
-<div class='fab-button-container' *ngIf='topicService.inAddMode === true'>
-  <button mat-fab (click)='save()'>
-    <mat-icon>done</mat-icon>
-  </button>
+  <!-- Control Buttons -->
+  <div class='wrapper'>
+    <button mat-raised-button (click)='addAsset()' class='control-button submit-button'>
+      <mat-icon>done</mat-icon>
+    </button>    
+    <button mat-raised-button (click)='topicService.setInAddMode(false)' class='control-button cancel-button'>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
 </div>

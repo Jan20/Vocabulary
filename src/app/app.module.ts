@@ -47,9 +47,9 @@ import { EntryModule } from './entry/entry.module'
     UserModule,
     MenuModule,
     LanguageModule,
-    // StageModule,
-    // TopicModule,
-    // EntryModule
+    StageModule,
+    TopicModule,
+    EntryModule
 
   ], providers: [
     

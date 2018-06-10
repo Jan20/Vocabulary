@@ -1,18 +1,11 @@
 <mat-tab-group>
 
   <div *ngFor='let stage of stages'>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <div (click)='selectStage(stage)'>
-          {{stage.name}}
-        </div>
-      </ng-template>
-      <app-topic></app-topic>
-    </mat-tab>
+    <app-topic-overview [stageId]='stage.stageId'></app-topic-overview>
   </div>
 
   <mat-tab label='Add Stage'>
-    <app-add-stage></app-add-stage>
+    <app-stage-add></app-stage-add>
   </mat-tab>
 
 </mat-tab-group>
