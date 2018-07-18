@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar color='warn'>
 
   <button class='title' mat-menu-item (click)='switchToLandingPage()'>{{title}}</button>
 
@@ -10,11 +10,14 @@
     <button mat-menu-item (click)="navigateToMenuEntry(item)">
       <span>{{item.name}}</span>
     </button>
-    
   </div>
-  <button mat-icon-button (click)='addLanguage()'>
-    <mat-icon>add</mat-icon>
-  </button>
+
+
+  <div class='desktop-menu'>
+    <button mat-menu-item (click)="navigateToMenuEntry(user)" class='user'>
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
 
   <button class='mobile-menu' mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>more_vert</mat-icon>
@@ -28,9 +31,6 @@
         </span>
       </button>
     </div>
-    <button mat-icon-button (click)='addLanguage()'>
-      <mat-icon>more_vert</mat-icon>
-    </button>
   </mat-menu>
 
 </mat-toolbar>

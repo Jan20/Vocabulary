@@ -23,13 +23,17 @@ describe('LoginComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+      
         UserLoginComponent,
-       ],
+      ],
       imports: [
+      
         FormsModule,
         BrowserAnimationsModule,
         FormsModule,
         AngularFireDatabaseModule,
+        AngularFireModule,
+
       ],
       providers: [
         AngularFireAuth,

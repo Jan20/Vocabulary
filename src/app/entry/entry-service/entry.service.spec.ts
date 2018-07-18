@@ -1,24 +1,25 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-// Firebase
+import { inject, TestBed } from '@angular/core/testing';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { FirebaseConfig } from './../config/firebase.config';
-
-// Services
 import { EntryService } from './entry.service';
+
 
 describe('EntryService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      
       declarations: [
+      
       ],
       imports: [
-        AngularFireModule.initializeApp(FirebaseConfig),
-        AngularFireDatabaseModule],
+      
+
+      
+      ],
       providers: [
+      
         EntryService
+      
       ]
     });
   });

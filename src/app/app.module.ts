@@ -15,6 +15,7 @@ import { SharedModule } from './shared/shared.module';
 import { StageModule } from './stage/stage.module';
 import { TopicModule } from './topic/topic.module';
 import { UserModule } from './user/user.module';
+import { ConfigModule } from './config/config.module'; 
 
 @NgModule({
   
@@ -40,6 +41,7 @@ import { UserModule } from './user/user.module';
     EntryModule,
     SharedModule,
     LandingModule,
+    ConfigModule,
 
   ], 
   providers: [

@@ -16,6 +16,7 @@ export class MenuComponent implements OnInit {
   ///////////////
   public title: String = 'Vocabulary'
   public items: MenuItem[]
+  public user: MenuItem
 
   //////////////////
   // Constructors //
@@ -26,7 +27,11 @@ export class MenuComponent implements OnInit {
     private router: Router,
     public menuService: MenuService,
 
-  ) {}
+  ) {
+
+    this.user = new MenuItem('User', 'account_circle', '/user')
+
+  }
 
   ngOnInit() {
 
@@ -65,3 +70,6 @@ export class MenuComponent implements OnInit {
   }
 
 }
+
+
+  

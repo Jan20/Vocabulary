@@ -24,7 +24,7 @@ export class ParticlesComponent implements OnInit {
       'bottom': 0,
       'padding': 0,
       'margin': 0,
-      'background': 'linear-gradient(to right bottom, rgb(100, 218, 163),rgb(194, 200, 104))'
+      'background': 'linear-gradient(to right bottom, rgb(218, 163, 100),rgb(200, 63, 100))'
     
     }
 

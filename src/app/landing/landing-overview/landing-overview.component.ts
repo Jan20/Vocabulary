@@ -8,12 +8,11 @@ import { Router } from '@angular/router';
 })
 export class LandingOverviewComponent implements OnInit {
 
-
   ///////////////
   // Variables //
   ///////////////
-  public title: string = 'Momentum'
-  public subtitle: string = 'Advanced Financial Algorithms'
+  public title: string = 'Vocabulary'
+  public subtitle: string = 'A simple and straightforward application to train your vocabulary'
 
   constructor(
 
