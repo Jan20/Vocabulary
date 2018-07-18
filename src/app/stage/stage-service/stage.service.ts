@@ -1,11 +1,10 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Stage } from './../stage-model/stage';
-import { GenericService } from '../../config/generic-service'
-import { User } from '../../user/user-model/user';
-import { Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { Subject } from 'rxjs';
+import { GenericService } from '../../shared/services/generic-service';
+import { User } from '../../user/user-model/user';
 import { UserService } from '../../user/user-service/user.service';
+import { Stage } from './../stage-model/stage';
 
 @Injectable()
 export class StageService extends GenericService{

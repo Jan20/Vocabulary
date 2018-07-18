@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Stage } from './../stage-model/stage'
-import { StageService } from './../stage-service/stage.service'
+import { StageService } from './../stage-service/stage.service';
 
 @Component({
   selector: 'app-stage-add',

@@ -1,8 +1,7 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Subject } from 'rxjs';
-import { GenericService } from '../../config/generic-service'
+import { GenericService } from '../../shared/services/generic-service';
 import { User } from '../../user/user-model/user';
 import { UserService } from '../../user/user-service/user.service';
 import { Language } from './../language-model/language';

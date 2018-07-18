@@ -1,5 +1,6 @@
 {
   "projects": {
-    "Vocabulary": "core-997e2"
+    "Vocabulary": "core-997e2",
+    "default": "core-997e2"
   }
 }

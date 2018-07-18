@@ -1,11 +1,10 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Topic } from './../topic-model/topic';
-import { GenericService } from '../../config/generic-service'
-import { User } from '../../user/user-model/user';
-import { Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { Subject } from 'rxjs';
+import { GenericService } from '../../shared/services/generic-service';
+import { User } from '../../user/user-model/user';
 import { UserService } from '../../user/user-service/user.service';
+import { Topic } from './../topic-model/topic';
 
 @Injectable()
 export class TopicService extends GenericService{

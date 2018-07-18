@@ -1,22 +1,19 @@
-import { RouterModule, Routes } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-// Custom Components
-import { UserLoginComponent } from './../user/user-login/user-login.component'
-import { LanguageOverviewComponent } from './../language/language-overview/language-overview.component'
-import { LanguageDetailsComponent } from './../language/language-details/language-details.component'
-import { LanguageAddComponent } from './../language/language-add/language-add.component'
-import { StageOverviewComponent } from './../stage/stage-overview/stage-overview.component'
-import { StageDetailsComponent } from './../stage/stage-details/stage-details.component'
-import { TopicOverviewComponent } from './../topic/topic-overview/topic-overview.component'
-import { TopicDetailsComponent } from './../topic/topic-details/topic-details.component'
-import { EntryOverviewComponent } from './../entry/entry-overview/entry-overview.component'
-import { EntryDetailsComponent } from './../entry/entry-details/entry-details.component'
+import { Routes } from '@angular/router';
+import { EntryOverviewComponent } from './../entry/entry-overview/entry-overview.component';
+import { LanguageAddComponent } from './../language/language-add/language-add.component';
+import { LanguageDetailsComponent } from './../language/language-details/language-details.component';
+import { LanguageOverviewComponent } from './../language/language-overview/language-overview.component';
+import { StageDetailsComponent } from './../stage/stage-details/stage-details.component';
+import { StageOverviewComponent } from './../stage/stage-overview/stage-overview.component';
+import { TopicDetailsComponent } from './../topic/topic-details/topic-details.component';
+import { TopicOverviewComponent } from './../topic/topic-overview/topic-overview.component';
+import { UserLoginComponent } from './../user/user-login/user-login.component';
+import { LandingOverviewComponent } from './../landing/landing-overview/landing-overview.component';
 
 // Routing
 export const ROUTES: Routes = [
 
-  { path: '', component: LanguageOverviewComponent},
+  { path: '', component: LandingOverviewComponent},
   { path: 'languages', component: LanguageOverviewComponent},
   { path: 'languages/add', component: LanguageAddComponent},
   { path: 'languages/:languageId', component: LanguageDetailsComponent},
