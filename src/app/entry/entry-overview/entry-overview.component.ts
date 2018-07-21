@@ -16,7 +16,7 @@ export class EntryOverviewComponent implements OnInit {
   private languageId: string
   private stageId: string
   private topicId: string
-  private entry: Entry = new Entry('', '', 0)
+  public entry: Entry = new Entry('', '', 0)
   private entries: Entry[] = [new Entry('', '', 0)]
   private pointer: number = 0
   public answer: string

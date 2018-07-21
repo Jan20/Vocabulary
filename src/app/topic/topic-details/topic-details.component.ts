@@ -55,7 +55,7 @@ export class TopicDetailsComponent implements OnInit {
   public delete(): void {
 
     this.topicService.delete(this.languageId, this.stageId, this.topicId)
-    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}`])
+    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics`])
     
   }
 
