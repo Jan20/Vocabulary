@@ -1,1 +1,25 @@
 @import '../../shared/styles/generic-style.scss';
+
+h1 {
+
+    margin: auto;
+    width: 100%;
+    margin-top: 50px;
+    position: absolute;
+    text-align: center;
+    font-size: 100px;
+    font-weight: 100;
+
+}
+
+
+mat-card {
+
+    margin:auto;
+    margin-top: 200px;
+    margin-left: calc(50% - 220px);
+    width: 400px;
+    position: absolute;
+    background: transparent;
+}
+    

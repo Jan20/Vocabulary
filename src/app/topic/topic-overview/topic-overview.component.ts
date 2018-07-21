@@ -37,6 +37,7 @@ export class TopicOverviewComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
 
       this.languageId = params['languageId']
+      this.stageId = params['stageId']
       this.topicService.fetchTopics(this.languageId, this.stageId)
 
     })
@@ -48,9 +49,15 @@ export class TopicOverviewComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public selectTopic(topicId: string): void {
+  public add(): void {
 
-    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${topicId}`])
+    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/add`])
+
+  }
+
+  public select(topic: Topic): void {
+
+    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${topic.topicId}`])
 
   }
 

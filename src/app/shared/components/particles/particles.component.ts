@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./particles.component.scss']
 })
 export class ParticlesComponent implements OnInit {
+  
   public myStyle: object = {};
   public myParams: object = {};
   public width: number = 100;
   public height: number = 96;
+  
+  // background: linear-gradient(to right, rgb(255, 218, 163),rgb(194, 117, 54));
 
   ngOnInit() {
   

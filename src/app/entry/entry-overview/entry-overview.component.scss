@@ -1,20 +1,16 @@
+@import '../../shared/styles/generic-style.scss';
+
+.entry-container {
+
+    position: absolute;
+    background: transparent;
+    width: 100%;
+
+}
+
 mat-sidenav-container {
     
     height: 91.4%;
-    // background-image: linear-gradient(45deg, rgb(50,100,210), rgb(70,280,255));
-    background: linear-gradient(to right, rgb(255, 218, 163),rgb(194, 117, 54));
-
-}
-
-p {
-
-    font-size: 20px;    
-
-}
-
-.half-width {
-
-    width: 50%;
 
 }
 
@@ -28,14 +24,21 @@ mat-input-container {
 
     font-family: 'Roboto', sans-serif;    
     line-height: 200%;
-    font-size: 20px;    
-    font-weight: 300;
+    font-size: 48px;
+    font-weight: 100;    
     text-align: center;
     width: 100%;
     height: 100%;
     border: 0px solid white;
+    background: transparent;
+    color: white;
 
 }
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
 
 //------------
 // Star Style 
@@ -55,55 +58,33 @@ mat-input-container {
 // -------------------------------
 //          Mat Card
 // -------------------------------
-
 @media (max-width: 680px) {
-    mat-card {
+    .mat-card {
         
-        width: 80%;
+        width: 100%;
         height: 70px;
         padding-top: 54px;
-        
+        background: transparent;
+        box-shadow: none;
+
     }
 }
 
 @media (min-width: 680px) {
-    mat-card {
+    .mat-card {
         
-        width: 500px;
+        width: 100%;
         height: 70px;
         padding-top: 54px;
-        
-    }
-}
+        background: transparent;
+        box-shadow: none;
 
-@media (max-width: 680px) {
-    .card-button-container {
-        
-        width: 80%;
-        margin: auto;
-        
     }
-}
-
-@media (min-width: 680px) {
-    .card-button-container  {
-        
-        width: 550px;
-        margin: auto;
-        
-    }
-
 }
 
 .mat-raised-button {
-    padding: 0;
-}
 
-.fab-button-container{
-    z-index: 12;
-    margin-top: -29px;
-    margin-left: 60%;
-    position: absolute;
+    padding: 0;
 
 }
 
@@ -114,14 +95,61 @@ mat-input-container {
 
 }
 
-.correction {
+.check-button {
 
-    color: #01579B;
+    background: linear-gradient(to right bottom, rgb(218, 163, 100),rgb(200, 63, 100));
+    width: 70px;
+    height: 70px;
+    z-index: 12;
+    margin-top: -37px;
+    margin-left: 80%;
+    position: absolute;
 
 }
 
-.check-button {
+.check-button .mat-icon {
 
-    background: linear-gradient(to right bottom, rgb(255, 218, 163),rgb(194, 117, 54));
+    margin-top: -8px;
+    margin-left: -8px;
+    font-size: 30px;
+
+}
+
+.entry-button-container {
+
+    position: absolute;
+    margin-left: calc(10%);
+    margin-top: 120px;
+    width: 80%;
+
+}
+
+h2 {
+
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    padding-top: 52px;
+    text-align: center;
+
+}
+
+.card-button-container {
+
+    background: transparent;
+    width: calc(100%);
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px;
+    box-shadow: none !important;
+
+}
+
+.card-content {
+
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 0;
+    height: 150px;
 
 }

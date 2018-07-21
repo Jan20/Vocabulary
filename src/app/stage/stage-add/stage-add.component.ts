@@ -32,13 +32,17 @@ export class StageAddComponent implements OnInit {
   ngOnInit() {
   
     this.nameFormControl.valueChanges.subscribe(name => this.name = name)
-  
+    this.activatedRoute.params.subscribe(params => {
+      
+      this.languageId = params['languageId']
+
+    })
   }
 
   ///////////////
   // Functions //
   ///////////////
-  public addStage(): void {
+  public add(): void {
 
     if (this.name == '') {
 
@@ -46,21 +50,15 @@ export class StageAddComponent implements OnInit {
 
     }
 
-    this.activatedRoute.params.subscribe(params => {
-      
-      this.languageId = params['languageId']
-      this.stageService.addStage(this.languageId, this.name)
-      this.router.navigate([`languages/${this.languageId}`])
-      this.nameFormControl.reset()
-      this.stageService.toggleInAddMode()
+    this.stageService.addStage(this.languageId, this.name)
+    this.nameFormControl.reset()
+    this.router.navigate([`languages/${this.languageId}`])
 
-    })
   }
 
-  public returnToOverview(): void {
+  public return(): void {
 
     this.router.navigate([`languages/${this.languageId}`])
-    this.stageService.toggleInAddMode()
 
   }
 }

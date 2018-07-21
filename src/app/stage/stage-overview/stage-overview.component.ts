@@ -56,9 +56,15 @@ export class StageOverviewComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public selectStage(stage: Stage): void {
+  public select(stage: Stage): void {
 
-    this.router.navigate([`/languages/${this.languageId}/stages/${stage.getStageId()}`])
+    this.router.navigate([`/languages/${this.languageId}/stages/${stage.stageId}`])
     
+  }
+
+  public add(): void {
+
+    this.router.navigate([`/languages/${this.languageId}/stages/add`])
+
   }
 }

@@ -40,13 +40,13 @@ export class LanguageOverviewComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public switchToAdd(): void {
+  public add(): void {
 
     this.router.navigate([`languages/add`])
 
   }
 
-  public switchToLanguage(languageId: string): void {
+  public select(languageId: string): void {
 
     this.router.navigate([`languages/${languageId}`])
 
