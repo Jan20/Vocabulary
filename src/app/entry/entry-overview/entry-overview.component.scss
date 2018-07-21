@@ -98,20 +98,18 @@ textarea:focus, input:focus{
 .check-button {
 
     background: linear-gradient(to right bottom, rgb(218, 163, 100),rgb(200, 63, 100));
-    width: 70px;
-    height: 70px;
     z-index: 12;
-    margin-top: -37px;
-    margin-left: 80%;
+    margin-top: -30px;
+    margin-left: 70%;
     position: absolute;
 
 }
 
 .check-button .mat-icon {
 
-    margin-top: -8px;
-    margin-left: -8px;
-    font-size: 30px;
+    margin-top: -5px;
+    margin-left: -2px;
+    font-size: 24px;
 
 }
 
@@ -151,5 +149,5 @@ h2 {
     padding: 10px;
     margin: 0;
     height: 150px;
-
+    position: relative;
 }

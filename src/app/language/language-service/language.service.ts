@@ -13,8 +13,6 @@ export class LanguageService extends GenericService{
   // Variables //
   ///////////////
   private user: User
-  private language: Language
-  private languages: Language[]
 
   //////////////
   // Subjects //
@@ -42,65 +40,40 @@ export class LanguageService extends GenericService{
   public async fetchLanguage(languageId: string): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<Language>(`users/${this.user.userId}/languages/${languageId}`).valueChanges().subscribe(language => this.setLanguage(language))
+    this.angularFirestore.doc<Language>(`users/${this.user.userId}/languages/${languageId}`).valueChanges().subscribe(language => this.languageSubject.next(language))
 
   }
   
   public async fetchLanguages(): Promise<void> {
 
     await this.userService.getUser().then( user => this.user = user)
-    this.angularFirestore.collection<Language>(`users/${this.user.userId}/languages`).valueChanges().subscribe(languages => this.setLanguages(languages))
+    this.angularFirestore.collection<Language>(`users/${this.user.userId}/languages`).valueChanges().subscribe(languages => this.languagesSubject.next(languages))
 
   }
 
-  public async addLanguage(name: string): Promise<void> {
-    
-    await this.userService.getUser().then(user => this.user = user)
-    const newLanguage: any = {name: name}
-    const languageCollection = this.angularFirestore.collection<Language>(`/users/${this.user.userId}/languages`)
-    languageCollection.add(newLanguage)
-    languageCollection.ref.where('name', '==', name).get().then( languages => languages.docs.forEach(language => languageCollection.doc(language.id).update({ 'languageId': language.id })))
-    this.setInAddMode(false)
-
-  }
-
-  public async updateLanguage(language: string, new_language: string): Promise<void> {
+  public async add(name: string): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${language}`).update({name: new_language})
+    const languageId = name.toLowerCase()
+    const language: any = {languageId: languageId, name: name}
+    this.angularFirestore.collection<Language>(`/users/${this.user.userId}/languages`).doc(languageId).set(language)
 
   }
 
-  /////////////
-  // Getters //
-  /////////////
-  public getLanguage(): Language {
+  public async update(languageId: string, name: string): Promise<void> {
 
-    return this.language
-
-  }
-
-  public getLanguages(): Language[] {
-
-    return this.languages
-
-  }
-  
-  /////////////
-  // Setters //
-  /////////////
-  public setLanguage(language: Language): void {
-
-    this.language  = language
-    this.languageSubject.next(language)
-
-  }
- 
-  public setLanguages(languages: Language[]): void {
-
-    this.languages = languages
-    this.languagesSubject.next(languages)
+    await this.userService.getUser().then(user => this.user = user)
+    const newLanguageId = name.toLowerCase()
+    const language: any = {languageId: newLanguageId, name: name}
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}`).delete()
+    this.angularFirestore.collection<Language>(`/users/${this.user.userId}/languages`).doc(newLanguageId).set(language)
 
   }
 
+  public async delete(languageId: string): Promise<void> {
+
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}`).delete()
+
+  }
 }

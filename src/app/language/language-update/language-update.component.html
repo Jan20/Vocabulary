@@ -1,29 +1,14 @@
-<div class='add-button-container' *ngIf='languageService.inAddMode === false'>
-  <button mat-fab class='add-button' (click)='languageService.toggleInAddMode()'>
-    <mat-icon>add</mat-icon>
-  </button>
-</div>
-
-<div class='outline' *ngIf='languageService.inAddMode === true'>
+<h1>{{title}}</h1>
   
-  <!-- Form Title -->
-  <h2>{{title}}</h2>
+<mat-card>
   
-  <!-- Form -->
   <form class='form'>
-    <mat-form-field class='full-width'>
-      <input matInput placeholder='name' [formControl]='nameFromControl'>
-    </mat-form-field>
+    <mat-form-field class='full-width'><input matInput placeholder='Name' [formControl]='nameFormControl'></mat-form-field>
   </form>
 
-  <!-- Control Buttons -->
   <div class='wrapper'>
-    <button mat-raised-button (click)='updateLanguage()' class='control-button submit-button'>
-      <mat-icon>done</mat-icon>
-    </button>    
-    <button mat-raised-button (click)='languageService.setInAddMode(false)' class='control-button cancel-button'>
-      <mat-icon>close</mat-icon>
-    </button>
+    <button mat-raised-button class='control-button submit-button' (click)='update()'><mat-icon>done</mat-icon></button>    
+    <button mat-raised-button class='control-button cancel-button' (click)='close()' ><mat-icon>close</mat-icon></button>
   </div>
-
-</div>
+  
+</mat-card>

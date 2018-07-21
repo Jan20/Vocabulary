@@ -1,3 +1,6 @@
 <h1>{{title}}</h1>
 
+<button mat-fab class='update-button' (click)='update()'><mat-icon>edit</mat-icon></button>
+<button mat-fab class='delete-button' (click)='delete()'><mat-icon>delete</mat-icon></button>
+
 <app-topic-overview [stageId]='stageId'></app-topic-overview>

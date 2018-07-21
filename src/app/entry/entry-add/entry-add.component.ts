@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Entry } from './../entry-model/entry'
 import { EntryService } from './../entry-service/entry.service'
+import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-entry-add',
@@ -15,6 +16,9 @@ export class EntryAddComponent implements OnInit {
   // Variables //
   ///////////////
   public title = 'Add Entry'
+  private languageId: string
+  private stageId: string
+  private topicId: string
   private native: string
   private foreign: string
 
@@ -30,11 +34,20 @@ export class EntryAddComponent implements OnInit {
   public constructor(
   
     private activatedRoute: ActivatedRoute,
-    public entryService: EntryService,
-  
+    private entryService: EntryService,
+    private router: Router,
+    
   ) {}
 
   ngOnInit() {
+
+    this.activatedRoute.params.subscribe(params => {
+
+      this.languageId = params['languageId']
+      this.stageId = params['stageId']
+      this.topicId = params['topicId']
+
+    })
  
     this.nativeFromControl.valueChanges.subscribe(native => this.native = native)
     this.foreignFromControl.valueChanges.subscribe(foreign => this.foreign = foreign)
@@ -44,16 +57,23 @@ export class EntryAddComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public addEntry(): void {
-    
+  public add(): void {
+
     this.activatedRoute.params.subscribe(params => {
-    
+
       const newEntry = new Entry(this.native, this.foreign, 0)
-      this.entryService.addEntry(params['languageId'], params['stageId'], params['topicId'], newEntry)
+      this.entryService.add(params['languageId'], params['stageId'], params['topicId'], newEntry)
       this.nativeFromControl.reset()
       this.foreignFromControl.reset()
- 
+      this.router.navigate([`languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}/entries`])
+
     })
+
   }
 
+  public close(): void {
+
+    this.router.navigate([`languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}/entries`])
+
+  }
 }

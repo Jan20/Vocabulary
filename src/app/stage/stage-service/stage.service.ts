@@ -1,20 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Subject } from 'rxjs';
-import { GenericService } from '../../shared/services/generic-service';
 import { User } from '../../user/user-model/user';
 import { UserService } from '../../user/user-service/user.service';
 import { Stage } from './../stage-model/stage';
 
 @Injectable()
-export class StageService extends GenericService{
+export class StageService{
 
   ///////////////
   // Variables //
   ///////////////
   private user: User
-  private stage: Stage
-  private stages: Stage[]
 
   //////////////
   // Subjects //
@@ -30,11 +27,7 @@ export class StageService extends GenericService{
     private angularFirestore: AngularFirestore,
     private userService: UserService,
   
-  ) { 
-    
-    super() 
-  
-  }
+  ) {}
 
   ///////////////
   // Functions //
@@ -42,63 +35,40 @@ export class StageService extends GenericService{
   public async fetchStage(languageId: string, stageId: string): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<Stage>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}`).valueChanges().subscribe(stage => this.setStage(stage))
+    this.angularFirestore.doc<Stage>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}`).valueChanges().subscribe(stage => this.stageSubject.next(stage))
 
   }
   
   public async fetchStages(languageId: string): Promise<void> {
 
     await this.userService.getUser().then( user => this.user = user)
-    this.angularFirestore.collection<Stage>(`users/${this.user.userId}/languages/${languageId}/stages`).valueChanges().subscribe(stages => this.setStages(stages))
+    this.angularFirestore.collection<Stage>(`users/${this.user.userId}/languages/${languageId}/stages`).valueChanges().subscribe(stages => this.stagesSubject.next(stages))
 
   }
 
-  public async addStage(languageId: string, name: string): Promise<void> {
+  public async add(languageId: string, name: string): Promise<void> {
     
     await this.userService.getUser().then(user => this.user = user)
-    const newStage: any = {name: name}
-    const stageCollection = this.angularFirestore.collection<Stage>(`/users/${this.user.userId}/languages/${languageId}/stages`)
-    stageCollection.add(newStage)
-    stageCollection.ref.where('name', '==', name).get().then( stages => stages.docs.forEach(stage => stageCollection.doc(stage.id).update({ stageId: stage.id })))
-    this.setInAddMode(false)
+    const stageId = name.toLowerCase()
+    const stage: any = {stageId: stageId, name: name}
+    this.angularFirestore.collection<Stage>(`/users/${this.user.userId}/languages/${languageId}/stages`).doc(stageId).set(stage)
 
   }
 
-  public async updateStage(stageId: string): Promise<void> {
+  public async update(languageId: string, stageId: string, name: string): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
+    const newStageId = name.toLowerCase()
+    const stage: any = {stageId: newStageId, name: name}
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${stageId}`).delete()
+    this.angularFirestore.collection<Stage>(`/users/${this.user.userId}/languages/${languageId}/stages`).doc(newStageId).set(stage)
 
   }
 
-  /////////////
-  // Getters //
-  /////////////
-  public getStage(): Stage {
+  public async delete(languageId: string, stageId: string): Promise<void> {
 
-    return this.stage
-
-  }
-
-  public getStages(): Stage[] {
-
-    return this.stages
-
-  }
-  
-  /////////////
-  // Setters //
-  /////////////
-  public setStage(stage: Stage): void {
-
-    this.stage  = stage
-    this.stageSubject.next(stage)
-
-  }
- 
-  public setStages(stages: Stage[]): void {
-
-    this.stages = stages
-    this.stagesSubject.next(stages)
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}`).delete()
 
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LanguageService } from '../language-service/language.service'
 import { Language } from '../language-model/language';
 
@@ -22,9 +22,21 @@ export class LanguageDetailsComponent implements OnInit {
   constructor(
 
     private activatedRoute: ActivatedRoute,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private router: Router,
 
-  ) { }
+  ) {
+
+    this.activatedRoute.params.subscribe(params => {
+
+      this.languageId = params['languageId']
+      this.languageService.fetchLanguage(this.languageId)
+      
+    })
+
+    this.languageService.languageSubject.subscribe(language => this.title = language.name)
+
+  }
 
   ngOnInit() {
 
@@ -35,12 +47,23 @@ export class LanguageDetailsComponent implements OnInit {
 
     })
 
-    this.languageService.languageSubject.subscribe(language => {
 
-      this.title = language.name
-
-    })
+    this.languageService.languageSubject.subscribe(language => this.title = language.name)
 
   }
+
+  public update(): void {
+
+    this.router.navigate([`/languages/${this.languageId}/update`])
+
+  }
+
+  public delete(): void {
+
+    this.languageService.delete(this.languageId)
+    this.router.navigate([`/languages`])
+    
+  }
+
 
 }

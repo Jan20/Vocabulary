@@ -14,7 +14,7 @@ export class StageDetailsComponent implements OnInit {
   ///////////////
   public title: string = ''
   private languageId: string
-  private stageId: string
+  public stageId: string
 
   constructor(
 
@@ -45,16 +45,19 @@ export class StageDetailsComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public add(): void {
+  public update(): void {
 
-    this.router.navigate([`/languages/${this.languageId}/stages/add]`])
-
-  }
-
-  public select(): void {
-
-    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}]`])
+    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/update`])
 
   }
+
+  public delete(): void {
+
+    this.stageService.delete(this.languageId, this.stageId)
+    this.router.navigate([`/languages/${this.languageId}/stages`])
+    
+  }
+
+
 
 }

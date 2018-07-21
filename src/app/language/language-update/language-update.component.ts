@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms'
 import { LanguageService } from './../language-service/language.service'
-import { Language } from './../language-model/language'
 
 @Component({
   selector: 'app-language-update',
@@ -15,6 +14,7 @@ export class LanguageUpdateComponent implements OnInit {
   // Variables //
   ///////////////
   private name: string
+  public title: string = 'Edit Language'
   public nameFormControl: FormControl = new FormControl()
 
   //////////////////
@@ -23,7 +23,8 @@ export class LanguageUpdateComponent implements OnInit {
   public constructor(
 
     private activatedRoute: ActivatedRoute,
-    public languageService: LanguageService,
+    private languageService: LanguageService,
+    private router: Router,
 
   ) {}
 
@@ -36,11 +37,23 @@ export class LanguageUpdateComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public updateLanguage(): void {
+  public update(): void {
+
+    this.activatedRoute.params.subscribe(params => {
+      
+      this.languageService.update(params['languageId'], name)
+      this.router.navigate([`/languages/${this.name.toLowerCase()}`])
+      this.nameFormControl.reset()
+
+    })
+
+  }
+
+  public close(): void {
 
     this.activatedRoute.params.subscribe(params => {
 
-      this.languageService.updateLanguage(params['languageId'], name)
+      this.router.navigate([`/languages/${params['languageId']}`])
       this.nameFormControl.reset()
 
     })

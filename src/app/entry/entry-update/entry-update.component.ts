@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Entry } from './../entry-model/entry';
 import { EntryService } from './../entry-service/entry.service';
 
@@ -34,8 +34,9 @@ export class EntryUpdateComponent implements OnInit {
   //////////////////
   public constructor(
 
-    public entryService: EntryService,
+    private entryService: EntryService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
 
   ) {}
 
@@ -58,15 +59,21 @@ export class EntryUpdateComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public updateEntry(): void {
+  public update(): void {
     
     this.activatedRoute.params.subscribe(params => {
     
       const updatedEntry = new Entry(this.native, this.foreign, 0)
-      this.entryService.updateEntry(params['languageId'], params['stageId'], params['topicId'], updatedEntry)
+      this.entryService.update(params['languageId'], params['stageId'], params['topicId'], updatedEntry)
       this.nativeFromControl.reset()
       this.foreignFromControl.reset()
 
     })
+  }
+
+  public close(): void {
+
+    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}`])
+
   }
 }

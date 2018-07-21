@@ -14,21 +14,8 @@
         <button *ngIf='entry.score === 5'  mat-button class='control-button five-stars' (click)='selectEntry(entry)'>{{entry.native}}</button>
       </div>
     
-    <!-- Button to open the newTopic form -->
-    <button mat-button class="control-button" (click)='toggleFlag()' *ngIf='!flag' (keyup.enter)='onKey($event)'> 
-      <mat-icon>expand_more</mat-icon>
-    </button>
-  
-    <!-- Add Entry Form -->
-    <div *ngIf='flag'>
-      <button mat-button class="control-button" (click)='toggleFlag()'> 
-        <mat-icon>expand_less</mat-icon>
-      </button>
-      <app-entry-add></app-entry-add>
-    </div>        
   
 </mat-sidenav>
 
-<button mat-button (click)="sidenav.toggle()" class='hidden-button' (mouseover)='sidenav.toggle()'> 
-</button>  
+<button mat-button (click)="sidenav.toggle()" class='hidden-button' (mouseover)='sidenav.toggle()'></button>  
   

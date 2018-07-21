@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TopicService } from '../topic-service/topic.service';
-import { ActivatedRoute } from '../../../../node_modules/@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-topic-details',
@@ -13,6 +13,9 @@ export class TopicDetailsComponent implements OnInit {
   // Variables //
   ///////////////
   public title: string = 'Test'
+  private languageId: string
+  private stageId: string
+  private topicId: string
 
   ////////////////
   // Contructor //
@@ -20,7 +23,8 @@ export class TopicDetailsComponent implements OnInit {
   constructor(
 
     private topicService: TopicService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
 
   ) { }
 
@@ -28,7 +32,10 @@ export class TopicDetailsComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(params => {
 
-      this.topicService.fetchTopic(params['languageId'], params['stageId'], params['topicId'])
+      this.languageId = params['languageId']
+      this.stageId = params['stageId']
+      this.topicId = params['topicId']
+      this.topicService.fetchTopic(this.languageId, this.stageId, this.topicId)
 
     })
 
@@ -39,6 +46,17 @@ export class TopicDetailsComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
+  public update(): void {
 
+    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}/update`])
+
+  }
+
+  public delete(): void {
+
+    this.topicService.delete(this.languageId, this.stageId, this.topicId)
+    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}`])
+    
+  }
 
 }

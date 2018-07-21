@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UpdateLanguageComponent } from './update-language.component';
+// import { UpdateLanguageComponent } from './update-language.component';
 
-describe('UpdateLanguageComponent', () => {
-  let component: UpdateLanguageComponent;
-  let fixture: ComponentFixture<UpdateLanguageComponent>;
+// describe('UpdateLanguageComponent', () => {
+//   let component: UpdateLanguageComponent;
+//   let fixture: ComponentFixture<UpdateLanguageComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UpdateLanguageComponent ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ UpdateLanguageComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UpdateLanguageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(UpdateLanguageComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should be created', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

@@ -37,15 +37,15 @@ export class LanguageAddComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public addLanguage(): void {
+  public add(): void {
 
-    this.languageService.addLanguage(this.name)
+    this.languageService.add(this.name)
     this.router.navigate([`languages`])
     this.nameFormControl.reset()
 
   }
 
-  public returnToOverview(): void {
+  public close(): void {
 
     this.router.navigate([`languages`])
 

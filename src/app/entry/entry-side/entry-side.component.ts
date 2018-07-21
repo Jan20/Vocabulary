@@ -57,30 +57,14 @@ export class EntrySideComponent implements OnInit {
     })
   }
 
-  ////////////////////
-  // Event Handlers //
-  ////////////////////
-  public onKey(event: any) { 
-
-    this.toggleFlag()
-  
-  }
-  
   ///////////////
   // Functions //
   ///////////////
   public selectEntry(entry: Entry): void {
 
     this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}/entries/${entry.entryId}`])
-    this.entryService.setEntry(entry)
-    this.entryService.selectSubject.next(true)
+    this.entryService.entrySubject.next(entry)
 
-  }
-
-  public toggleFlag(): void {
-
-    this.flag ? this.flag = false : this.flag = true
-    
   }
 
 }

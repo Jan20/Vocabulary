@@ -11,14 +11,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class StageOverviewComponent implements OnInit {
 
-  ////////////
-  // Inputs //
-  ////////////
-  @Input() languageId: string
-
   ///////////////
   // Variables //
   ///////////////
+  private languageId: string
   public stage: Stage = new Stage('', '')
   public stages: Stage[] = []
 
@@ -67,4 +63,5 @@ export class StageOverviewComponent implements OnInit {
     this.router.navigate([`/languages/${this.languageId}/stages/add`])
 
   }
+
 }

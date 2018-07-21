@@ -7,21 +7,18 @@ import { UserService } from '../../user/user-service/user.service';
 import { Entry } from './../entry-model/entry';
 
 @Injectable()
-export class EntryService extends GenericService {
+export class EntryService {
 
   ///////////////
   // Variables //
   ///////////////
   private user: User
-  private entry: Entry
-  private entries: Entry[]
 
   //////////////
   // Subjects //
   //////////////
   public entrySubject: Subject<Entry> = new Subject<Entry>()
   public entriesSubject: Subject<Entry[]> = new Subject<Entry[]>()
-  public selectSubject: Subject<boolean> = new Subject<boolean>()
 
   //////////////////
   // Constructors //
@@ -31,11 +28,7 @@ export class EntryService extends GenericService {
     private angularFirestore: AngularFirestore,
     private userService: UserService,
   
-  ) { 
-    
-    super() 
-  
-  }
+  ) {}
 
   ///////////////
   // Functions //
@@ -43,64 +36,41 @@ export class EntryService extends GenericService {
   public async fetchEntry(languageId: string, stageId: string, topicId: string, entryId: string): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<Entry>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries/${entryId}`).valueChanges().subscribe(entry => this.setEntry(entry))
+    this.angularFirestore.doc<Entry>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries/${entryId}`).valueChanges().subscribe(entry => this.entrySubject.next(entry))
 
   }
   
   public async fetchEntries(languageId: string, stageId: string, topicId: string): Promise<void> {
 
     await this.userService.getUser().then( user => this.user = user)
-    this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries`).valueChanges().subscribe(entries => this.setEntrys(entries))
+    this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries`).valueChanges().subscribe(entries => this.entriesSubject.next(entries))
 
   }
 
-  public async addEntry(languageId: string, stageId: string, topicId: string, entry: Entry): Promise<void> {
+  public async add(languageId: string, stageId: string, topicId: string, entry: Entry): Promise<void> {
     
     await this.userService.getUser().then(user => this.user = user)
-    const newEntry: any = {native: entry.native, foreign: entry.foreign, score: entry.score}
-    const entryCollection = this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries`)
-    entryCollection.add(newEntry)
-    entryCollection.ref.where('native', '==', entry.native).get().then( entries => entries.docs.forEach(entry => entryCollection.doc(entry.id).update({ entryId: entry.id })))
-    this.setInAddMode(false)
+    const entryId = entry.native.toLowerCase()
+    const newEntry: any = {entryId: entryId, native: entry.native, foreign: entry.foreign, score: entry.score}
+    this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries`).doc(entryId).set(newEntry)
 
   }
 
-  public async updateEntry(languageId: string, stageId: string, topicId: string, entry: Entry): Promise<void> {
+  public async update(languageId: string, stageId: string, topicId: string, entry: Entry): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries/${entry.entryId}`).update({score: entry.score})
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries/${entry.entryId}`).delete()
+    const entryId = entry.native.toLowerCase()
+    const newEntry: any = {entryId: entryId, native: entry.native, foreign: entry.foreign, score: entry.score}
+    this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries`).doc(entryId).set(newEntry)
 
   }
 
-  /////////////
-  // Getters //
-  /////////////
-  public getEntry(): Entry {
+  public async delete(languageId: string, stageId: string, topicId: string, entryId: string): Promise<void> {
 
-    return this.entry
-
-  }
-
-  public getEntries(): Entry[] {
-
-    return this.entries
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries/${entryId}`).delete()
 
   }
   
-  /////////////
-  // Setters //
-  /////////////
-  public setEntry(entry: Entry): void {
-
-    this.entry  = entry
-    this.entrySubject.next(entry)
-
-  }
- 
-  public setEntrys(entries: Entry[]): void {
-
-    this.entries = entries
-    this.entriesSubject.next(entries)
-
-  }
 }

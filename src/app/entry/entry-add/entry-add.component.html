@@ -1,23 +1,15 @@
-<div class='outline'>
+<h1>{{title}}</h1>
   
-  <h2>{{title}}</h2>
+<mat-card>
   
   <form class='form'>
-    <mat-form-field class='full-width'>
-      <input matInput placeholder='native' [formControl]='nativeFromControl'>
-    </mat-form-field>
-    <mat-form-field class='full-width'>
-      <input matInput placeholder='foreign' [formControl]='foreignFromControl'>
-    </mat-form-field>
+    <mat-form-field class='full-width'><input matInput placeholder='native' [formControl]='nativeFromControl'></mat-form-field>
+    <mat-form-field class='full-width'><input matInput placeholder='foreign' [formControl]='foreignFromControl'></mat-form-field>
   </form>
 
   <div class='wrapper'>
-    <button mat-raised-button (click)='addEntry()' class='control-button submit-button'>
-      <mat-icon>done</mat-icon>
-    </button>    
-    <button mat-raised-button (click)='entryService.setInAddMode(false)' class='control-button cancel-button'>
-      <mat-icon>close</mat-icon>
-    </button>
+    <button mat-raised-button (click)='add()' class='control-button submit-button'><mat-icon>done</mat-icon></button>    
+    <button mat-raised-button (click)='close()' class='control-button cancel-button'><mat-icon>close</mat-icon></button>
   </div>
-
-</div>
+  
+</mat-card>

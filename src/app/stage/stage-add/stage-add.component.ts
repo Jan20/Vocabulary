@@ -23,8 +23,8 @@ export class StageAddComponent implements OnInit {
   //////////////////
   public constructor(
   
-    public activatedRoute: ActivatedRoute,
-    public stageService: StageService,
+    private activatedRoute: ActivatedRoute,
+    private stageService: StageService,
     private router: Router,
 
   ) {}
@@ -32,11 +32,8 @@ export class StageAddComponent implements OnInit {
   ngOnInit() {
   
     this.nameFormControl.valueChanges.subscribe(name => this.name = name)
-    this.activatedRoute.params.subscribe(params => {
-      
-      this.languageId = params['languageId']
+    this.activatedRoute.params.subscribe(params => this.languageId = params['languageId'])
 
-    })
   }
 
   ///////////////
@@ -50,15 +47,15 @@ export class StageAddComponent implements OnInit {
 
     }
 
-    this.stageService.addStage(this.languageId, this.name)
+    this.stageService.add(this.languageId, this.name)
     this.nameFormControl.reset()
-    this.router.navigate([`languages/${this.languageId}`])
+    this.router.navigate([`languages/${this.languageId}/stages`])
 
   }
 
-  public return(): void {
+  public close(): void {
 
-    this.router.navigate([`languages/${this.languageId}`])
+    this.router.navigate([`languages/${this.languageId}/stages`])
 
   }
 }

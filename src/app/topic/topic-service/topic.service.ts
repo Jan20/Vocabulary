@@ -7,14 +7,13 @@ import { UserService } from '../../user/user-service/user.service';
 import { Topic } from './../topic-model/topic';
 
 @Injectable()
-export class TopicService extends GenericService{
+export class TopicService {
 
   ///////////////
   // Variables //
   ///////////////
   private user: User
-  private topic: Topic
-  private topics: Topic[]
+
 
   //////////////
   // Subjects //
@@ -30,11 +29,7 @@ export class TopicService extends GenericService{
     private angularFirestore: AngularFirestore,
     private userService: UserService,
   
-  ) { 
-    
-    super() 
-  
-  }
+  ) {}
 
   ///////////////
   // Functions //
@@ -42,7 +37,7 @@ export class TopicService extends GenericService{
   public async fetchTopic(languageId: string, stageId: string, topicId: string): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<Topic>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}`).valueChanges().subscribe(topic => this.setTopic(topic))
+    this.angularFirestore.doc<Topic>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}`).valueChanges().subscribe(topic => this.topicSubject.next(topic))
 
   }
 
@@ -50,60 +45,35 @@ export class TopicService extends GenericService{
   public async fetchTopics(languageId: string, stageId: string): Promise<void> {
 
     await this.userService.getUser().then( user => this.user = user)
-    this.angularFirestore.collection<Topic>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics`).valueChanges().subscribe(topics => this.setTopics(topics))
+    this.angularFirestore.collection<Topic>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics`).valueChanges().subscribe(topics => this.topicsSubject.next(topics))
 
   }
 
-
-  public async addTopic(language: string, stage: string, name: string): Promise<void> {
+  public async add(languageId: string, stageId: string, name: string): Promise<void> {
     
     await this.userService.getUser().then(user => this.user = user)
-    const newTopic: any = {language: language, stage: stage, name: name}
-    const topicCollection = this.angularFirestore.collection<Topic>(`/users/${this.user.userId}/languages/${language}/stages/${stage}/topics`)
-    topicCollection.add(newTopic)
-    topicCollection.ref.where('name', '==', name).get().then( topics => topics.docs.forEach(topic => topicCollection.doc(topic.id).update({ topicId: topic.id })))
-    this.setInAddMode(false)
+    const topicId = name.toLowerCase()
+    const topic: any = {topicId: topicId, name: name}
+    this.angularFirestore.collection<Topic>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics`).doc(topicId).set(topic)
 
   }
 
-  public async updateTopic(languageId: string, stageId: string, topic: Topic): Promise<void> {
+  public async update(languageId: string, stageId: string, topicId: string, name: string): Promise<void> {
 
     await this.userService.getUser().then(user => this.user = user)
-    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topic.topicId}`).update({score: topic.score})
+    const newTopicId = name.toLowerCase()
+    const topic: any = {topicId: newTopicId, name: name}
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${stageId}/topics/${topicId}`).delete()
+    this.angularFirestore.collection<Topic>(`/users/${this.user.userId}/languages/${languageId}/stages`).doc(newTopicId).set(topic)
 
   }
 
-  /////////////
-  // Getters //
-  /////////////
-  public getTopic(): Topic {
+  public async delete(languageId: string, stageId: string, topicId: string): Promise<void> {
 
-    return this.topic
+    await this.userService.getUser().then(user => this.user = user)
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}`).delete()
 
   }
 
-  public getTopics(): Topic[] {
-
-    return this.topics
-
-  }
-  
-  /////////////
-  // Setters //
-  /////////////
-  public setTopic(topic: Topic): void {
-  
-    this.topic = topic
-    this.topicSubject.next(topic)
-
-  }
- 
-  public setTopics(topics: Topic[]): void {
-
-    console.log(topics)
-    this.topics = topics
-    this.topicsSubject.next(topics)
-
-  }
 
 }

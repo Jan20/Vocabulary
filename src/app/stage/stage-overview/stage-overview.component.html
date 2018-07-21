@@ -1,8 +1,4 @@
-<h1>{{title}}</h1>
-
 <div class='button-container'>
   <button mat-raised-button class='large-button'  *ngFor='let stage of stages' (click)='select(stage)'>{{stage.name}}</button>
   <button mat-fab class='add-button' (click)='add()'><mat-icon>add</mat-icon></button>
 </div>
-
-      

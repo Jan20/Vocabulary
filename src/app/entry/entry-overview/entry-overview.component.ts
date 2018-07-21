@@ -20,10 +20,9 @@ export class EntryOverviewComponent implements OnInit {
   private topicId: string
   private entry: Entry = new Entry('', '', 0)
   private entries: Entry[] = [new Entry('', '', 0)]
-  private answer: string
   private pointer: number = 0
-  private answerIsCorrect: boolean = true
-  public topic: Topic
+  public answer: string
+  public answerIsCorrect: boolean = true
 
   /////////////////
   // Constructor //
@@ -31,8 +30,9 @@ export class EntryOverviewComponent implements OnInit {
   constructor(
 
     private topicService: TopicService,
-    public entryService: EntryService,
+    private entryService: EntryService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
 
   ) {}
 
@@ -43,37 +43,19 @@ export class EntryOverviewComponent implements OnInit {
       this.languageId = params['languageId']
       this.stageId = params['stageId']
       this.topicId = params['topicId']
-      this.topicService.fetchTopic(this.languageId, this.stageId, this.topicId)
       this.entryService.fetchEntries(this.languageId, this.stageId, this.topicId)
 
     })
 
-    this.topicService.topicSubject.subscribe(topic => this.topic = topic)
     this.entryService.entriesSubject.subscribe(entries => {
-      
-      if (this.entryService.getEntry() == null) {
 
-        this.entries = entries
-        if (this.entries[0] != null && this.entries[0] != undefined) {
-
-          this.entry = this.entries[0]
-
-        }
-
-      }
+      this.entries = entries
+      this.entries[0] != null && this.entries[0] != undefined ? this.entry = this.entries[0] : null
       
     })
 
-    this.entryService.selectSubject.subscribe(boolean => {
+    this.entryService.entrySubject.subscribe(entry => this.entry = entry)
 
-      this.entry = this.entryService.getEntry()
-      
-      for(let i = 0; i < this.entries.length; i++) {
-
-        this.entry.native === this.entries[i].native ? this.pointer = i : null
-
-      }
-    })
   }
 
   ////////////////////
@@ -96,11 +78,8 @@ export class EntryOverviewComponent implements OnInit {
 
       if (this.entry.score < 5) {
 
-        this.topic.score = this.topic.score + 1
-        this.topicService.updateTopic(this.languageId, this.stageId, this.topic)
-  
         this.entry.score = this.entry.score + 1
-        this.entryService.updateEntry(this.languageId, this.stageId, this.topicId, this.entry)
+        this.entryService.update(this.languageId, this.stageId, this.topicId, this.entry)
   
       }
 
@@ -112,13 +91,22 @@ export class EntryOverviewComponent implements OnInit {
     } else {
 
       this.answerIsCorrect = false
-
-      this.topic.score = this.topic.score - this.entry.score
-      this.topicService.updateTopic(this.languageId, this.stageId, this.topic)
-  
       this.entry.score = 0
-      this.entryService.updateEntry(this.languageId, this.stageId, this.topicId, this.entry)
+      this.entryService.update(this.languageId, this.stageId, this.topicId, this.entry)
 
     }
   }
+
+  public add(): void {
+
+    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}/entries/add`])
+
+  }
+
+  public update(): void {
+
+    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}/entries/${this.entry.entryId}/update`])
+
+  }
+
 }

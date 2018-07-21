@@ -11,15 +11,11 @@ import { TopicService } from './../topic-service/topic.service'
 })
 export class TopicAddComponent implements OnInit {
 
-  ////////////
-  // Inputs //
-  ////////////
-  @Input() stageId: string
-
   ///////////////
   // Variables //
   ///////////////
   private languageId: string
+  private stageId: string
   private name: string
   public title = 'Add Topic'
   public nameFormControl: FormControl = new FormControl()
@@ -29,14 +25,21 @@ export class TopicAddComponent implements OnInit {
   //////////////////
   public constructor(
   
-    public activatedRoute: ActivatedRoute,
-    public topicService: TopicService,
+    private activatedRoute: ActivatedRoute,
+    private topicService: TopicService,
     private router: Router,
 
   ) {}
 
   ngOnInit() {
   
+    this.activatedRoute.params.subscribe(params => {
+
+      this.languageId = params['languageId']
+      this.stageId = params['stageId']
+
+    })
+
     this.nameFormControl.valueChanges.subscribe(name => this.name = name)
   
   }
@@ -44,30 +47,19 @@ export class TopicAddComponent implements OnInit {
   ///////////////
   // Functions //
   ///////////////
-  public addTopic(): void {
+  public add(): void {
 
-    if (this.name == '') {
+    if (this.name == '') {return}
 
-      return
-
-    }
-
-    this.activatedRoute.params.subscribe(params => {
-      
-      this.languageId = params['languageId']
-      
-      this.topicService.addTopic(this.languageId, this.stageId, this.name)
-      this.router.navigate([`/languages/${this.languageId}`])
+      this.topicService.add(this.languageId, this.stageId, this.name)
+      this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}`])
       this.nameFormControl.reset()
-      this.topicService.toggleInAddMode()
-
-    })
+    
   }
 
-  public returnToOverview(): void {
+  public close(): void {
 
-    this.router.navigate([`/languages/${this.languageId}`])
-    this.topicService.toggleInAddMode()
+    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}`])
 
   }
 }
