@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Topic } from '../../topic/topic-model/topic';
-import { TopicService } from '../../topic/topic-service/topic.service';
 import { Entry } from '../entry-model/entry';
 import { EntryService } from '../entry-service/entry.service';
 
@@ -29,7 +27,6 @@ export class EntryOverviewComponent implements OnInit {
   /////////////////
   constructor(
 
-    private topicService: TopicService,
     private entryService: EntryService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -50,11 +47,14 @@ export class EntryOverviewComponent implements OnInit {
     this.entryService.entriesSubject.subscribe(entries => {
 
       this.entries = entries
-      this.entries[0] != null && this.entries[0] != undefined ? this.entry = this.entries[0] : null
+
+      if (this.pointer === 0) {
+        this.entries[0] != null && this.entries[0] != undefined ? this.entry = this.entries[0] : null
+      }
       
     })
 
-    this.entryService.entrySubject.subscribe(entry => this.entry = entry)
+    this.entryService.selectSubject.subscribe(entry => this.entry = entry)
 
   }
 
@@ -79,7 +79,7 @@ export class EntryOverviewComponent implements OnInit {
       if (this.entry.score < 5) {
 
         this.entry.score = this.entry.score + 1
-        this.entryService.update(this.languageId, this.stageId, this.topicId, this.entry)
+        this.entryService.changeScore(this.languageId, this.stageId, this.topicId, this.entry)
   
       }
 
@@ -92,7 +92,7 @@ export class EntryOverviewComponent implements OnInit {
 
       this.answerIsCorrect = false
       this.entry.score = 0
-      this.entryService.update(this.languageId, this.stageId, this.topicId, this.entry)
+      this.entryService.changeScore(this.languageId, this.stageId, this.topicId, this.entry)
 
     }
   }

@@ -62,8 +62,7 @@ export class EntrySideComponent implements OnInit {
   ///////////////
   public selectEntry(entry: Entry): void {
 
-    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}/entries/${entry.entryId}`])
-    this.entryService.entrySubject.next(entry)
+    this.entryService.selectSubject.next(entry)
 
   }
 

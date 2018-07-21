@@ -19,6 +19,7 @@ export class EntryService {
   //////////////
   public entrySubject: Subject<Entry> = new Subject<Entry>()
   public entriesSubject: Subject<Entry[]> = new Subject<Entry[]>()
+  public selectSubject: Subject<Entry> = new Subject<Entry>()
 
   //////////////////
   // Constructors //
@@ -51,7 +52,7 @@ export class EntryService {
     
     await this.userService.getUser().then(user => this.user = user)
     const entryId = entry.native.toLowerCase()
-    const newEntry: any = {entryId: entryId, native: entry.native, foreign: entry.foreign, score: entry.score}
+    const newEntry: any = {entryId: entryId, native: entry.native, foreign: entry.foreign, score: 0}
     this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries`).doc(entryId).set(newEntry)
 
   }
@@ -65,6 +66,12 @@ export class EntryService {
     this.angularFirestore.collection<Entry>(`/users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries`).doc(entryId).set(newEntry)
 
   }
+
+  public async changeScore(languageId: string, stageId: string, topicId: string, entry: Entry): Promise<void> {
+
+    this.angularFirestore.doc<any>(`users/${this.user.userId}/languages/${languageId}/stages/${stageId}/topics/${topicId}/entries/${entry.entryId}`).update({score:entry.score})
+
+  } 
 
   public async delete(languageId: string, stageId: string, topicId: string, entryId: string): Promise<void> {
 

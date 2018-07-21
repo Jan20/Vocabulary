@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { Entry } from './../entry-model/entry'
 import { EntryService } from './../entry-service/entry.service'
-import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-entry-add',
@@ -65,7 +64,7 @@ export class EntryAddComponent implements OnInit {
       this.entryService.add(params['languageId'], params['stageId'], params['topicId'], newEntry)
       this.nativeFromControl.reset()
       this.foreignFromControl.reset()
-      this.router.navigate([`languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}/entries`])
+      this.router.navigate([`languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}`])
 
     })
 
@@ -73,7 +72,7 @@ export class EntryAddComponent implements OnInit {
 
   public close(): void {
 
-    this.router.navigate([`languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}/entries`])
+    this.router.navigate([`languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}`])
 
   }
 }

@@ -76,4 +76,11 @@ export class EntryUpdateComponent implements OnInit {
     this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}`])
 
   }
+
+  public delete(): void {
+
+    this.entryService.delete(this.languageId, this.stageId, this.topicId, this.entryId)
+    this.router.navigate([`/languages/${this.languageId}/stages/${this.stageId}/topics/${this.topicId}`])
+
+  }
 }

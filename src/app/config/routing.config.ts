@@ -12,7 +12,6 @@ import { LanguageDetailsComponent } from './../language/language-details/languag
 import { LanguageOverviewComponent } from './../language/language-overview/language-overview.component';
 import { StageDetailsComponent } from './../stage/stage-details/stage-details.component';
 import { TopicDetailsComponent } from './../topic/topic-details/topic-details.component';
-import { TopicOverviewComponent } from './../topic/topic-overview/topic-overview.component';
 import { UserLoginComponent } from './../user/user-login/user-login.component';
 
 export const ROUTES: Routes = [
