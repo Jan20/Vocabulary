@@ -30,7 +30,7 @@ export class EntryAddComponent implements OnInit {
   public constructor(
   
     private activatedRoute: ActivatedRoute,
-    private entryService: EntryService,
+    public entryService: EntryService,
   
   ) {}
 

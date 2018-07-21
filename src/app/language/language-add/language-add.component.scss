@@ -1,24 +1,25 @@
+@import '../../shared/styles/generic-style.scss';
+
 h1 {
 
-    color: rgb(128, 128, 128);
-	font-size: 34px;
+    margin: auto;
+    width: 100%;
+    margin-top: 50px;
+    position: absolute;
+    text-align: center;
+    font-size: 100px;
     font-weight: 100;
-    font-family: 'Roboto', sans-serif;
 
 }
+
 
 mat-card {
 
     margin:auto;
-    margin-top: 50px;
-    background-color: white;
-
+    margin-top: 200px;
+    margin-left: calc(50% - 220px);
+    width: 400px;
+    position: absolute;
+    background: transparent;
 }
-
-.add-button-container {
     
-    margin: auto;
-    margin-top: 20px;
-    width: 54px;
-
-}

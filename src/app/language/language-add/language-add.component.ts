@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
-import { Language } from './../language-model/language'
 import { LanguageService } from './../language-service/language.service'
 
 @Component({
@@ -41,14 +40,14 @@ export class LanguageAddComponent implements OnInit {
   public addLanguage(): void {
 
     this.languageService.addLanguage(this.name)
-    this.router.navigate(['/'])
+    this.router.navigate([`languages`])
     this.nameFormControl.reset()
 
   }
 
   public returnToOverview(): void {
 
-    this.router.navigate(['/'])
+    this.router.navigate([`languages`])
 
   }
 

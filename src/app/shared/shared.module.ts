@@ -17,7 +17,8 @@ import { ParticlesComponent} from './components/particles/particles.component';
   ],
   exports: [
 
-    ParticlesComponent
+    ParticlesComponent,
+    ParticlesModule
 
   ]
 })

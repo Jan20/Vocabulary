@@ -1,8 +1,7 @@
-// Angular Modules
-import { Component, OnInit, Injectable, EventEmitter } from '@angular/core'
-import { EntryService } from '../entry-service/entry.service'
-import { Entry } from '../entry-model/entry'
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Entry } from '../entry-model/entry';
+import { EntryService } from '../entry-service/entry.service';
 
 @Component({
   selector: 'app-entry-side',
@@ -17,7 +16,7 @@ export class EntrySideComponent implements OnInit {
   private languageId: string
   private stageId: string
   private topicId: string
-  private flag: boolean
+  public flag: boolean
   public entry: Entry
   public entries: Entry[]
   public entryHasChanged: EventEmitter<any> = new EventEmitter()
@@ -27,7 +26,7 @@ export class EntrySideComponent implements OnInit {
   /////////////////
   public constructor(
 
-    private entryService: EntryService,
+    public entryService: EntryService,
     private activatedRoute: ActivatedRoute,
     private router: Router
 

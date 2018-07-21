@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core'
-import { TopicService } from '../../topic/topic-service/topic.service'
-import { EntryService } from '../entry-service/entry.service'
-import { Entry } from '../entry-model/entry'
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Topic } from '../../topic/topic-model/topic';
+import { TopicService } from '../../topic/topic-service/topic.service';
+import { Entry } from '../entry-model/entry';
+import { EntryService } from '../entry-service/entry.service';
 
 @Component({
   selector: 'app-entry-overview',
@@ -31,9 +31,8 @@ export class EntryOverviewComponent implements OnInit {
   constructor(
 
     private topicService: TopicService,
-    private entryService: EntryService,
+    public entryService: EntryService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
 
   ) {}
 

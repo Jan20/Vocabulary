@@ -1,21 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-
-// Angular Material
-import { MaterialModule } from '../config/material.module'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-
-// Components
-import { StageOverviewComponent } from './stage-overview/stage-overview.component'
-import { StageUpdateComponent } from './stage-update/stage-update.component'
-import { StageAddComponent } from './stage-add/stage-add.component'
-
-// Services
-import { StageService } from './stage-service/stage.service';
-import { StageDetailsComponent } from './stage-details/stage-details.component';
-
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from '../config/material.module';
 import { TopicModule } from '../topic/topic.module';
+import { StageAddComponent } from './stage-add/stage-add.component';
+import { StageDetailsComponent } from './stage-details/stage-details.component';
+import { StageOverviewComponent } from './stage-overview/stage-overview.component';
+import { StageService } from './stage-service/stage.service';
+import { StageUpdateComponent } from './stage-update/stage-update.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -25,7 +19,8 @@ import { TopicModule } from '../topic/topic.module';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    TopicModule
+    TopicModule,
+    SharedModule,
 
   ],
   declarations: [

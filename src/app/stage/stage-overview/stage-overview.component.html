@@ -1,11 +1,15 @@
-<div *ngIf='stageService.inAddMode === false'>
-  <div *ngFor='let stage of stages'>
-    <button mat-raised-button (click)='selectStage(stage)' class='banner'> 
-      <h1>{{stage.name}}</h1>
+<h1 class='title' *ngIf='stageService.inAddMode === false'>{{title}}</h1>
+
+<div class='card-container' *ngFor='let stage of stages'>
+
+    <button class='card' mat-raised-button (click)='selectStage(stage)' *ngIf='stageService.inAddMode === false'> 
+        <h1 class='stage-name'>{{stage.name}}</h1>
     </button>
+
     <app-topic-overview [stageId]='stage.stageId'></app-topic-overview>
-  </div>
+
 </div>
 
-<app-stage-add></app-stage-add>
-
+<div class='card-container' *ngIf='stageService.inAddMode === false'>
+  <app-stage-add></app-stage-add>
+</div>

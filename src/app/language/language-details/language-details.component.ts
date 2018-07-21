@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LanguageService } from '../language-service/language.service'
+import { Language } from '../language-model/language';
 
 @Component({
   selector: 'app-language-details',

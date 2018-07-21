@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl } from '@angular/forms'
-import { EntryService } from './../entry-service/entry.service'
-import { Entry } from './../entry-model/entry'
+import { Entry } from './../entry-model/entry';
+import { EntryService } from './../entry-service/entry.service';
 
 @Component({
   selector: 'app-entry-update',
@@ -22,7 +22,6 @@ export class EntryUpdateComponent implements OnInit {
   private stageId: string
   private topicId: string
   private entryId: string
-  private entry: Entry
 
   //////////////////
   // FormControls //
@@ -35,7 +34,7 @@ export class EntryUpdateComponent implements OnInit {
   //////////////////
   public constructor(
 
-    private entryService: EntryService,
+    public entryService: EntryService,
     private activatedRoute: ActivatedRoute,
 
   ) {}

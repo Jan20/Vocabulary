@@ -23,7 +23,7 @@ export class LanguageUpdateComponent implements OnInit {
   public constructor(
 
     private activatedRoute: ActivatedRoute,
-    private languageService: LanguageService,
+    public languageService: LanguageService,
 
   ) {}
 

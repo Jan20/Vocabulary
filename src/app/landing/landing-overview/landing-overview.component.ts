@@ -23,9 +23,9 @@ export class LandingOverviewComponent implements OnInit {
   ngOnInit() {
   }
 
-  public switchToPredictions(): void {
+  public switchView(): void {
 
-    this.router.navigate(['markets'])
+    this.router.navigate(['languages'])
 
   }
 

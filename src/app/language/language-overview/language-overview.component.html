@@ -1,3 +1,7 @@
-<p>
-  language-overview works!
-</p>
+<h1>{{title}}</h1>
+
+<div class='button-container' *ngIf='languageService.inAddMode === false'>
+  <button class='language-button' mat-raised-button *ngFor='let language of languages' (click)='switchToLanguage(language.languageId)'>{{language.name}}</button>
+  <button  mat-fab class='add-button' (click)='switchToAdd()'><mat-icon>add</mat-icon></button>
+</div>
+
